@@ -1,5 +1,6 @@
 import React from 'react';
-import { Card, CardContent, Typography, Box, Chip, useTheme, useMediaQuery, CardActionArea } from '@mui/material';
+import { Card, CardContent, Typography, Box, Chip, useTheme, CardActionArea } from '@mui/material';
+import useIsMobile from '@/hooks/useIsMobile';
 
 interface ExperienceCardProps {
   id: number;
@@ -21,7 +22,7 @@ const ExperienceCard: React.FC<ExperienceCardProps> = ({
   logo
 }) => {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm')); 
+  const isMobile = useIsMobile();
 
   return (
     <Card

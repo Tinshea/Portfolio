@@ -1,24 +1,15 @@
 import React from "react";
-import { Divider, Grid, useMediaQuery, useTheme } from "@mui/material";
+import { Divider, Grid } from "@mui/material";
 import ExperienceItem from "./ExperienceItem";
-
-interface ExperienceType {
-  id: number;
-  title: string;
-  company: string;
-  description: string;
-  date: string;
-  tags: string[];
-  logo?: string;
-}
+import { ExperienceType } from "@/types";
+import useIsMobile from "@/hooks/useIsMobile";
 
 interface ExperienceListProps {
   experiences: ExperienceType[];
 }
 
 const ExperienceList: React.FC<ExperienceListProps> = ({ experiences }) => {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const isMobile = useIsMobile();
 
   return (
     <Grid

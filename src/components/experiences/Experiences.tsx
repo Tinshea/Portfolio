@@ -1,23 +1,15 @@
 import React from "react";
 import Experience from "./Experience";
-import { Box, Typography, useTheme, Grid, useMediaQuery } from "@mui/material";
+import { Box, Typography, useTheme, Grid } from "@mui/material";
 import { useTranslations } from "next-intl";
 import SeeMoreButton from "../SeeMoreButton";
-
-interface ExperienceType {
-  id: number;
-  title: string;
-  company: string;
-  description: string;
-  date: string;
-  tags: string[];
-  logo?: string;
-}
+import { ExperienceType } from "@/types";
+import useIsMobile from "@/hooks/useIsMobile";
 
 const Experiences: React.FC = () => {
   const t = useTranslations("HomePage");
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const isMobile = useIsMobile();
 
   const t_experience = useTranslations("Experiences");
   const rawExperiencesData = t_experience.raw("experiencesData");

@@ -3,15 +3,14 @@ import useDetectScroll from "@smakss/react-scroll-direction";
 import user from "@/data/user.json";
 import SideNavBar from "./SideNavBar";
 import TopNavBar from "./TopNavBar";
-import { useMediaQuery, useTheme } from "@mui/material";
+import useIsMobile from "@/hooks/useIsMobile";
 
 interface NavBarProps {
   alwaysShowTopNav?: boolean;  // Boolean prop to control TopNavBar visibility
 }
 
 export default function NavBar({ alwaysShowTopNav = false }: Readonly<NavBarProps>) {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const isMobile = useIsMobile();
   const { scrollPosition } = useDetectScroll();
   const [visibility, setVisibility] = useState(0);
   const [scrollProgress, setScrollProgress] = useState(0);

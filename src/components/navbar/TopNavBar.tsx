@@ -1,9 +1,9 @@
-import { IconButton, useMediaQuery, useTheme } from "@mui/material";
+import { IconButton } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useState } from "react";
 import DesktopNavBar from "./DesktopNavBar";
 import MenuDrawer from "./MenuDrawer";
-
+import useIsMobile from "@/hooks/useIsMobile";
 
 interface TopNavBarProps {
   githubusername: string;
@@ -12,8 +12,7 @@ interface TopNavBarProps {
 }
 
 export default function TopNavBar({ githubusername, linkedinusername, progress }: Readonly<TopNavBarProps>) {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const isMobile = useIsMobile();
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   const toggleDrawer = (open: boolean) => () => {

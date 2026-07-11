@@ -4,10 +4,12 @@ import DarkModeIcon from "@mui/icons-material/DarkMode";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
-import Link from "next/link";
+import NextLink from "next/link";
+import { Link } from "@/navigation";
 import { useMode } from "@/contexts/ModeProvider";
 import { useTranslations } from "next-intl";
 import LanguageSelector from "../LanguageSelector";
+import { NAV_LINKS } from "./navLinks";
 
 interface MenuDrawerProps {
   open: boolean;
@@ -55,64 +57,27 @@ const MenuDrawer = ({ open, onClose, githubusername, linkedinusername }: Readonl
         {/* Main Navigation Section */}
         <Box sx={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "left", margin: "auto" }}>
           <Stack direction="column" spacing={1} component="ul" sx={{ listStyle: "none", margin: 0, padding: 0, marginBottom: theme.spacing(10) }}>
-            <Link href="/" passHref legacyBehavior>
-              <Button
-                variant="text"
-                component="a"
-                sx={{
-                  color: theme.palette.primary.main,
-                  textTransform: "none",
-                  fontSize: "1.2rem",
-                  textAlign: "left",
-                }}
-                onClick={onClose}
-              >
-                {t("home")}
-              </Button>
-            </Link>
-            <Link href="/#experiences" passHref legacyBehavior>
-              <Button
-                variant="text"
-                component="a"
-                sx={{
-                  color: theme.palette.primary.main,
-                  textTransform: "none",
-                  fontSize: "1.2rem",
-                }}
-                onClick={onClose}
-              >
-                {t("experiences")}
-              </Button>
-            </Link>
-            <Link href="/#projects" passHref legacyBehavior>
-              <Button
-                variant="text"
-                component="a"
-                sx={{
-                  color: theme.palette.primary.main,
-                  textTransform: "none",
-                  fontSize: "1.2rem",
-                }}
-                onClick={onClose}
-              >
-                {t("projects")}
-              </Button>
-            </Link>
-            <Link href="/assets/resume.pdf" passHref legacyBehavior>
-              <Button
-                variant="text"
-                component="a"
-                target="_blank"
-                sx={{
-                  color: theme.palette.primary.main,
-                  textTransform: "none",
-                  fontSize: "1.2rem",
-                }}
-                onClick={onClose}
-              >
-                {t("resume")}
-              </Button>
-            </Link>
+            {NAV_LINKS.map((link) => {
+              const ButtonLink = link.isStaticAsset ? NextLink : Link;
+              return (
+                <ButtonLink key={link.key} href={link.href} passHref legacyBehavior>
+                  <Button
+                    variant="text"
+                    component="a"
+                    target={link.isStaticAsset ? "_blank" : undefined}
+                    sx={{
+                      color: theme.palette.primary.main,
+                      textTransform: "none",
+                      fontSize: "1.2rem",
+                      textAlign: "left",
+                    }}
+                    onClick={onClose}
+                  >
+                    {t(link.translationKey)}
+                  </Button>
+                </ButtonLink>
+              );
+            })}
           </Stack>
 
           {/* Social Media Section */}
@@ -123,16 +88,16 @@ const MenuDrawer = ({ open, onClose, githubusername, linkedinusername }: Readonl
             component="ul"
             sx={{ listStyle: "none", margin: "auto", padding: 0 }}
           >
-            <Link href={`https://github.com/${githubusername}`} passHref legacyBehavior>
+            <NextLink href={`https://github.com/${githubusername}`} passHref legacyBehavior>
               <IconButton aria-label="GitHub" component="a" target="_blank" onClick={onClose}>
                 <GitHubIcon sx={{ color: theme.palette.primary.main }} />
               </IconButton>
-            </Link>
-            <Link href={`https://linkedin.com/in/${linkedinusername}`} passHref legacyBehavior>
+            </NextLink>
+            <NextLink href={`https://linkedin.com/in/${linkedinusername}`} passHref legacyBehavior>
               <IconButton aria-label="LinkedIn" component="a" target="_blank" onClick={onClose}>
                 <LinkedInIcon sx={{ color: theme.palette.primary.main }} />
               </IconButton>
-            </Link>
+            </NextLink>
           </Stack>
         </Box>
 

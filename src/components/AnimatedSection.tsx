@@ -1,9 +1,16 @@
+"use client";
+
 import React from "react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 
 const AnimatedSection: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1 });
+  const prefersReducedMotion = useReducedMotion();
+
+  if (prefersReducedMotion) {
+    return <div ref={ref}>{children}</div>;
+  }
 
   return (
     <motion.div

@@ -1,16 +1,9 @@
 import { Card, CardActionArea, CardContent, CardMedia, Typography, Box, Divider } from '@mui/material';
 import { Star as StarIcon, ForkRight as ForkRightIcon } from '@mui/icons-material';
 import { useTheme } from '@mui/material/styles';
+import { ProjectCardProps } from '@/types';
 
-interface PinnedRepo {
-    user: string;
-    name: string;
-    description: string;
-    forkCount: number;
-    stargazerCount: number;
-}
-
-export default function ProjectCard({ user, name, description, stargazerCount, forkCount }: Readonly<PinnedRepo>) {
+export default function ProjectCard({ user, name, description, stargazerCount, forkCount }: Readonly<ProjectCardProps>) {
     const theme = useTheme();
 
     const handleCardClick = (repoName: string) => {

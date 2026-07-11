@@ -1,17 +1,9 @@
 import React from "react";
-import { Box, Typography, useTheme, useMediaQuery, Chip } from "@mui/material";
+import { Box, Typography, useTheme, Chip } from "@mui/material";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-
-interface ExperienceType {
-  id: number;
-  title: string;
-  company: string;
-  logo?: string;
-  description: string;
-  date: string;
-  tags: string[];
-}
+import { ExperienceType } from "@/types";
+import useIsMobile from "@/hooks/useIsMobile";
 
 interface ExperienceItemProps {
   experience: ExperienceType;
@@ -19,7 +11,7 @@ interface ExperienceItemProps {
 
 const ExperienceItem: React.FC<ExperienceItemProps> = ({ experience }) => {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const isMobile = useIsMobile();
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1 });
 
   return (

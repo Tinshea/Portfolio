@@ -2,6 +2,7 @@ import React, { useState, MouseEvent, useTransition } from "react";
 import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+import { useTheme } from "@mui/material/styles";
 import { FlagIcon } from "react-flag-kit";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 
@@ -16,6 +17,7 @@ export default function LanguageSelector({ isArrow = false }: LanguageSelectorPr
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const locale = useLocale();
   const [selectedLanguage, setSelectedLanguage] = useState<string>(locale);
+  const theme = useTheme();
 
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
@@ -63,7 +65,7 @@ export default function LanguageSelector({ isArrow = false }: LanguageSelectorPr
         }}
         aria-label="Language"
         onClick={handleMenuOpen}
-        style={{ color: "white" }}
+        style={{ color: theme.palette.text.primary }}
       >
         <FlagIcon
           code={getFlagCode(selectedLanguage)}

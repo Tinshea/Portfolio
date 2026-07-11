@@ -1,39 +1,30 @@
-"use client";
-
-import NavBar from "@/components/navbar/NavBar";
-import UserRepositories from "@/components/repositories/UserRepositories";
+import type { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
 import user from "@/data/user.json";
-import { Box, useTheme } from "@mui/material";
-import { useTranslations } from "next-intl";
-import { useEffect } from "react";
-import Head from "next/head";
+import ProjectsClient from "./ProjectsClient";
+
+export async function generateMetadata({ params: { locale } }: { params: { locale: string } }): Promise<Metadata> {
+  const tCategory = await getTranslations({ locale, namespace: "Category" });
+  const tSeo = await getTranslations({ locale, namespace: "Seo" });
+
+  const title = `${user.name} | ${tCategory("projects")}`;
+  const description = tSeo("projects");
+  const path = locale === "fr" ? "/projets" : "/projects";
+
+  return {
+    title,
+    description,
+    keywords: [user.name, "projects", "portfolio"],
+    openGraph: {
+      title,
+      description,
+      url: `/${locale}${path}`,
+      type: "website",
+      images: ["/og-image.jpg"],
+    },
+  };
+}
 
 export default function Projects() {
-  const t = useTranslations("Category");
-  useEffect(() => {
-    document.title = user.name + " | " + t("projects");
-  }, []);
-  const theme = useTheme();
-
-  return (
-    <>
-      <Head>
-        <title>Malek Bouzarkouna | Projects</title>
-        <meta name="description" content="Projects by Malek Bouzarkouna." />
-        <meta name="keywords" content="Malek Bouzarkouna, projects, portfolio" />
-        <meta property="og:title" content="Malek Bouzarkouna | Projects" />
-        <meta property="og:description" content="Projects by Malek Bouzarkouna." />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://www.malekbouzarkouna.com/projects" />
-        <meta property="og:image" content="https://www.malekbouzarkouna.com/og-image.jpg" />
-      </Head>
-      <NavBar alwaysShowTopNav={true} />
-      <Box sx={{
-        backgroundColor: theme.palette.background.default,
-        minHeight: "100vh",
-      }}>
-        <UserRepositories username={user.githubusername} />
-      </Box>
-    </>
-  );
+  return <ProjectsClient />;
 }

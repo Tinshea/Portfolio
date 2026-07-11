@@ -1,16 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Typography, Grid, Box, CircularProgress, Alert, useMediaQuery } from "@mui/material";
+import { Typography, Grid, Box, CircularProgress, Alert } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { useTranslations } from "next-intl";
 import ProjectCard from "../ProjectCard";
 import SeeMoreButton from "../SeeMoreButton";
-
-interface PinnedRepo {
-  name: string;
-  description: string;
-  forkCount: number;
-  stargazerCount: number;
-}
+import { PinnedRepo } from "@/types";
+import useIsMobile from "@/hooks/useIsMobile";
 
 const PinnedRepositories: React.FC<{ username: string }> = ({ username }) => {
   const [pinnedRepos, setPinnedRepos] = useState<PinnedRepo[]>([]);
@@ -20,57 +15,21 @@ const PinnedRepositories: React.FC<{ username: string }> = ({ username }) => {
   const t = useTranslations("HomePage");
 
   // Detect mobile screen size
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const isMobile = useIsMobile();
   const maxProjects = isMobile ? 3 : 6;
 
   useEffect(() => {
     const fetchPinnedRepos = async () => {
-      const query = `
-        {
-          user(login: "${username}") {
-            pinnedItems(first: 6, types: REPOSITORY) {
-              nodes {
-                ... on Repository {
-                  name
-                  description
-                  forkCount
-                  stargazerCount
-                }
-              }
-            }
-          }
-        }
-      `;
-
       try {
-        const response = await fetch("https://api.github.com/graphql", {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${process.env.NEXT_PUBLIC_GITHUB_TOKEN}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ query }),
-        });
+        const response = await fetch(`/api/pinned-repos?username=${encodeURIComponent(username)}`);
         if (!response.ok) {
           throw new Error("Failed to fetch data");
         }
-        const { data } = await response.json();
-        const repos = data.user.pinnedItems.nodes.map((repo: any) => ({
-          name: repo.name,
-          description: repo.description,
-          forkCount: repo.forkCount,
-          stargazerCount: repo.stargazerCount,
-        }));
+        const repos = await response.json();
         setPinnedRepos(repos);
       } catch (error) {
-        try {
-          const fallbackResponse = await fetch(`https://api.github.com/users/${username}/repos?per_page=100`);
-          const data = await fallbackResponse.json();
-          setPinnedRepos(data);
-        } catch (fallbackError) {
-          console.error("Error fetching repositories:", fallbackError);
-          setError("Failed to load repositories. Please try again later.");
-        }
+        console.error("Error fetching repositories:", error);
+        setError("Failed to load repositories. Please try again later.");
       } finally {
         setLoading(false);
       }

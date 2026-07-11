@@ -11,25 +11,18 @@ import {
   useTheme,
   ListItemButton,
   Avatar,
-  useMediaQuery,
   Grid,
   CircularProgress,
 } from '@mui/material';
+import useIsMobile from '@/hooks/useIsMobile';
 import { Star as StarIcon, ForkRight as ForkRightIcon } from '@mui/icons-material';
 import ProfileCard from './ProfileCard';
+import { Repo } from '@/types';
 
-interface Repo {
-  id: number;
-  name: string;
-  description: string;
-  html_url: string;
-  stargazers_count: number;
-  forks_count: number;
-}
-
-const RepositoryItem: React.FC<{ repo: Repo; isMobile: boolean }> = ({ repo, isMobile }) => {
+const RepositoryItem: React.FC<{ repo: Repo }> = ({ repo }) => {
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1 });
   const theme = useTheme();
+  const isMobile = useIsMobile();
 
   return (
     <React.Fragment>
@@ -66,6 +59,7 @@ const RepositoryItem: React.FC<{ repo: Repo; isMobile: boolean }> = ({ repo, isM
                 {repo.name}
               </Typography>
             }
+            secondaryTypographyProps={{ component: "div" }}
             secondary={
               <Box sx={{ mt: 0.5 }}>
                 <Typography
@@ -111,7 +105,7 @@ const UserRepositories: React.FC<{ username: string }> = ({ username }) => {
   const [repos, setRepos] = useState<Repo[]>([]);
   const [loading, setLoading] = useState(true);
   const theme = useTheme();
-  
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     fetch(`https://api.github.com/users/${username}/repos?per_page=100`)
@@ -125,8 +119,6 @@ const UserRepositories: React.FC<{ username: string }> = ({ username }) => {
         setLoading(false);
       });
   }, [username]);
-
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   if (loading) {
     return (
@@ -167,7 +159,7 @@ const UserRepositories: React.FC<{ username: string }> = ({ username }) => {
         <Grid item xs={12} md={8}>
           <List sx={{ maxWidth: "1250px", margin: 'auto' }}>
             {repos.map((repo) => (
-              <RepositoryItem key={repo.id} repo={repo} isMobile={isMobile} />
+              <RepositoryItem key={repo.id} repo={repo} />
             ))}
           </List>
         </Grid>

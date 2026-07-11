@@ -1,8 +1,20 @@
+"use client";
+
 import React from "react";
-import { Box, Typography, useTheme, useMediaQuery } from "@mui/material";
+import { Box, Typography, useTheme, CircularProgress } from "@mui/material";
 import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
-import Laptop3D from "./Laptop3D";
+import dynamic from "next/dynamic";
+import useIsMobile from "@/hooks/useIsMobile";
+
+const Laptop3D = dynamic(() => import("./Laptop3D"), {
+  ssr: false,
+  loading: () => (
+    <Box sx={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center" }}>
+      <CircularProgress color="inherit" />
+    </Box>
+  ),
+});
 
 interface AboutMeProps {
   description: string;
@@ -10,7 +22,7 @@ interface AboutMeProps {
 
 const AboutMe: React.FC<AboutMeProps> = ({ description }) => {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const isMobile = useIsMobile();
   const t = useTranslations("HomePage");
 
   return (

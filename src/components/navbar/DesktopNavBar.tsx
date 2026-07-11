@@ -1,4 +1,4 @@
-import { Box, LinearProgress } from "@mui/material";
+import { Box, LinearProgress, useTheme, alpha } from "@mui/material";
 import { useTranslations } from "next-intl";
 import NavBarItems from "./NavBarItems";
 import SocialLinks from "./SocialLinks";
@@ -11,6 +11,7 @@ interface DesktopNavBarProps {
 
 const DesktopNavBar = ({ githubusername, linkedinusername, progress }: Readonly<DesktopNavBarProps>) => {
   const t = useTranslations("Navbar");
+  const theme = useTheme();
 
   return (
     <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%", zIndex: 999 }}>
@@ -19,7 +20,7 @@ const DesktopNavBar = ({ githubusername, linkedinusername, progress }: Readonly<
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          backgroundColor: "rgba(51, 51, 51, 0.95)",
+          backgroundColor: alpha(theme.palette.background.paper, 0.95),
           padding: "5px",
         }}
       >
@@ -33,7 +34,7 @@ const DesktopNavBar = ({ githubusername, linkedinusername, progress }: Readonly<
           sx={{
             height: "1px",
             backgroundColor: "transparent",
-            "& .MuiLinearProgress-bar": { backgroundColor: "#ffffff" },
+            "& .MuiLinearProgress-bar": { backgroundColor: theme.palette.text.primary },
           }}
         />
       </Box>

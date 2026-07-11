@@ -5,6 +5,7 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { Points, PointMaterial } from '@react-three/drei';
 import { random } from 'maath';
 import { Box, useTheme} from '@mui/material';
+import { useReducedMotion } from 'framer-motion';
 
 const StarBackground = (props: any) => {
   const ref: any = useRef();
@@ -12,8 +13,10 @@ const StarBackground = (props: any) => {
     random.inSphere(new Float32Array(5000), { radius: 1.2 })
   );
   const theme = useTheme();
+  const prefersReducedMotion = useReducedMotion();
 
   useFrame((state, delta) => {
+    if (prefersReducedMotion) return;
     ref.current.rotation.x -= delta / 10;
     ref.current.rotation.y -= delta / 15;
   });

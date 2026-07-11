@@ -1,7 +1,8 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { useGLTF, OrbitControls, useTexture } from '@react-three/drei';
 import * as THREE from 'three';
+import { useReducedMotion } from 'framer-motion';
 
 const Model: React.FC<{ path: string; lidAngle: number; laptopColor: string }> = ({ path, lidAngle, laptopColor }) => {
   const { scene } = useGLTF(path);
@@ -81,6 +82,7 @@ const Model: React.FC<{ path: string; lidAngle: number; laptopColor: string }> =
 
 const App: React.FC = () => {
   const [lidAngle, setLidAngle] = useState(-2 * Math.PI / 3); // Lid angle in radians
+  const prefersReducedMotion = useReducedMotion();
 
   // Scroll event handler
   const handleScroll = () => {
@@ -92,6 +94,9 @@ const App: React.FC = () => {
   };
 
   useEffect(() => {
+    // Skip the scroll-driven lid animation for users who prefer reduced motion
+    if (prefersReducedMotion) return;
+
     // Add scroll listener on mount
     window.addEventListener('scroll', handleScroll);
 
@@ -99,7 +104,7 @@ const App: React.FC = () => {
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, []);
+  }, [prefersReducedMotion]);
 
   return (
     <div
@@ -118,7 +123,9 @@ const App: React.FC = () => {
         <directionalLight position={[2, 5, 2]} intensity={1} />
 
         {/* Render the 3D model */}
-        <Model path="/model/laptop_model.glb" lidAngle={lidAngle} laptopColor="#3e485f" />
+        <Suspense fallback={null}>
+          <Model path="/model/laptop_model.glb" lidAngle={lidAngle} laptopColor="#3e485f" />
+        </Suspense>
 
         {/* Add orbit controls for interaction */}
         <OrbitControls enableZoom={false} enablePan={false}/>

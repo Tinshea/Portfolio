@@ -1,6 +1,7 @@
 import React from "react";
 import { Star as StarIcon, ForkRight as ForkRightIcon } from "@mui/icons-material";
-import { Avatar, Box, Card, CardActionArea, CardContent, CardHeader, Typography, useTheme, useMediaQuery, Divider } from "@mui/material";
+import { Avatar, Box, Card, CardActionArea, CardContent, CardHeader, Typography, useTheme, Divider } from "@mui/material";
+import useIsMobile from "@/hooks/useIsMobile";
 
 type ProfileCardProps = {
   username: string;
@@ -11,7 +12,7 @@ type ProfileCardProps = {
 
 const ProfileCard: React.FC<ProfileCardProps> = ({ username, profilePicture, forks, favorites }) => {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const isMobile = useIsMobile();
 
   return (
     <Card

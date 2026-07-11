@@ -3,16 +3,9 @@
 import React from "react";
 import { Card, CardContent, Typography, Box, Grid, Button, useTheme, useMediaQuery } from "@mui/material";
 import { useTranslations } from "next-intl";
+import { BlogPost } from "@/types";
+import { Link } from "@/navigation";
 
-// Définir un type pour les articles de blog
-interface BlogPost {
-  title: string;
-  date: string;
-  description: string;
-  link: string;
-}
-
-// Définir un type pour les props du composant BlogPosts
 interface BlogPostsProps {
   posts: BlogPost[];
 }
@@ -38,7 +31,7 @@ const BlogPosts: React.FC<BlogPostsProps> = ({ posts }) => {
                 <Typography variant="body2" sx={{ mb: 1.5, fontSize: isMobile ? '0.875rem' : '1rem' }}>
                   {post.description}
                 </Typography>
-                <Button variant="outlined" href={post.link} sx={{ mt: 1, borderColor: theme.palette.primary.main, color: theme.palette.primary.main }}>
+                <Button component={Link} href={post.link} variant="outlined" sx={{ mt: 1, borderColor: theme.palette.primary.main, color: theme.palette.primary.main }}>
                   {t("readMore")}
                 </Button>
               </CardContent>

@@ -29,6 +29,30 @@
     "about": "About"
   },
 
+  "Seo": {
+    "home": "Malek Bouzarkouna's portfolio, showcasing projects and experiences.",
+    "projects": "Projects by Malek Bouzarkouna.",
+    "experiences": "Experiences of Malek Bouzarkouna.",
+    "blog": "Blog posts by Malek Bouzarkouna."
+  },
+
+  "Blog": {
+    "posts": [
+      {
+        "title": "Introduction to Next.js",
+        "date": "August 1, 2024",
+        "description": "Discover the basics of Next.js and how it can improve your React projects.",
+        "link": "/posts/introduction-a-nextjs"
+      },
+      {
+        "title": "Best practices with Material-UI",
+        "date": "July 15, 2024",
+        "description": "Learn how to use Material-UI to build modern, responsive user interfaces.",
+        "link": "/posts/meilleures-pratiques-material-ui"
+      }
+    ]
+  },
+
   "Experiences": {
     "experiencesData": [
       {
