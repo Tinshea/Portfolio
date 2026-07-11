@@ -6,21 +6,19 @@
     "experiences": "Mes Expériences",
     "about": "A propos",
     "seemore": "Voir plus",
-    "description": "Un ingénieur logiciel passionné par l'aventure et la découverte de nouvelles technologies."
+    "description": "Un ingénieur logiciel passionné par l'aventure et la découverte de nouvelles technologies.",
+    "no_experiences": "Aucune expérience à afficher pour le moment."
   },
 
   "ProjectsPage": {
     "title": "Mes projets"
   },
 
-  "ExperiencePage": {
-    "title": "Mes expériences"
-  },
-
   "Category":{
     "experiences": "Expériences",
     "projects": "Projets",
-    "blog": "Blog"
+    "blog": "Blog",
+    "readMore": "Lire plus"
   },
 
   "Navbar": {
@@ -39,7 +37,7 @@
         "company": "CGI",
         "logo": "https://upload.wikimedia.org/wikipedia/commons/3/32/CGI_logo.svg",
         "description": "Maintenance applicative et évolutive en utilisant SQL, C, et SVN.",
-        "date": "Oct 2024 - Present",
+        "date": "Oct 2024 - Présent",
         "tags": ["SQL", "C", "SVN"]
       },
       {

@@ -24,8 +24,8 @@ export default function Projects() {
         <meta property="og:title" content="Malek Bouzarkouna | Projects" />
         <meta property="og:description" content="Projects by Malek Bouzarkouna." />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://your-portfolio-url.com/projects" />
-        <meta property="og:image" content="https://your-portfolio-url.com/og-image.jpg" />
+        <meta property="og:url" content="https://www.malekbouzarkouna.com/projects" />
+        <meta property="og:image" content="https://www.malekbouzarkouna.com/og-image.jpg" />
       </Head>
       <NavBar alwaysShowTopNav={true} />
       <Box sx={{

@@ -6,7 +6,8 @@
     "experiences": "My Experiences",
     "about": "About",
     "seemore": "See more",
-    "description": "A software engineer passionate about adventure and discovering new technologies."
+    "description": "A software engineer passionate about adventure and discovering new technologies.",
+    "no_experiences": "No experience to display yet."
   },
 
   "ProjectsPage": {
@@ -16,7 +17,8 @@
   "Category": {
     "experiences": "Experiences",
     "projects": "Projects",
-    "blog": "Blog"
+    "blog": "Blog",
+    "readMore": "Read more"
   },
 
   "Navbar": {

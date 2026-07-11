@@ -5,7 +5,7 @@ import Providers from "@/contexts/Providers";
 import user from "@/data/user.json";
 import StarsBackground from '@/components/StarsBackground';
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 export const metadata: Metadata = {
   title: user.name,
@@ -26,11 +26,7 @@ export default async function RootLayout({
 
   return (
     <html lang={locale}>
-      <head>
-        <link rel="icon" href="favicon.ico" />
-      </head>
-
-      <body style={{ margin: "0" }}>
+      <body className={inter.variable} style={{ margin: "0" }}>
         <Providers locale={locale} messages={messages}>
         <StarsBackground />
           {children}

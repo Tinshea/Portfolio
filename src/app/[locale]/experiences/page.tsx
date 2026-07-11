@@ -48,8 +48,8 @@ const Experience: React.FC = () => {
         <meta property="og:title" content="Malek Bouzarkouna | Experiences" />
         <meta property="og:description" content="Experiences of Malek Bouzarkouna." />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://your-portfolio-url.com/experiences" />
-        <meta property="og:image" content="https://your-portfolio-url.com/og-image.jpg" />
+        <meta property="og:url" content="https://www.malekbouzarkouna.com/experiences" />
+        <meta property="og:image" content="https://www.malekbouzarkouna.com/og-image.jpg" />
       </Head>
       <NavBar alwaysShowTopNav={true} />
       <Box
@@ -60,7 +60,6 @@ const Experience: React.FC = () => {
           alignItems: "center",
           position: "relative",
           minHeight: "100vh",
-          zIndex: -1,
         }}
       >
         <ExperienceList experiences={experiences} />

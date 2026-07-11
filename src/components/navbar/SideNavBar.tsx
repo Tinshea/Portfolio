@@ -3,6 +3,7 @@ import BookIcon from "@mui/icons-material/Book";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import LightModeIcon from "@mui/icons-material/LightMode";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
 import { Button, Box } from "@mui/material";
 import LanguageSelector from "../LanguageSelector";
 import { useMode } from "@/contexts/ModeProvider";
@@ -137,11 +138,11 @@ export default function SideNavBar({
       >
         <Box component="li">
           <IconButton
-            aria-label="LightMode"
+            aria-label={mode === "dark" ? "Switch to light mode" : "Switch to dark mode"}
             onClick={() => toggleMode(mode)}
             sx={{ boxShadow: 2 }}
           >
-            <LightModeIcon />
+            {mode === "dark" ? <LightModeIcon /> : <DarkModeIcon />}
           </IconButton>
         </Box>
         <Box component="li">

@@ -63,17 +63,14 @@ const PinnedRepositories: React.FC<{ username: string }> = ({ username }) => {
         }));
         setPinnedRepos(repos);
       } catch (error) {
-
-        fetch(`https://api.github.com/users/${username}/repos?per_page=100`)
-          .then((response) => response.json())
-          .then((data) => {
-            setPinnedRepos(data);
-          })
-          .catch((error) => {
-            console.error("Error fetching repositories:", error);
-            setError("Failed to load repositories. Please try again later.");
-          });
-
+        try {
+          const fallbackResponse = await fetch(`https://api.github.com/users/${username}/repos?per_page=100`);
+          const data = await fallbackResponse.json();
+          setPinnedRepos(data);
+        } catch (fallbackError) {
+          console.error("Error fetching repositories:", fallbackError);
+          setError("Failed to load repositories. Please try again later.");
+        }
       } finally {
         setLoading(false);
       }

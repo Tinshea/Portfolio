@@ -24,8 +24,8 @@ export default function Home() {
         <meta property="og:title" content="Malek Bouzarkouna | Portfolio" />
         <meta property="og:description" content="Portfolio of Malek Bouzarkouna, showcasing projects and experiences." />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://your-portfolio-url.com" />
-        <meta property="og:image" content="https://your-portfolio-url.com/og-image.jpg" />
+        <meta property="og:url" content="https://www.malekbouzarkouna.com" />
+        <meta property="og:image" content="https://www.malekbouzarkouna.com/og-image.jpg" />
       </Head>
       <Box
         component="video"
@@ -66,7 +66,7 @@ export default function Home() {
           sx={{
             position: "relative",
             width: "80%", // Set width to 100% to center the content
-            height: "70vh", // Set a specific height for the Laptop3D container
+            height: { xs: "60vh", lg: "70vh" }, // Set a specific height for the Laptop3D container
             overflow: "hidden", // Prevent overflow if the content exceeds the container
             zIndex: 0, // Ensure it stays above other elements
             display: "flex",
@@ -75,9 +75,6 @@ export default function Home() {
             transform: "translateX(-50%)",
             alignItems: "center",
             justifyContent: "center", // Center the content horizontally
-            "@media (max-width: 1250px)": {
-              height: "60vh", // Adjust height for tablets
-            },
           }}
         >
           <Box

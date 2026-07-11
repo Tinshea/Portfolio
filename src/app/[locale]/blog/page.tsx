@@ -26,7 +26,7 @@ const posts = [
 export default function Blog() {
   const t = useTranslations("Category");
   useEffect(() => {
-    document.title = user.name + " | " + t("Blog");
+    document.title = user.name + " | " + t("blog");
   }, []);
   const theme = useTheme();
   return (
@@ -38,8 +38,8 @@ export default function Blog() {
         <meta property="og:title" content="Malek Bouzarkouna | Blog" />
         <meta property="og:description" content="Blog posts by Malek Bouzarkouna." />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://your-portfolio-url.com/blog" />
-        <meta property="og:image" content="https://your-portfolio-url.com/og-image.jpg" />
+        <meta property="og:url" content="https://www.malekbouzarkouna.com/blog" />
+        <meta property="og:image" content="https://www.malekbouzarkouna.com/og-image.jpg" />
       </Head>
       <NavBar alwaysShowTopNav={true} />
       <Box

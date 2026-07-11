@@ -2,6 +2,7 @@
 
 import React from "react";
 import { Card, CardContent, Typography, Box, Grid, Button, useTheme, useMediaQuery } from "@mui/material";
+import { useTranslations } from "next-intl";
 
 // Définir un type pour les articles de blog
 interface BlogPost {
@@ -19,6 +20,7 @@ interface BlogPostsProps {
 const BlogPosts: React.FC<BlogPostsProps> = ({ posts }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const t = useTranslations("Category");
 
   return (
     <Box sx={{ p: isMobile ? 1 : 2 }}>
@@ -37,7 +39,7 @@ const BlogPosts: React.FC<BlogPostsProps> = ({ posts }) => {
                   {post.description}
                 </Typography>
                 <Button variant="outlined" href={post.link} sx={{ mt: 1, borderColor: theme.palette.primary.main, color: theme.palette.primary.main }}>
-                  Lire plus
+                  {t("readMore")}
                 </Button>
               </CardContent>
             </Card>

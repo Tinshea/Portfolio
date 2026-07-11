@@ -13,6 +13,7 @@ import {
   Avatar,
   useMediaQuery,
   Grid,
+  CircularProgress,
 } from '@mui/material';
 import { Star as StarIcon, ForkRight as ForkRightIcon } from '@mui/icons-material';
 import ProfileCard from './ProfileCard';
@@ -128,7 +129,11 @@ const UserRepositories: React.FC<{ username: string }> = ({ username }) => {
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   if (loading) {
-    return <Typography>Loading...</Typography>;
+    return (
+      <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "60vh" }}>
+        <CircularProgress />
+      </Box>
+    );
   }
 
   const totalStars = repos.reduce((acc, repo) => acc + repo.stargazers_count, 0);

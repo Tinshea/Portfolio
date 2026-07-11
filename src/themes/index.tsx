@@ -32,7 +32,7 @@ function getDesignTokens(mode: PaletteMode) {
               main: "#ffffff",
             },
             secondary: {
-              main: "#ffffff",
+              main: "#5db8d1",
             },
             background: {
               default: "#121212",
@@ -40,6 +40,9 @@ function getDesignTokens(mode: PaletteMode) {
               alternative: "#2b373d",
             },
           }),
+    },
+    typography: {
+      fontFamily: 'var(--font-inter), Roboto, Helvetica, Arial, sans-serif',
     },
   });
 }

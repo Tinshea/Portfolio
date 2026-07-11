@@ -1,5 +1,6 @@
 import { Drawer, IconButton, Box, Stack, Button, useTheme } from "@mui/material";
 import LightModeIcon from "@mui/icons-material/LightMode";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
@@ -122,12 +123,12 @@ const MenuDrawer = ({ open, onClose, githubusername, linkedinusername }: Readonl
             component="ul"
             sx={{ listStyle: "none", margin: "auto", padding: 0 }}
           >
-            <Link href={`https://github.com/${githubusername}`} passHref>
+            <Link href={`https://github.com/${githubusername}`} passHref legacyBehavior>
               <IconButton aria-label="GitHub" component="a" target="_blank" onClick={onClose}>
                 <GitHubIcon sx={{ color: theme.palette.primary.main }} />
               </IconButton>
             </Link>
-            <Link href={`https://linkedin.com/in/${linkedinusername}`} passHref>
+            <Link href={`https://linkedin.com/in/${linkedinusername}`} passHref legacyBehavior>
               <IconButton aria-label="LinkedIn" component="a" target="_blank" onClick={onClose}>
                 <LinkedInIcon sx={{ color: theme.palette.primary.main }} />
               </IconButton>
@@ -144,8 +145,15 @@ const MenuDrawer = ({ open, onClose, githubusername, linkedinusername }: Readonl
           component="ul"
           sx={{ listStyle: "none", width: "100%", padding: 0, margin: 0, position: "absolute", bottom: theme.spacing(2), left: 0 }}
         >
-          <IconButton aria-label="Toggle Mode" onClick={() => { toggleMode(mode); onClose(); }}>
-            <LightModeIcon sx={{ color: theme.palette.primary.main }} />
+          <IconButton
+            aria-label={mode === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+            onClick={() => { toggleMode(mode); onClose(); }}
+          >
+            {mode === "dark" ? (
+              <LightModeIcon sx={{ color: theme.palette.primary.main }} />
+            ) : (
+              <DarkModeIcon sx={{ color: theme.palette.primary.main }} />
+            )}
           </IconButton>
           <LanguageSelector />
         </Stack>

@@ -16,13 +16,8 @@ export function ModeProvider({ children }: { readonly children: ReactNode }) {
   const [isPending, startTransition] = useTransition();
 
   useEffect(() => {
-    if (!mode) {
-      const localMode = localStorage.getItem('theme');
-      localMode === 'light' ? setMode("light") : setMode("dark");
-    }
-    else {
-      setMode('light');
-    }
+    const localMode = localStorage.getItem('theme');
+    localMode === 'light' ? setMode("light") : setMode("dark");
   }, []);
 
   const toggleMode = (mode: string) => {
