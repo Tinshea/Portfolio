@@ -69,4 +69,6 @@ export interface FeaturedItem {
     body?: string;
     media?: FeaturedMedia[];
   };
+  /** Set for blog posts surfaced in the featured grid: the card links to the post page. */
+  blogSlug?: string;
 }

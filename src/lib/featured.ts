@@ -6,11 +6,37 @@ import { FeaturedItem, FeaturedMedia } from "@/types";
 const reader = createReader(process.cwd(), keystaticConfig);
 
 export async function getFeaturedItems(locale: string): Promise<FeaturedItem[]> {
-  const entries = await reader.collections.projects.all();
   const isFr = locale === "fr";
+  const [entries, postEntries] = await Promise.all([
+    reader.collections.projects.all(),
+    reader.collections.posts.all(),
+  ]);
 
-  return entries
-    .sort((a, b) => (a.entry.order ?? 99) - (b.entry.order ?? 99))
+  // Blog posts flagged "show in featured" surface as cards without
+  // duplicating their content: the card links to the existing post page.
+  const postItems: { order: number; item: FeaturedItem }[] = postEntries
+    .filter(({ entry }) => entry.featured?.showInFeatured)
+    .map(({ slug, entry }) => {
+      const firstImage = entry.media.find((m) => m.discriminant === "image");
+      return {
+        order: entry.featured.order ?? 99,
+        item: {
+          name: (isFr && entry.titleFr ? entry.titleFr : entry.title) ?? "",
+          slug,
+          description:
+            ((isFr
+              ? entry.descriptionFr || entry.descriptionEn
+              : entry.descriptionEn || entry.descriptionFr) ?? ""),
+          tags: entry.featured.tags as string[],
+          image:
+            entry.featured.cardImage ??
+            (firstImage?.discriminant === "image" ? firstImage.value.image ?? undefined : undefined),
+          blogSlug: slug,
+        },
+      };
+    });
+
+  const projectItems = entries
     .map(({ slug, entry }) => {
       // Fall back to the other language so a half-filled entry still works.
       const bodyFr = entry.page.bodyFr ?? "";
@@ -36,18 +62,25 @@ export async function getFeaturedItems(locale: string): Promise<FeaturedItem[]> 
         .filter((item) => item.src.length > 0);
 
       return {
-        name: entry.name,
-        slug,
-        description:
-          ((isFr
-            ? entry.descriptionFr || entry.descriptionEn
-            : entry.descriptionEn || entry.descriptionFr) ?? ""),
-        tags: entry.tags as string[],
-        image: entry.cardImage ?? entry.cardImageUrl ?? undefined,
-        link: entry.link ?? undefined,
-        details: hasPage ? { body, media } : undefined,
+        order: entry.order ?? 99,
+        item: {
+          name: entry.name,
+          slug,
+          description:
+            ((isFr
+              ? entry.descriptionFr || entry.descriptionEn
+              : entry.descriptionEn || entry.descriptionFr) ?? ""),
+          tags: entry.tags as string[],
+          image: entry.cardImage ?? entry.cardImageUrl ?? undefined,
+          link: entry.link ?? undefined,
+          details: hasPage ? { body, media } : undefined,
+        },
       };
     });
+
+  return [...projectItems, ...postItems]
+    .sort((a, b) => a.order - b.order)
+    .map(({ item }) => item);
 }
 
 export async function getFeaturedItem(locale: string, slug: string): Promise<FeaturedItem | undefined> {

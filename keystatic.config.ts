@@ -92,6 +92,32 @@ export default config({
             itemLabel: (props) => props.discriminant,
           }
         ),
+        featured: fields.object(
+          {
+            showInFeatured: fields.checkbox({
+              label: 'Afficher dans les projets phares',
+              description:
+                "L'article apparaît comme carte dans la vitrine de l'accueil (la carte renvoie vers l'article). Rien à réécrire.",
+              defaultValue: false,
+            }),
+            order: fields.integer({
+              label: "Ordre d'affichage",
+              description: '1 = premier, mélangé avec les projets.',
+              defaultValue: 99,
+            }),
+            tags: fields.array(fields.text({ label: 'Tag' }), {
+              label: 'Tags (affichés sur la carte)',
+              itemLabel: (props) => props.value || 'Tag',
+            }),
+            cardImage: fields.image({
+              label: 'Image de la carte',
+              description: "Sans image, la première image de l'article est utilisée.",
+              directory: 'public/images/posts',
+              publicPath: '/images/posts/',
+            }),
+          },
+          { label: 'Projets phares' }
+        ),
       },
     }),
     projects: collection({

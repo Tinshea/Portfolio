@@ -48,6 +48,19 @@ const FeaturedCardContent: React.FC<{ item: FeaturedItem }> = ({ item }) => (
 const actionAreaSx = { height: "100%", display: "flex", flexDirection: "column", alignItems: "stretch" } as const;
 
 const FeaturedCard: React.FC<{ item: FeaturedItem }> = ({ item }) => {
+  // Blog-post entries link to their post page.
+  if (item.blogSlug) {
+    return (
+      <Card sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
+        <Link href={{ pathname: "/blog/[slug]", params: { slug: item.blogSlug } }} passHref legacyBehavior>
+          <CardActionArea component="a" sx={actionAreaSx}>
+            <FeaturedCardContent item={item} />
+          </CardActionArea>
+        </Link>
+      </Card>
+    );
+  }
+
   // Case-study entries open their dedicated page; plain entries link out.
   if (item.details && item.slug) {
     return (

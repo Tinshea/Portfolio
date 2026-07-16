@@ -58,3 +58,8 @@ Dans `messages/fr.json` et `messages/en.json`, ajoutez une entrée à `Experienc
 Comme les projets : via l'admin **`/keystatic` → « Articles de blog »**. Un article a un titre EN (qui sert d'URL) et un titre FR optionnel, une date, un résumé et un texte long FR/EN (ligne vide = nouveau paragraphe), et des médias (images uploadées, YouTube, vidéo). Chaque article a sa page `/fr/blog/slug` et `/en/blog/slug`, ajoutée automatiquement au sitemap.
 
 C'est l'endroit idéal pour parler de projets qui ne méritent pas la vitrine : un dépôt non épinglé, une expérimentation homelab, un compte rendu de bug intéressant... Tant qu'il n'y a aucun article, la page `/blog` affiche un état vide propre.
+
+**Croisements sans duplication** (le contenu n'est jamais écrit deux fois) :
+
+- Fiche **projet** → section « Blog » → case « Afficher aussi dans le blog » : le projet apparaît dans la liste du blog, sa carte renvoie vers la page projet.
+- Fiche **article** → section « Projets phares » → case « Afficher dans les projets phares » (+ ordre, tags et image de carte optionnels) : l'article apparaît comme carte dans la vitrine de l'accueil, sa carte renvoie vers l'article.
