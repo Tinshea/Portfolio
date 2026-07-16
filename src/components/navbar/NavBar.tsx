@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
-import useDetectScroll from "@smakss/react-scroll-direction";
+"use client";
+
+import { motion, useScroll, useTransform } from "framer-motion";
 import user from "@/data/user.json";
 import SideNavBar from "./SideNavBar";
 import TopNavBar from "./TopNavBar";
@@ -11,72 +12,67 @@ interface NavBarProps {
 
 export default function NavBar({ alwaysShowTopNav = false }: Readonly<NavBarProps>) {
   const isMobile = useIsMobile();
-  const { scrollPosition } = useDetectScroll();
-  const [visibility, setVisibility] = useState(0);
-  const [scrollProgress, setScrollProgress] = useState(0);
+  const staticTopNav = alwaysShowTopNav || isMobile;
 
-  useEffect(() => {
-    if (!alwaysShowTopNav && !isMobile) {
-      const maxScroll = 600;
-      const percentage = Math.min(scrollPosition.top / maxScroll, 1);
-      setVisibility(percentage);
+  // Scroll handling lives entirely in motion values: no React re-render per frame.
+  const { scrollY, scrollYProgress } = useScroll();
+  const visibility = useTransform(scrollY, [0, 600], [0, 1], { clamp: true });
 
-      const documentHeight = document.documentElement.scrollHeight;
-      const windowHeight = window.innerHeight;
-      const scrollTop = scrollPosition.top;
-      const maxScrollPosition = documentHeight - windowHeight;
-      const progress = Math.min(scrollTop / maxScrollPosition, 1) * 100;
-      setScrollProgress(progress);
-    } else {
-      setVisibility(1); // If alwaysShowTopNav is true or in mobile view, make TopNavBar fully visible
-      setScrollProgress(100); // Optionally, set scrollProgress to 100    
-    }
-  }, [scrollPosition.top, alwaysShowTopNav, isMobile]);
+  const sideOpacity = useTransform(visibility, (v) => 1 - v);
+  const sideY = useTransform(visibility, (v) => v * -50);
+  // visibility (not pointer-events) disables the whole faded side nav: the
+  // wrapper itself must NEVER be a hit target, or it blocks the hero CTAs.
+  const sideVisibility = useTransform(visibility, (v) => (v > 0.5 ? "hidden" : "visible"));
+
+  const topPointerEvents = useTransform(visibility, (v) =>
+    staticTopNav || v > 0.3 ? "auto" : "none"
+  );
 
   return (
     <div className="navbar">
       {/* SideNavBar: Only visible on non-mobile screens */}
       {!isMobile && !alwaysShowTopNav && (
-        <div
+        <motion.div
           style={{
-            opacity: 1 - visibility,
-            transform: `translateY(${visibility * -50}px)`,
-            transition: "none", // No transition
+            opacity: sideOpacity,
+            y: sideY,
+            visibility: sideVisibility,
+            // The full-viewport wrapper passes clicks through; only the button
+            // clusters inside SideNavBar re-enable pointer events.
+            pointerEvents: "none",
             position: "fixed",
             width: "100%",
             top: 0,
             left: 0,
-            pointerEvents: visibility === 1 ? "none" : "auto", // Disable interactions when invisible
-            userSelect: visibility === 1 ? "none" : "auto", // Disable text selection when invisible
+            // Above the page content (which is position:relative) but below the
+            // top navbar (100) and the mobile drawer (1200).
+            zIndex: 90,
           }}
         >
           <SideNavBar
             githubusername={user.githubusername}
             linkedinusername={user.linkedinusername}
           />
-        </div>
+        </motion.div>
       )}
 
-      <div
+      <motion.div
         style={{
-          opacity: alwaysShowTopNav || isMobile ? 1 : visibility,
-          transform: "none", // No transform
-          transition: "none", // No transition
+          opacity: staticTopNav ? 1 : visibility,
+          pointerEvents: staticTopNav ? "auto" : topPointerEvents,
           position: "fixed",
           width: "100%",
           top: 0,
           left: 0,
           zIndex: 100,
-          pointerEvents: alwaysShowTopNav || isMobile || visibility > 0.30 ? "auto" : "none", // Disable interactions when invisible
-          userSelect: alwaysShowTopNav || isMobile || visibility > 0.30 ? "auto" : "none", // Disable text selection when invisible
         }}
       >
         <TopNavBar
           githubusername={user.githubusername}
           linkedinusername={user.linkedinusername}
-          progress={scrollProgress}
+          progress={scrollYProgress}
         />
-      </div>
+      </motion.div>
     </div>
   );
 }

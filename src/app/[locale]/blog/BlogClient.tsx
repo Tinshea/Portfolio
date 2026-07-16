@@ -3,12 +3,15 @@
 import NavBar from "@/components/navbar/NavBar";
 import BlogPosts from "@/components/BlogPosts";
 import { useTranslations } from "next-intl";
-import { Box, useTheme } from "@mui/material";
+import { Box, Typography, useTheme } from "@mui/material";
 import { BlogPost } from "@/types";
+import useIsMobile from "@/hooks/useIsMobile";
 
 export default function BlogClient() {
   const theme = useTheme();
+  const isMobile = useIsMobile();
   const t = useTranslations("Blog");
+  const tCategory = useTranslations("Category");
   const posts = t.raw("posts") as BlogPost[];
 
   return (
@@ -21,11 +24,31 @@ export default function BlogClient() {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          paddingTop: theme.spacing(8),
+          paddingTop: theme.spacing(10),
           position: "relative",
+          gap: theme.spacing(3),
         }}
       >
-        <BlogPosts posts={posts} />
+        <Typography
+          variant="h1"
+          color="text.primary"
+          sx={{
+            fontWeight: "bold",
+            textAlign: "center",
+            textTransform: "uppercase",
+            letterSpacing: "0.1rem",
+            fontSize: isMobile ? "1.5rem" : "2rem",
+          }}
+        >
+          {tCategory("blog")}
+        </Typography>
+        {posts.length > 0 ? (
+          <BlogPosts posts={posts} />
+        ) : (
+          <Typography variant="body1" color="text.secondary" sx={{ padding: theme.spacing(4), textAlign: "center" }}>
+            {t("empty")}
+          </Typography>
+        )}
       </Box>
     </>
   );

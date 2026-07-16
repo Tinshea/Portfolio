@@ -1,9 +1,8 @@
 import React, { createContext, useContext, useState, ReactNode, useEffect, useTransition } from 'react';
-import Loader from '@/components/Loader';
 
 interface ModeContextType {
   mode: 'light' | 'dark';
-  setMode: React.Dispatch<React.SetStateAction<'light' | 'dark' | null>>;
+  setMode: React.Dispatch<React.SetStateAction<'light' | 'dark'>>;
   toggleMode: (mode: string) => void;
 }
 
@@ -12,12 +11,21 @@ const ModeContext = createContext<ModeContextType | undefined>(undefined);
 
 // ModeProvider component that will provide the mode context to its children
 export function ModeProvider({ children }: { readonly children: ReactNode }) {
-  const [mode, setMode] = useState<'light' | 'dark' | null>(null);
-  const [isPending, startTransition] = useTransition();
+  // Default to dark so the server renders real, indexable HTML instead of a
+  // loader. The effect below reconciles with the stored or system preference
+  // right after hydration (light-theme users see one dark frame at most).
+  const [mode, setMode] = useState<'light' | 'dark'>('dark');
+  const [, startTransition] = useTransition();
 
   useEffect(() => {
-    const localMode = localStorage.getItem('theme');
-    localMode === 'light' ? setMode("light") : setMode("dark");
+    const stored = localStorage.getItem('theme');
+    if (stored === 'light' || stored === 'dark') {
+      setMode(stored);
+      return;
+    }
+    if (window.matchMedia('(prefers-color-scheme: light)').matches) {
+      setMode('light');
+    }
   }, []);
 
   const toggleMode = (mode: string) => {
@@ -28,10 +36,6 @@ export function ModeProvider({ children }: { readonly children: ReactNode }) {
     localStorage.setItem('theme', newMode);
   }
 
-  if (!mode) {
-    return <Loader />;
-  }
-  
   return (
       <ModeContext.Provider value={{ mode, setMode, toggleMode }}>
         {children}

@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Typography, Grid, Box, CircularProgress, Alert } from "@mui/material";
+import { Typography, Grid, Box, Alert, Skeleton } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { useTranslations } from "next-intl";
 import ProjectCard from "../ProjectCard";
 import SeeMoreButton from "../SeeMoreButton";
-import { PinnedRepo } from "@/types";
+import FeaturedProjects from "../FeaturedProjects";
+import { FeaturedItem, PinnedRepo } from "@/types";
 import useIsMobile from "@/hooks/useIsMobile";
 
 const PinnedRepositories: React.FC<{ username: string }> = ({ username }) => {
@@ -13,6 +14,7 @@ const PinnedRepositories: React.FC<{ username: string }> = ({ username }) => {
   const [error, setError] = useState<string | null>(null);
   const theme = useTheme();
   const t = useTranslations("HomePage");
+  const tFeatured = useTranslations("Featured");
 
   // Detect mobile screen size
   const isMobile = useIsMobile();
@@ -37,6 +39,15 @@ const PinnedRepositories: React.FC<{ username: string }> = ({ username }) => {
     fetchPinnedRepos();
   }, [username]);
 
+  // Featured projects are curated above; keep the GitHub feed free of duplicates.
+  const rawFeatured = tFeatured.raw("items");
+  const featuredNames = Array.isArray(rawFeatured)
+    ? (rawFeatured as FeaturedItem[]).map((item) => item.name)
+    : [];
+  const gridRepos = pinnedRepos
+    .filter((repo) => !featuredNames.includes(repo.name))
+    .slice(0, maxProjects);
+
   return (
     <Box
       sx={{
@@ -53,11 +64,11 @@ const PinnedRepositories: React.FC<{ username: string }> = ({ username }) => {
     >
       <Typography
         variant="h2"
-        color={theme.palette.primary.main}
+        color={theme.palette.text.primary}
         sx={{
           fontWeight: "bold",
           textAlign: "center",
-          marginBottom: theme.spacing(3),
+          marginBottom: theme.spacing(4),
           textTransform: "uppercase",
           letterSpacing: "0.1rem",
           fontSize: isMobile ? "1.5rem" : "2rem",
@@ -66,50 +77,59 @@ const PinnedRepositories: React.FC<{ username: string }> = ({ username }) => {
       >
         {t("projects")}
       </Typography>
-      {loading && (
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            minHeight: "60vh",
-          }}
-        >
-          <CircularProgress />
-        </Box>
-      )}
-      {!loading && error && (
-        <>
-          <Alert severity="error" sx={{ marginTop: 5, marginLeft: "auto", marginRight: "auto", maxWidth: isMobile ? "100%" : "1250px" }}>
-            {error}
-          </Alert>
-          <Box sx={{ marginTop: theme.spacing(3), width: "100%", display: "flex", flexDirection: "row-reverse", marginRight: isMobile ? 1 : 2.5, maxWidth: isMobile ? "100%" : "1250px" }}>
-            <SeeMoreButton hrefstring="/projects" />
-          </Box>
-        </>
-        
-      )}
-      {!loading && !error && (
-        <Box sx={{ maxWidth: isMobile ? "100%" : "1250px", margin: "auto", marginTop: isMobile ? 1 : 2 }}>
-          <Grid container spacing={isMobile ? 2 : 4} >
-            {pinnedRepos.slice(0, maxProjects).map((repo) => (
-              <Grid item xs={12} sm={6} md={4} key={repo.name}>
-                <ProjectCard
-                  user={username}
-                  name={repo.name}
-                  description={repo.description}
-                  stargazerCount={repo.stargazerCount}
-                  forkCount={repo.forkCount}
-                />
+
+      <Box sx={{ width: "100%", maxWidth: isMobile ? "100%" : "1250px", margin: "auto" }}>
+        <FeaturedProjects />
+
+        {loading && (
+          <Grid container spacing={isMobile ? 2 : 4} sx={{ marginTop: isMobile ? 0 : 1 }}>
+            {Array.from({ length: maxProjects }).map((_, index) => (
+              <Grid item xs={12} sm={6} md={4} key={index}>
+                {/* Skeletons match the final card shape instead of a generic spinner. */}
+                <Skeleton variant="rounded" height={300} sx={{ borderRadius: 3 }} />
               </Grid>
             ))}
           </Grid>
-          {/* See More button */}
-          <Box sx={{ marginTop: theme.spacing(3), width: "100%", display: "flex", flexDirection: "row-reverse", marginRight: isMobile ? 1 : 2.5, maxWidth: isMobile ? "100%" : "1250px" }}>
+        )}
+
+        {!loading && error && (
+          <Alert severity="error" sx={{ marginTop: 4 }}>
+            {error}
+          </Alert>
+        )}
+
+        {!loading && !error && gridRepos.length > 0 && (
+          <>
+            <Typography
+              variant="h6"
+              component="h3"
+              color="text.secondary"
+              sx={{ marginTop: 5, marginBottom: 2 }}
+            >
+              {tFeatured("githubHeading")}
+            </Typography>
+            <Grid container spacing={isMobile ? 2 : 4}>
+              {gridRepos.map((repo) => (
+                <Grid item xs={12} sm={6} md={4} key={repo.name}>
+                  <ProjectCard
+                    user={username}
+                    name={repo.name}
+                    description={repo.description}
+                    stargazerCount={repo.stargazerCount}
+                    forkCount={repo.forkCount}
+                  />
+                </Grid>
+              ))}
+            </Grid>
+          </>
+        )}
+
+        {!loading && (
+          <Box sx={{ marginTop: theme.spacing(3), width: "100%", display: "flex", flexDirection: "row-reverse" }}>
             <SeeMoreButton hrefstring="/projects" />
           </Box>
-        </Box>
-      )}
+        )}
+      </Box>
     </Box>
   );
 };

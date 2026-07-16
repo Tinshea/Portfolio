@@ -15,6 +15,10 @@ export async function generateMetadata({ params: { locale } }: { params: { local
     title,
     description,
     keywords: [user.name, "projects", "portfolio"],
+    alternates: {
+      canonical: `/${locale}${path}`,
+      languages: { en: "/en/projects", fr: "/fr/projets" },
+    },
     openGraph: {
       title,
       description,

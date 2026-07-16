@@ -5,11 +5,11 @@ import { CircularProgress } from "@mui/material";
 import Stack from "@mui/material/Stack";
 
 export default function Loader() {
-  const [colors, setColors] = useState({ background: "#121212", color: "#ffffff" });
+  const [colors, setColors] = useState({ background: "#0e1114", color: "#f4f4f5" });
 
   useEffect(() => {
     if (window.localStorage.getItem("theme") === "light") {
-      setColors({ background: "#ffffff", color: "#121212" });
+      setColors({ background: "#fafafa", color: "#1c2227" });
     }
   }, []);
 

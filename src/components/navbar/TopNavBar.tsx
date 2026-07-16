@@ -1,6 +1,7 @@
 import { IconButton } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useState } from "react";
+import { MotionValue } from "framer-motion";
 import DesktopNavBar from "./DesktopNavBar";
 import MenuDrawer from "./MenuDrawer";
 import useIsMobile from "@/hooks/useIsMobile";
@@ -8,7 +9,7 @@ import useIsMobile from "@/hooks/useIsMobile";
 interface TopNavBarProps {
   githubusername: string;
   linkedinusername: string;
-  progress: number;
+  progress: MotionValue<number>;
 }
 
 export default function TopNavBar({ githubusername, linkedinusername, progress }: Readonly<TopNavBarProps>) {

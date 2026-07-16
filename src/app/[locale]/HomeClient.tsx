@@ -1,14 +1,15 @@
 "use client";
 
-import { useEffect, useRef } from "react";
 import dynamic from "next/dynamic";
 import NavBar from "@/components/navbar/NavBar";
-import { Box, Typography, useTheme } from "@mui/material";
-import { useTranslations } from "next-intl";
-import { useReducedMotion } from "framer-motion";
+import { Box, Button, Stack, Typography, useTheme } from "@mui/material";
+import { useLocale, useTranslations } from "next-intl";
+import { resumePaths } from "@/config";
 import Experiences from "@/components/experiences/Experiences";
 import AboutMe from "@/components/AboutMe";
 import PinnedRepositories from "@/components/repositories/PinnedRepositories";
+import ContactSection from "@/components/ContactSection";
+import Footer from "@/components/Footer";
 import user from "@/data/user.json";
 import AnimatedSection from "@/components/AnimatedSection";
 import { TextDecrypt } from "@/components/TextDecrypt";
@@ -18,110 +19,88 @@ const StarsBackground = dynamic(() => import("@/components/StarsBackground"), { 
 
 export default function HomeClient() {
   const t = useTranslations("HomePage");
+  const tNav = useTranslations("Navbar");
+  const locale = useLocale();
+  const resumeHref = resumePaths[locale as keyof typeof resumePaths] ?? resumePaths.en;
   const theme = useTheme();
   const isMobile = useIsMobile();
-  const prefersReducedMotion = useReducedMotion();
-  const videoRef = useRef<HTMLVideoElement>(null);
-
-  useEffect(() => {
-    if (prefersReducedMotion) {
-      videoRef.current?.pause();
-    }
-  }, [prefersReducedMotion]);
 
   return (
     <>
       <StarsBackground />
-      <Box
-        component="video"
-        ref={videoRef}
-        autoPlay
-        muted
-        loop
-        preload="auto"
-        playsInline
-        controlsList="nodownload"
-        sx={{
-          position: "fixed", // Change to fixed to keep it in place during scroll
-          top: 0,
-          left: 0,
-          height: "100%",
-          width: "100%",
-          zIndex: 0,
-          objectFit: "cover",
-          transform: "rotate(180deg)",
-          opacity: prefersReducedMotion ? 0 : theme.palette.mode === "dark" ? 0.6 : 0.07,
-          filter: "blur(3px)",
-        }}
-      >
-        <source src="/assets/blackhole.webm" type="video/webm" />
-      </Box>
       <NavBar />
 
+      {/* Hero: typographic and fully transparent, so the starfield and the
+          body-level sky gradient (see theme MuiCssBaseline) show through. */}
       <Box
+        component="section"
         sx={{
-          backgroundColor: theme.palette.background.default,
-          minHeight: "100vh",
+          position: "relative",
+          minHeight: "100dvh",
           display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          padding: isMobile ? theme.spacing(2) : theme.spacing(4), // Adjust padding for mobile
+          alignItems: "center",
+          padding: isMobile ? theme.spacing(2) : theme.spacing(4),
         }}
       >
-        <Box
-          sx={{
-            position: "relative",
-            width: "80%", // Set width to 100% to center the content
-            height: { xs: "60vh", lg: "70vh" }, // Set a specific height for the Laptop3D container
-            overflow: "hidden", // Prevent overflow if the content exceeds the container
-            zIndex: 0, // Ensure it stays above other elements
-            display: "flex",
-            flexDirection: "row",
-            left: "50%",
-            transform: "translateX(-50%)",
-            alignItems: "center",
-            justifyContent: "center", // Center the content horizontally
-          }}
-        >
-          <Box
+        <Box sx={{ maxWidth: "1200px", margin: "0 auto", width: "100%" }}>
+          <Typography
+            variant="h1"
+            color={theme.palette.text.primary}
             sx={{
-              flex: 1,
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
+              fontWeight: "bold",
+              textAlign: { xs: "center", md: "left" },
+              marginBottom: theme.spacing(2),
+              textTransform: "uppercase",
+              letterSpacing: "0.15rem",
+              fontSize: "clamp(2.25rem, 6vw, 4.25rem)",
+              lineHeight: 1.12,
             }}
           >
-            <Typography
-              variant="h1"
-              color={theme.palette.primary.main}
-              sx={{
-                fontWeight: "bold",
-                textAlign: "center",
-                marginBottom: theme.spacing(2),
-                textTransform: "uppercase",
-                letterSpacing: "0.15rem",
-                fontSize: isMobile ? "1.5rem" : "2.5rem", // Adjust font size for mobile
-              }}
+            <TextDecrypt text={t("title")} />
+          </Typography>
+          <Typography
+            variant="h2"
+            color={theme.palette.secondary.main}
+            sx={{
+              textAlign: { xs: "center", md: "left" },
+              marginBottom: theme.spacing(5),
+              letterSpacing: "0.15rem",
+              fontSize: "clamp(1.15rem, 2.5vw, 2rem)",
+            }}
+          >
+            <TextDecrypt text={t("subtitle")} />
+          </Typography>
+          <Stack
+            direction="row"
+            spacing={2}
+            sx={{ justifyContent: { xs: "center", md: "flex-start" } }}
+          >
+            <Button
+              variant="contained"
+              color="secondary"
+              size="large"
+              component="a"
+              href="#contact"
+              sx={{ color: theme.palette.getContrastText(theme.palette.secondary.main) }}
             >
-              <TextDecrypt text={t("title")} />
-            </Typography>
-            <Typography
-              variant="h2"
-              color={theme.palette.primary.main}
-              sx={{
-                textAlign: "center",
-                marginBottom: theme.spacing(10),
-                letterSpacing: "0.15rem",
-                fontSize: isMobile ? "1rem" : "2rem", // Adjust font size for mobile
-              }}
+              {t("contact")}
+            </Button>
+            <Button
+              variant="outlined"
+              color="primary"
+              size="large"
+              component="a"
+              href={resumeHref}
+              target="_blank"
+              rel="noopener noreferrer"
             >
-              <TextDecrypt text={t("subtitle")} />
-            </Typography>
-          </Box>
+              {tNav("resume")}
+            </Button>
+          </Stack>
         </Box>
       </Box>
-      <Box sx={{ backgroundColor: theme.palette.background.default }}>
+
+      <Box sx={{ backgroundColor: theme.palette.background.default, position: "relative", zIndex: 1 }}>
         <Box sx={{ backgroundColor: theme.palette.background.alternative }}>
           <AnimatedSection>
             <AboutMe description={t("description")} />
@@ -133,6 +112,10 @@ export default function HomeClient() {
         <AnimatedSection>
           <PinnedRepositories username={user.githubusername} />
         </AnimatedSection>
+        <AnimatedSection>
+          <ContactSection />
+        </AnimatedSection>
+        <Footer />
       </Box>
     </>
   );

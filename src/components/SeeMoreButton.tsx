@@ -9,7 +9,7 @@ interface SeeMoreButtonProps {
   hrefstring: string;
 }
 
-// Cast back to `typeof Button` — styled() otherwise drops MUI's polymorphic
+// Cast back to `typeof Button` - styled() otherwise drops MUI's polymorphic
 // `component` prop typing, which we need to render this as a locale-aware <a>.
 const AnimatedButton = styled(Button)(({ theme }) => ({
   position: "relative",

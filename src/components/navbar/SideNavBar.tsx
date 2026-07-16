@@ -1,5 +1,4 @@
 import IconButton from "@mui/material/IconButton";
-import BookIcon from "@mui/icons-material/Book";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import LightModeIcon from "@mui/icons-material/LightMode";
@@ -7,7 +6,8 @@ import DarkModeIcon from "@mui/icons-material/DarkMode";
 import { Button, Box } from "@mui/material";
 import LanguageSelector from "../LanguageSelector";
 import { useMode } from "@/contexts/ModeProvider";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
+import { resumePaths } from "@/config";
 
 interface SideNavBarProps {
   githubusername: string;
@@ -20,6 +20,8 @@ export default function SideNavBar({
 }: Readonly<SideNavBarProps>) {
   const { mode, toggleMode } = useMode();
   const t = useTranslations("Navbar");
+  const locale = useLocale();
+  const resumeHref = resumePaths[locale as keyof typeof resumePaths] ?? resumePaths.en;
 
   return (
     <Box
@@ -30,6 +32,9 @@ export default function SideNavBar({
         flexDirection: 'column',
         justifyContent: 'space-between',
         position: 'relative',
+        // The wrapper spans the whole viewport; only the button clusters below
+        // should catch clicks, otherwise it would block the hero CTAs.
+        pointerEvents: 'none',
       }}
     >
       {/* Navigation for projects, experiences, resume */}
@@ -46,6 +51,7 @@ export default function SideNavBar({
           listStyle: 'none',
           margin: 0,
           padding: 0,
+          pointerEvents: 'auto',
         }}
       >
         <Box component="li" sx={{ margin: '10px 0' }}>
@@ -62,7 +68,7 @@ export default function SideNavBar({
           <Button
             variant="text"
             component="a"
-            href="/assets/resume.pdf"
+            href={resumeHref}
             target="_blank"
           >
             {t("resume")}
@@ -84,6 +90,7 @@ export default function SideNavBar({
           listStyle: 'none',
           margin: 0,
           padding: 0,
+          pointerEvents: 'auto',
         }}
       >
         <Box component="li">
@@ -134,6 +141,7 @@ export default function SideNavBar({
           listStyle: 'none',
           margin: 0,
           padding: 0,
+          pointerEvents: 'auto',
         }}
       >
         <Box component="li">

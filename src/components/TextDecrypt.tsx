@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDencrypt } from "use-dencrypt-effect";
 import { useReducedMotion } from "framer-motion";
 
@@ -15,10 +15,15 @@ interface TextDecryptProps {
 
 export const TextDecrypt = (props: TextDecryptProps) => {
     const [result, dencrypt] = useDencrypt(decryptOptions);
+    const [mounted, setMounted] = useState(false);
     const prefersReducedMotion = useReducedMotion();
 
     useEffect(() => {
-        if (prefersReducedMotion) return;
+        setMounted(true);
+    }, []);
+
+    useEffect(() => {
+        if (!mounted || prefersReducedMotion) return;
 
         const updateText = () => {
             dencrypt(props.text || "");
@@ -27,11 +32,14 @@ export const TextDecrypt = (props: TextDecryptProps) => {
         const action = setTimeout(updateText, 0);
 
         return () => clearTimeout(action);
-    }, [dencrypt, props.text, prefersReducedMotion]);
+    }, [mounted, dencrypt, props.text, prefersReducedMotion]);
 
-    return (
-        <>
-            {prefersReducedMotion ? props.text : result}
-        </>
-    );
+    // Server render and first client render show the real text so crawlers and
+    // link previews index actual content; the decrypt effect only replaces it
+    // after hydration.
+    if (!mounted || prefersReducedMotion) {
+        return <>{props.text}</>;
+    }
+
+    return <>{result}</>;
 };

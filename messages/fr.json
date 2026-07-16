@@ -6,7 +6,9 @@
     "experiences": "Mes Expériences",
     "about": "A propos",
     "seemore": "Voir plus",
-    "description": "Un ingénieur logiciel passionné par l'aventure et la découverte de nouvelles technologies.",
+    "contact": "Contact",
+    "description": "Ingénieur développeur full-stack : back-end Java et Go, front-end React et TypeScript, avec un goût prononcé pour les systèmes distribués. Actuellement chez CGI, je maintiens et fais évoluer des applications métier critiques. J'aime comprendre un système de bout en bout avant de le faire évoluer.",
+    "stackTitle": "Stack technique",
     "no_experiences": "Aucune expérience à afficher pour le moment."
   },
 
@@ -36,21 +38,49 @@
     "blog": "Articles de blog de Malek Bouzarkouna."
   },
 
-  "Blog": {
-    "posts": [
+  "Featured": {
+    "heading": "Projets phares",
+    "githubHeading": "Autres dépôts GitHub",
+    "items": [
       {
-        "title": "Introduction à Next.js",
-        "date": "1er Août 2024",
-        "description": "Découvrez les bases de Next.js et comment il peut améliorer vos projets React.",
-        "link": "/posts/introduction-a-nextjs"
+        "name": "ScanGo",
+        "description": "Lecteur de mangas full-stack : front React, API Go, MongoDB. Intégration MangaDex, comptes utilisateurs, commentaires par chapitre et images hébergées sur Cloudinary.",
+        "tags": ["React", "Go", "MongoDB"],
+        "link": "https://github.com/Tinshea/ScanGo"
       },
       {
-        "title": "Les meilleures pratiques avec Material-UI",
-        "date": "15 Juillet 2024",
-        "description": "Apprenez à utiliser Material-UI pour créer des interfaces utilisateur modernes et réactives.",
-        "link": "/posts/meilleures-pratiques-material-ui"
+        "name": "Sensor_Network",
+        "description": "Réseau de capteurs distribué en Java (BCM4Java) : langage de requêtes dédié, découverte dynamique des nœuds, exécution synchrone et asynchrone à haute performance.",
+        "tags": ["Java", "BCM4Java", "Multithreading"],
+        "image": "https://raw.githubusercontent.com/Tinshea/Sensor_Network/main/banner.jpg",
+        "link": "https://github.com/Tinshea/Sensor_Network"
+      },
+      {
+        "name": "Homelab",
+        "description": "Serveur personnel auto-hébergé : services conteneurisés, reverse proxy, sauvegardes automatisées et monitoring. Mon terrain d'expérimentation pour l'infrastructure et le réseau.",
+        "tags": ["Self-hosting", "Docker", "Linux"]
+      },
+      {
+        "name": "WireOwl",
+        "description": "Analyseur de paquets réseau en Python, inspiré de Wireshark : parsing multi-protocoles, moteur de filtres SQLite et rapports PDF automatisés.",
+        "tags": ["Python", "TCP/IP", "SQLite"],
+        "link": "https://github.com/Tinshea/WireOwl"
       }
     ]
+  },
+
+  "Contact": {
+    "title": "Contact",
+    "text": "Un poste, une mission ou une question technique ? Écrivez-moi, je réponds vite."
+  },
+
+  "Footer": {
+    "rights": "Tous droits réservés."
+  },
+
+  "Blog": {
+    "empty": "Aucun article publié pour le moment.",
+    "posts": []
   },
 
   "Experiences": {

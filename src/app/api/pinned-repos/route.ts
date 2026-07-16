@@ -8,6 +8,12 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: "Missing username" }, { status: 400 });
   }
 
+  // GitHub usernames are alphanumeric + hyphens; rejecting anything else also
+  // keeps the interpolated GraphQL query safe.
+  if (!/^[a-zA-Z0-9-]{1,39}$/.test(username)) {
+    return NextResponse.json({ error: "Invalid username" }, { status: 400 });
+  }
+
   const token = process.env.GITHUB_TOKEN;
 
   if (token) {
@@ -54,9 +60,27 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const fallbackResponse = await fetch(`https://api.github.com/users/${username}/repos?per_page=100`);
+    const fallbackResponse = await fetch(
+      `https://api.github.com/users/${username}/repos?per_page=100&sort=pushed`
+    );
+    if (!fallbackResponse.ok) {
+      return NextResponse.json({ error: "Failed to load repositories" }, { status: 502 });
+    }
     const repos = await fallbackResponse.json();
-    return NextResponse.json(repos);
+    if (!Array.isArray(repos)) {
+      return NextResponse.json({ error: "Failed to load repositories" }, { status: 502 });
+    }
+    // Normalize the REST shape to the PinnedRepo contract the client expects.
+    const normalized: PinnedRepo[] = repos
+      .filter((repo: { fork: boolean }) => !repo.fork)
+      .slice(0, 6)
+      .map((repo: { name: string; description: string | null; forks_count: number; stargazers_count: number }) => ({
+        name: repo.name,
+        description: repo.description ?? "",
+        forkCount: repo.forks_count,
+        stargazerCount: repo.stargazers_count,
+      }));
+    return NextResponse.json(normalized);
   } catch (error) {
     console.error("Error fetching repositories:", error);
     return NextResponse.json({ error: "Failed to load repositories" }, { status: 502 });

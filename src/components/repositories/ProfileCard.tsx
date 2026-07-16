@@ -1,6 +1,6 @@
 import React from "react";
 import { Star as StarIcon, ForkRight as ForkRightIcon } from "@mui/icons-material";
-import { Avatar, Box, Card, CardActionArea, CardContent, CardHeader, Typography, useTheme, Divider } from "@mui/material";
+import { Avatar, Box, Card, CardActionArea, CardContent, Typography, useTheme, Divider } from "@mui/material";
 import useIsMobile from "@/hooks/useIsMobile";
 
 type ProfileCardProps = {
@@ -18,15 +18,10 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ username, profilePicture, for
     <Card
       sx={{
         width: { xs: "90%", sm: "80%", md: "75%" },
-        borderRadius: 3,
-        boxShadow: theme.palette.mode === "dark" ?  "0px 8px 24px rgba(255, 255, 255, 0.2)" : "0px 8px 24px rgba(0, 0, 0, 0.2)",
-        backgroundColor: theme.palette.background.default,
-        backdropFilter: "blur(6px)",
-        color: "#fff",
+        backgroundColor: theme.palette.background.paper,
         transition: "transform 0.3s ease, box-shadow 0.3s ease",
         "&:hover": {
           transform: "scale(1.01)",
-          boxShadow: theme.palette.mode === "dark" ? "0px 12px 30px rgba(255, 255, 255, 0.3)" : "0px 12px 30px rgba(0, 0, 0, 0.3)",
         },
       }}
     >
@@ -125,7 +120,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ username, profilePicture, for
         <Divider sx={{ width: "100%"}} />
         <div style={{ display: "flex", justifyContent: "space-around", width: "100%" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-            <StarIcon sx={{ color: theme.palette.warning.main, fontSize: { xs: 20, sm: 22 } }} />
+            <StarIcon sx={{ color: theme.palette.text.secondary, fontSize: { xs: 20, sm: 22 } }} />
             <Typography
               sx={{
                 fontSize: { xs: "0.9rem", sm: "1rem" },
@@ -136,7 +131,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ username, profilePicture, for
             </Typography>
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-            <ForkRightIcon sx={{ color: theme.palette.info.main, fontSize: { xs: 20, sm: 22 } }} />
+            <ForkRightIcon sx={{ color: theme.palette.text.secondary, fontSize: { xs: 20, sm: 22 } }} />
             <Typography
               sx={{
                 fontSize: { xs: "0.9rem", sm: "1rem" },

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, CardContent, Typography, Box, Chip, useTheme, CardActionArea } from '@mui/material';
+import { Card, CardContent, Typography, Box, Chip, useTheme, Theme } from '@mui/material';
 import useIsMobile from '@/hooks/useIsMobile';
 
 interface ExperienceCardProps {
@@ -9,11 +9,10 @@ interface ExperienceCardProps {
   company: string;
   description: string;
   tags: string[];
-  logo?: string; 
+  logo?: string;
 }
 
 const ExperienceCard: React.FC<ExperienceCardProps> = ({
-  id,
   date,
   title,
   company,
@@ -29,31 +28,20 @@ const ExperienceCard: React.FC<ExperienceCardProps> = ({
       sx={{
         marginTop: isMobile ? 1 : 2,
         marginBottom: isMobile ? 1 : 2,
-        color: theme.palette.primary.main,
-        borderRadius: 2,
-        transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-        backgroundColor: theme.palette.background.paper,
-        boxShadow: `1px 1px 1px rgba(0, 0, 0, 0.2)`,
-        '&:hover': {
-            transform: 'scale(1.01)',
-        },
-        opacity: 0.99,
       }}
     >
-      <CardActionArea>
-        <CardContent>
-          <ExperienceCardContent
-            date={date}
-            title={title}
-            company={company}
-            description={description}
-            tags={tags}
-            logo={logo}
-            isMobile={isMobile}
-            theme={theme}
-          />
-        </CardContent>
-      </CardActionArea>
+      <CardContent>
+        <ExperienceCardContent
+          date={date}
+          title={title}
+          company={company}
+          description={description}
+          tags={tags}
+          logo={logo}
+          isMobile={isMobile}
+          theme={theme}
+        />
+      </CardContent>
     </Card>
   );
 };
@@ -66,7 +54,7 @@ interface ExperienceCardContentProps {
   tags: string[];
   logo?: string;
   isMobile: boolean;
-  theme: any;
+  theme: Theme;
 }
 
 const ExperienceCardContent: React.FC<ExperienceCardContentProps> = ({
@@ -87,49 +75,55 @@ const ExperienceCardContent: React.FC<ExperienceCardContentProps> = ({
     p={isMobile ? 1 : 2}
   >
     <Box sx={{ minWidth: isMobile ? '100%' : '150px', textAlign: 'left', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-      <Typography variant="body2" color="textSecondary">
+      <Typography variant="body2" color="textSecondary" sx={{ fontFamily: 'var(--font-geist-mono), monospace' }}>
         {date}
       </Typography>
       {
         logo && (
           <Box mt={1} display="flex" justifyContent={isMobile ? 'center' : 'left'}>
-            <img
-              src={logo}
-              alt="Company Logo"
-              style={{
-                maxWidth: "124px",
-                height: 'auto',
-                borderRadius: '8px',
+            {/* Dark tile keeps light-on-transparent company logos readable in both modes. */}
+            <Box
+              sx={{
+                backgroundColor: '#1b262c',
+                borderRadius: 2,
+                padding: theme.spacing(1),
+                display: 'flex',
+                alignItems: 'center',
               }}
-            />
+            >
+              <img
+                src={logo}
+                alt={`${company} logo`}
+                style={{
+                  maxWidth: "108px",
+                  height: 'auto',
+                }}
+              />
+            </Box>
           </Box>
         )
       }
     </Box>
 
-    <Box sx={{ flexGrow: 1, ml: isMobile ? 0 : 3, mt: isMobile ? 2 : 0, borderTop: isMobile ? 1 : 0, borderLeft: isMobile ? 0 : 1, borderColor: 'primary.main', pl: isMobile ? 0 : 3, pt: isMobile ? 2 : 0 }}>
-      <Typography variant={isMobile ? "h6" : "h5"} color="primary" textAlign={isMobile ? 'center' : 'left'}>
+    <Box sx={{ flexGrow: 1, ml: isMobile ? 0 : 3, mt: isMobile ? 2 : 0, borderTop: isMobile ? 1 : 0, borderLeft: isMobile ? 0 : 1, borderColor: 'divider', pl: isMobile ? 0 : 3, pt: isMobile ? 2 : 0 }}>
+      <Typography variant={isMobile ? "h6" : "h5"} component="h3" color="text.primary" textAlign={isMobile ? 'center' : 'left'}>
         {title}
       </Typography>
       <Typography variant="subtitle1" color="textSecondary" textAlign={isMobile ? 'center' : 'left'}>
         {company}
       </Typography>
-      <Typography variant="body2" mt={1} textAlign={isMobile ? 'center' : 'left'}>
+      <Typography variant="body2" mt={1} color="text.primary" textAlign={isMobile ? 'center' : 'left'}>
         {description}
       </Typography>
 
       {/* Tags */}
       <Box mt={2} display="flex" justifyContent={isMobile ? 'center' : 'left'} flexWrap="wrap" gap={1}>
-        {tags.map((tag, index) => (
+        {tags.map((tag) => (
           <Chip
-            key={index}
+            key={tag}
             label={tag}
             variant="outlined"
-            sx={{
-              color: theme.palette.primary.main,
-              borderColor: theme.palette.primary.main,
-              fontSize: isMobile ? '0.8rem' : '1rem', // Taille de la police réduite sur mobile
-            }}
+            size={isMobile ? 'small' : 'medium'}
           />
         ))}
       </Box>

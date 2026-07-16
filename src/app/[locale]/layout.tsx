@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { GeistSans } from "geist/font/sans";
+import { GeistMono } from "geist/font/mono";
 import { getMessages } from "next-intl/server";
 import Providers from "@/contexts/Providers";
 import user from "@/data/user.json";
-
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.malekbouzarkouna.com"),
@@ -24,9 +23,29 @@ export default async function RootLayout({
 }) {
   const messages = await getMessages({ locale });
 
+  const personJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: user.name,
+    url: "https://www.malekbouzarkouna.com",
+    jobTitle: "Software Engineer",
+    sameAs: [
+      `https://github.com/${user.githubusername}`,
+      `https://linkedin.com/in/${user.linkedinusername}`,
+    ],
+  };
+
   return (
     <html lang={locale}>
-      <body className={inter.variable} style={{ margin: "0" }}>
+      <body
+        className={`${GeistSans.variable} ${GeistMono.variable}`}
+        style={{ margin: "0" }}
+      >
+        <script
+          type="application/ld+json"
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+        />
         <Providers locale={locale} messages={messages}>
           {children}
         </Providers>

@@ -1,7 +1,5 @@
 import React from "react";
 import { Box, Typography, useTheme, Chip } from "@mui/material";
-import { motion } from "framer-motion";
-import { useInView } from "react-intersection-observer";
 import { ExperienceType } from "@/types";
 import useIsMobile from "@/hooks/useIsMobile";
 
@@ -12,22 +10,17 @@ interface ExperienceItemProps {
 const ExperienceItem: React.FC<ExperienceItemProps> = ({ experience }) => {
   const theme = useTheme();
   const isMobile = useIsMobile();
-  const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1 });
 
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, x: -50 }}
-      animate={{ opacity: inView ? 1 : 0, x: inView ? 0 : -50 }}
-      transition={{ duration: 0.6 }}
-    >
+    <div>
       <Box
         sx={{
           display: "flex",
           flexDirection: isMobile ? "column" : "row", // Column layout on mobile
           alignItems: isMobile ? "stretch" : "center",
           gap: isMobile ? 0 : theme.spacing(4),
-          width: isMobile ? "100%" : "1250px",
+          width: "100%",
+          maxWidth: "1250px",
           position: "relative",
           mb: isMobile ? 1 : 2, // Reduced margin bottom for mobile
           mt: isMobile ? 1 : 2, // Reduced margin bottom for mobile
@@ -49,16 +42,25 @@ const ExperienceItem: React.FC<ExperienceItemProps> = ({ experience }) => {
           {
             experience.logo && (
               <Box mt={1} display="flex" justifyContent={isMobile ? 'center' : 'left'}>
-                <img
-                  src={experience.logo}
-                  alt={`${experience.company} logo`}
-                  style={{
-                    maxWidth: "124px",
-                    height: 'auto',
-                    borderRadius: '8px',
-                    color: theme.palette.primary.main,
+                {/* Dark tile keeps light-on-transparent company logos readable in both modes. */}
+                <Box
+                  sx={{
+                    backgroundColor: '#1b262c',
+                    borderRadius: 2,
+                    padding: theme.spacing(1),
+                    display: 'flex',
+                    alignItems: 'center',
                   }}
-                />
+                >
+                  <img
+                    src={experience.logo}
+                    alt={`${experience.company} logo`}
+                    style={{
+                      maxWidth: "108px",
+                      height: 'auto',
+                    }}
+                  />
+                </Box>
               </Box>
             )
           }
@@ -76,10 +78,12 @@ const ExperienceItem: React.FC<ExperienceItemProps> = ({ experience }) => {
         >
           <Typography
             variant="body2"
+            component="h2"
             sx={{
               fontWeight: "bold",
-              color: theme.palette.primary.main,
+              color: theme.palette.text.primary,
               fontSize: isMobile ? "0.875rem" : "1rem",
+              margin: 0,
             }}
           >
             {experience.title}
@@ -126,7 +130,7 @@ const ExperienceItem: React.FC<ExperienceItemProps> = ({ experience }) => {
           </Box>
         </Box>
       </Box>
-    </motion.div>
+    </div>
   );
 };
 

@@ -38,3 +38,14 @@ export interface BlogPost {
   description: string;
   link: string;
 }
+
+/** A featured project block: code or not (homelab, hardware, infra...). */
+export interface FeaturedItem {
+  name: string;
+  description: string;
+  tags: string[];
+  /** Card visual. Defaults to the GitHub OpenGraph render when `link` points to GitHub. */
+  image?: string;
+  /** Optional external link; the card is not clickable without one. */
+  link?: string;
+}

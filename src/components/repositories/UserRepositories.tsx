@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useInView } from 'react-intersection-observer';
-import { motion } from 'framer-motion';
 import {
   List,
   ListItemText,
@@ -12,7 +10,7 @@ import {
   ListItemButton,
   Avatar,
   Grid,
-  CircularProgress,
+  Skeleton,
 } from '@mui/material';
 import useIsMobile from '@/hooks/useIsMobile';
 import { Star as StarIcon, ForkRight as ForkRightIcon } from '@mui/icons-material';
@@ -20,18 +18,12 @@ import ProfileCard from './ProfileCard';
 import { Repo } from '@/types';
 
 const RepositoryItem: React.FC<{ repo: Repo }> = ({ repo }) => {
-  const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1 });
   const theme = useTheme();
   const isMobile = useIsMobile();
 
   return (
     <React.Fragment>
-      <motion.div
-        ref={ref}
-        initial={{ opacity: 0, x: -50 }}
-        animate={{ opacity: inView ? 1 : 0, x: inView ? 0 : -50 }}
-        transition={{ duration: 0.5 }}
-      >
+      <div>
         <ListItemButton
           onClick={() => window.open(repo.html_url, '_blank')}
           sx={{
@@ -71,7 +63,7 @@ const RepositoryItem: React.FC<{ repo: Repo }> = ({ repo }) => {
                 </Typography>
                 <Box sx={{ display: 'flex', flexDirection: 'row', mt: 1 }}>
                   <Box sx={{ display: 'flex', alignItems: 'center', mr: 1 }}>
-                    <StarIcon sx={{ color: theme.palette.warning.main, fontSize: isMobile ? 16 : 20, mr: 0.5 }} />
+                    <StarIcon sx={{ color: theme.palette.text.secondary, fontSize: isMobile ? 16 : 20, mr: 0.5 }} />
                     <Typography
                       variant="caption"
                       color="text.secondary"
@@ -81,7 +73,7 @@ const RepositoryItem: React.FC<{ repo: Repo }> = ({ repo }) => {
                     </Typography>
                   </Box>
                   <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <ForkRightIcon sx={{ color: theme.palette.info.main, fontSize: isMobile ? 16 : 20, mr: 0.5 }} />
+                    <ForkRightIcon sx={{ color: theme.palette.text.secondary, fontSize: isMobile ? 16 : 20, mr: 0.5 }} />
                     <Typography
                       variant="caption"
                       color="text.secondary"
@@ -95,7 +87,7 @@ const RepositoryItem: React.FC<{ repo: Repo }> = ({ repo }) => {
             }
           />
         </ListItemButton>
-      </motion.div>
+      </div>
       <Divider />
     </React.Fragment>
   );
@@ -104,7 +96,6 @@ const RepositoryItem: React.FC<{ repo: Repo }> = ({ repo }) => {
 const UserRepositories: React.FC<{ username: string }> = ({ username }) => {
   const [repos, setRepos] = useState<Repo[]>([]);
   const [loading, setLoading] = useState(true);
-  const theme = useTheme();
   const isMobile = useIsMobile();
 
   useEffect(() => {
@@ -121,9 +112,12 @@ const UserRepositories: React.FC<{ username: string }> = ({ username }) => {
   }, [username]);
 
   if (loading) {
+    // Skeletons match the final list layout instead of a generic spinner.
     return (
-      <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "60vh" }}>
-        <CircularProgress />
+      <Box sx={{ p: isMobile ? 4 : 8, maxWidth: "1250px", margin: "auto" }}>
+        {Array.from({ length: 6 }).map((_, index) => (
+          <Skeleton key={index} variant="rounded" height={72} sx={{ mb: 2 }} />
+        ))}
       </Box>
     );
   }
