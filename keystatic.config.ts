@@ -1,4 +1,18 @@
 import { config, fields, collection } from '@keystatic/core';
+import { block } from '@keystatic/core/content-components';
+
+// Insertable "YouTube" block for rich-text bodies: serialized as
+// {% youtube url="..." caption="..." /%} and rendered as a responsive embed.
+const youtubeBlock = block({
+  label: 'YouTube',
+  schema: {
+    url: fields.url({
+      label: 'URL embed YouTube',
+      description: 'Format : https://www.youtube.com/embed/VIDEO_ID',
+    }),
+    caption: fields.text({ label: 'Légende (optionnelle)' }),
+  },
+});
 
 // Admin UI: /keystatic. GitHub mode (commits via the Keystatic GitHub App)
 // activates once its env vars exist, i.e. on Vercel after the one-time setup
@@ -45,14 +59,26 @@ export default config({
           label: 'Résumé (EN)',
           multiline: true,
         }),
-        bodyFr: fields.text({
+        bodyFr: fields.markdoc.inline({
           label: 'Article (FR)',
-          description: 'Une ligne vide sépare les paragraphes.',
-          multiline: true,
+          description: 'Titres, sous-titres, images et vidéos s\'insèrent où vous voulez via la barre d\'outils.',
+          options: {
+            image: {
+              directory: 'public/images/posts',
+              publicPath: '/images/posts/',
+            },
+          },
+          components: { youtube: youtubeBlock },
         }),
-        bodyEn: fields.text({
+        bodyEn: fields.markdoc.inline({
           label: 'Article (EN)',
-          multiline: true,
+          options: {
+            image: {
+              directory: 'public/images/posts',
+              publicPath: '/images/posts/',
+            },
+          },
+          components: { youtube: youtubeBlock },
         }),
         media: fields.array(
           fields.conditional(

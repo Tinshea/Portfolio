@@ -32,14 +32,16 @@ export interface Repo {
   forks_count: number;
 }
 
+import type { RenderableTreeNode } from '@markdoc/markdoc';
+
 export interface BlogPost {
   slug: string;
   title: string;
   /** ISO date (YYYY-MM-DD); formatted per locale at render time. */
   date: string;
   description: string;
-  /** Long-form text; blank lines (\n\n) split paragraphs. */
-  body: string;
+  /** Rendered Markdoc tree (sections, inline media); null when the body is empty. */
+  body: RenderableTreeNode | null;
   media: FeaturedMedia[];
   /** Set for projects surfaced in the blog list: the card links to the project page. */
   projectSlug?: string;

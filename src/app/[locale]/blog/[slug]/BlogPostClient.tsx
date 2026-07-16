@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Markdoc from "@markdoc/markdoc";
 import { Box, Button, Typography, useTheme } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useLocale, useTranslations } from "next-intl";
@@ -11,13 +12,22 @@ import ProjectMedia from "@/components/ProjectMedia";
 import { BlogPost } from "@/types";
 import useIsMobile from "@/hooks/useIsMobile";
 
+// Rendered for {% youtube %} blocks inserted from the Keystatic editor.
+const YouTube: React.FC<{ url?: string; caption?: string }> = ({ url, caption }) => {
+  if (!url) return null;
+  return (
+    <Box sx={{ marginY: 2 }}>
+      <ProjectMedia media={{ type: "youtube", src: url, caption }} />
+    </Box>
+  );
+};
+
 const BlogPostClient: React.FC<{ post: BlogPost }> = ({ post }) => {
   const theme = useTheme();
   const isMobile = useIsMobile();
   const t = useTranslations("Blog");
   const locale = useLocale();
 
-  const paragraphs = post.body.split(/\n\s*\n/).filter(Boolean);
   const formattedDate = post.date
     ? new Intl.DateTimeFormat(locale, { dateStyle: "long" }).format(new Date(post.date))
     : "";
@@ -73,19 +83,60 @@ const BlogPostClient: React.FC<{ post: BlogPost }> = ({ post }) => {
             </Typography>
           )}
 
-          <Box sx={{ display: "flex", flexDirection: "column", gap: theme.spacing(2) }}>
-            {paragraphs.map((paragraph) => (
-              <Typography
-                key={paragraph.slice(0, 32)}
-                variant="body1"
-                color="text.primary"
-                sx={{ lineHeight: 1.75, maxWidth: "70ch" }}
-              >
-                {paragraph}
-              </Typography>
-            ))}
-          </Box>
+          {/* Editorial styles applied to the rendered Markdoc tree: sections
+              (h2), subsections (h3), inline images and video embeds. */}
+          {post.body && (
+            <Box
+              sx={{
+                color: theme.palette.text.primary,
+                "& p": { lineHeight: 1.75, maxWidth: "70ch", margin: 0, marginBottom: theme.spacing(2) },
+                "& h2": {
+                  fontSize: isMobile ? "1.35rem" : "1.6rem",
+                  fontWeight: 700,
+                  marginTop: theme.spacing(4),
+                  marginBottom: theme.spacing(1.5),
+                },
+                "& h3": {
+                  fontSize: isMobile ? "1.1rem" : "1.25rem",
+                  fontWeight: 600,
+                  marginTop: theme.spacing(3),
+                  marginBottom: theme.spacing(1),
+                },
+                "& img": {
+                  display: "block",
+                  maxWidth: "100%",
+                  borderRadius: 3,
+                  marginY: theme.spacing(2),
+                },
+                "& ul, & ol": { lineHeight: 1.75, paddingLeft: theme.spacing(3), marginBottom: theme.spacing(2) },
+                "& a": { color: theme.palette.secondary.main },
+                "& blockquote": {
+                  borderLeft: `3px solid ${theme.palette.secondary.main}`,
+                  margin: 0,
+                  paddingLeft: theme.spacing(2),
+                  color: theme.palette.text.secondary,
+                },
+                "& code": {
+                  fontFamily: "var(--font-geist-mono), monospace",
+                  fontSize: "0.9em",
+                  backgroundColor: theme.palette.background.paper,
+                  borderRadius: 1,
+                  padding: "0.1em 0.35em",
+                },
+                "& pre": {
+                  fontFamily: "var(--font-geist-mono), monospace",
+                  backgroundColor: theme.palette.background.paper,
+                  borderRadius: 2,
+                  padding: theme.spacing(2),
+                  overflowX: "auto",
+                },
+              }}
+            >
+              {Markdoc.renderers.react(post.body, React, { components: { YouTube } })}
+            </Box>
+          )}
 
+          {/* Legacy trailing media gallery (entries created before inline media). */}
           {post.media.map((media) => (
             <ProjectMedia key={media.src} media={media} />
           ))}

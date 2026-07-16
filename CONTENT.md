@@ -55,7 +55,16 @@ Dans `messages/fr.json` et `messages/en.json`, ajoutez une entrée à `Experienc
 
 ## Ajouter un article de blog
 
-Comme les projets : via l'admin **`/keystatic` → « Articles de blog »**. Un article a un titre EN (qui sert d'URL) et un titre FR optionnel, une date, un résumé et un texte long FR/EN (ligne vide = nouveau paragraphe), et des médias (images uploadées, YouTube, vidéo). Chaque article a sa page `/fr/blog/slug` et `/en/blog/slug`, ajoutée automatiquement au sitemap.
+Comme les projets : via l'admin **`/keystatic` → « Articles de blog »**. Un article a un titre EN (qui sert d'URL) et un titre FR optionnel, une date, un résumé FR/EN, et un **corps riche** par langue. Chaque article a sa page `/fr/blog/slug` et `/en/blog/slug`, ajoutée automatiquement au sitemap.
+
+**Le corps d'article est un éditeur riche** (barre d'outils dans l'admin) :
+
+- **Sections et sous-sections** : menu « Heading » de la barre d'outils (niveau 2 = section, niveau 3 = sous-section). En syntaxe : `## Section`, `### Sous-section`.
+- **Image à un endroit précis** : bouton image de la barre d'outils, l'upload se place là où est le curseur. En syntaxe : `![légende](/images/posts/fichier.png)`.
+- **Vidéo YouTube à un endroit précis** : bouton « + » → bloc « YouTube » → coller l'URL embed (`https://www.youtube.com/embed/VIDEO_ID`).
+- Aussi disponibles : gras, italique, liens, listes, citations, code inline et blocs de code.
+
+Le champ « Médias de l'article » en bas de fiche reste disponible pour une galerie de fin d'article, mais l'insertion inline est la méthode recommandée.
 
 C'est l'endroit idéal pour parler de projets qui ne méritent pas la vitrine : un dépôt non épinglé, une expérimentation homelab, un compte rendu de bug intéressant... Tant qu'il n'y a aucun article, la page `/blog` affiche un état vide propre.
 
