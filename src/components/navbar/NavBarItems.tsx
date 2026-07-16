@@ -2,14 +2,15 @@
 
 import { Stack, Button, IconButton, useTheme } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import NextLink from "next/link";
 import { Link } from "@/navigation";
+import { useResumeHref } from "@/contexts/Providers";
 import { NAV_LINKS, resolveNavHref } from "./navLinks";
 
 const NavBarItems = () => {
   const t = useTranslations("Navbar");
-  const locale = useLocale();
+  const resumeHref = useResumeHref();
   const theme = useTheme();
 
   return (
@@ -17,7 +18,7 @@ const NavBarItems = () => {
       {NAV_LINKS.map((link) => {
         if (link.isStaticAsset) {
           return (
-            <NextLink key={link.key} href={resolveNavHref(link, locale)} passHref legacyBehavior>
+            <NextLink key={link.key} href={resolveNavHref(link, resumeHref)} passHref legacyBehavior>
               <Button variant="text" component="a" target="_blank" sx={{ color: theme.palette.text.primary, textTransform: "none" }}>
                 {t(link.translationKey)}
               </Button>

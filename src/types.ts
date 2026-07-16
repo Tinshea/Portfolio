@@ -39,6 +39,13 @@ export interface BlogPost {
   link: string;
 }
 
+export interface FeaturedMedia {
+  type: 'image' | 'video' | 'youtube';
+  /** Local path (/projects/...) or full URL. For youtube, use the embed URL. */
+  src: string;
+  caption?: string;
+}
+
 /** A featured project block: code or not (homelab, hardware, infra...). */
 export interface FeaturedItem {
   name: string;
@@ -46,6 +53,12 @@ export interface FeaturedItem {
   tags: string[];
   /** Card visual. Defaults to the GitHub OpenGraph render when `link` points to GitHub. */
   image?: string;
-  /** Optional external link; the card is not clickable without one. */
+  /** Optional external link (GitHub, demo...). */
   link?: string;
+  /** Optional rich detail sheet; when present, clicking the card opens it in a dialog. */
+  details?: {
+    /** Long-form text; blank lines (\n\n) split paragraphs. */
+    body?: string;
+    media?: FeaturedMedia[];
+  };
 }

@@ -1,5 +1,3 @@
-import { resumePaths } from "@/config";
-
 export interface NavLinkItem {
   key: "home" | "experiences" | "projects" | "resume";
   href: string;
@@ -15,10 +13,7 @@ export const NAV_LINKS: NavLinkItem[] = [
   { key: "resume", href: "/assets/resume.pdf", translationKey: "resume", isStaticAsset: true },
 ];
 
-/** Resolves a nav link's href, picking the locale's resume file for the resume entry. */
-export function resolveNavHref(link: NavLinkItem, locale: string): string {
-  if (link.key === "resume") {
-    return resumePaths[locale as keyof typeof resumePaths] ?? link.href;
-  }
-  return link.href;
+/** Resolves a nav link's href, substituting the server-resolved resume path. */
+export function resolveNavHref(link: NavLinkItem, resumeHref: string): string {
+  return link.key === "resume" ? resumeHref : link.href;
 }

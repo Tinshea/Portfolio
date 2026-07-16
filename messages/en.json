@@ -41,6 +41,7 @@
   "Featured": {
     "heading": "Featured work",
     "githubHeading": "More from GitHub",
+    "close": "Close",
     "items": [
       {
         "name": "ScanGo",
@@ -58,7 +59,11 @@
       {
         "name": "Homelab",
         "description": "Self-hosted home server: containerized services, reverse proxy, automated backups and monitoring. My permanent playground for infrastructure and networking.",
-        "tags": ["Self-hosting", "Docker", "Linux"]
+        "tags": ["Self-hosting", "Docker", "Linux"],
+        "details": {
+          "body": "My home server runs around the clock and hosts my own services: file storage, media, development tools and projects under test.\n\nUnder the hood: containerized services, a reverse proxy with HTTPS, scheduled backups and monitoring. It is my playground for practicing system administration and networking on real infrastructure.",
+          "media": []
+        }
       },
       {
         "name": "WireOwl",

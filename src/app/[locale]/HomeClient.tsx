@@ -3,8 +3,8 @@
 import dynamic from "next/dynamic";
 import NavBar from "@/components/navbar/NavBar";
 import { Box, Button, Stack, Typography, useTheme } from "@mui/material";
-import { useLocale, useTranslations } from "next-intl";
-import { resumePaths } from "@/config";
+import { useTranslations } from "next-intl";
+import { useResumeHref } from "@/contexts/Providers";
 import Experiences from "@/components/experiences/Experiences";
 import AboutMe from "@/components/AboutMe";
 import PinnedRepositories from "@/components/repositories/PinnedRepositories";
@@ -20,8 +20,7 @@ const StarsBackground = dynamic(() => import("@/components/StarsBackground"), { 
 export default function HomeClient() {
   const t = useTranslations("HomePage");
   const tNav = useTranslations("Navbar");
-  const locale = useLocale();
-  const resumeHref = resumePaths[locale as keyof typeof resumePaths] ?? resumePaths.en;
+  const resumeHref = useResumeHref();
   const theme = useTheme();
   const isMobile = useIsMobile();
 

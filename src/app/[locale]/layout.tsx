@@ -3,6 +3,7 @@ import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
 import { getMessages } from "next-intl/server";
 import Providers from "@/contexts/Providers";
+import { getResumePath } from "@/lib/resume";
 import user from "@/data/user.json";
 
 export const metadata: Metadata = {
@@ -46,7 +47,7 @@ export default async function RootLayout({
           // eslint-disable-next-line react/no-danger
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
         />
-        <Providers locale={locale} messages={messages}>
+        <Providers locale={locale} messages={messages} resumeHref={getResumePath(locale)}>
           {children}
         </Providers>
       </body>

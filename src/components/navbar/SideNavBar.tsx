@@ -6,8 +6,8 @@ import DarkModeIcon from "@mui/icons-material/DarkMode";
 import { Button, Box } from "@mui/material";
 import LanguageSelector from "../LanguageSelector";
 import { useMode } from "@/contexts/ModeProvider";
-import { useLocale, useTranslations } from "next-intl";
-import { resumePaths } from "@/config";
+import { useTranslations } from "next-intl";
+import { useResumeHref } from "@/contexts/Providers";
 
 interface SideNavBarProps {
   githubusername: string;
@@ -20,8 +20,7 @@ export default function SideNavBar({
 }: Readonly<SideNavBarProps>) {
   const { mode, toggleMode } = useMode();
   const t = useTranslations("Navbar");
-  const locale = useLocale();
-  const resumeHref = resumePaths[locale as keyof typeof resumePaths] ?? resumePaths.en;
+  const resumeHref = useResumeHref();
 
   return (
     <Box

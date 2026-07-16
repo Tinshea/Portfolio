@@ -12,11 +12,3 @@ export const pathnames: Pathnames<typeof locales> = {
 };
 
 export const localePrefix: LocalePrefix<typeof locales> = 'always';
-
-// Per-locale resume file. The FR entry intentionally points to the EN file
-// until a French PDF exists: drop it as public/assets/resume-fr.pdf and update
-// the value below.
-export const resumePaths: Record<(typeof locales)[number], string> = {
-  en: '/assets/resume.pdf',
-  fr: '/assets/resume.pdf',
-};

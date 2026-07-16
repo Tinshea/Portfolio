@@ -7,7 +7,8 @@ import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import NextLink from "next/link";
 import { Link } from "@/navigation";
 import { useMode } from "@/contexts/ModeProvider";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
+import { useResumeHref } from "@/contexts/Providers";
 import LanguageSelector from "../LanguageSelector";
 import { NAV_LINKS, resolveNavHref } from "./navLinks";
 
@@ -21,7 +22,7 @@ interface MenuDrawerProps {
 const MenuDrawer = ({ open, onClose, githubusername, linkedinusername }: Readonly<MenuDrawerProps>) => {
   const { mode, toggleMode } = useMode();
   const t = useTranslations("Navbar");
-  const locale = useLocale();
+  const resumeHref = useResumeHref();
   const theme = useTheme();
 
   return (
@@ -61,7 +62,7 @@ const MenuDrawer = ({ open, onClose, githubusername, linkedinusername }: Readonl
             {NAV_LINKS.map((link) => {
               const ButtonLink = link.isStaticAsset ? NextLink : Link;
               return (
-                <ButtonLink key={link.key} href={resolveNavHref(link, locale)} passHref legacyBehavior>
+                <ButtonLink key={link.key} href={resolveNavHref(link, resumeHref)} passHref legacyBehavior>
                   <Button
                     variant="text"
                     component="a"
