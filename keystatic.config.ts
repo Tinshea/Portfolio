@@ -16,6 +16,84 @@ export default config({
     brand: { name: 'Portfolio' },
   },
   collections: {
+    posts: collection({
+      label: 'Articles de blog',
+      slugField: 'title',
+      path: 'content/posts/*',
+      format: { data: 'json' },
+      schema: {
+        title: fields.slug({
+          name: {
+            label: 'Titre (EN)',
+            description: "Sert aussi d'URL de l'article.",
+          },
+        }),
+        titleFr: fields.text({
+          label: 'Titre (FR)',
+          description: 'Laisser vide pour réutiliser le titre EN.',
+        }),
+        publishedAt: fields.date({
+          label: 'Date de publication',
+          validation: { isRequired: true },
+        }),
+        descriptionFr: fields.text({
+          label: 'Résumé (FR)',
+          description: 'Affiché sur la carte de la liste.',
+          multiline: true,
+        }),
+        descriptionEn: fields.text({
+          label: 'Résumé (EN)',
+          multiline: true,
+        }),
+        bodyFr: fields.text({
+          label: 'Article (FR)',
+          description: 'Une ligne vide sépare les paragraphes.',
+          multiline: true,
+        }),
+        bodyEn: fields.text({
+          label: 'Article (EN)',
+          multiline: true,
+        }),
+        media: fields.array(
+          fields.conditional(
+            fields.select({
+              label: 'Type de média',
+              options: [
+                { label: 'Image', value: 'image' },
+                { label: 'YouTube', value: 'youtube' },
+                { label: 'Vidéo (URL de fichier)', value: 'video' },
+              ],
+              defaultValue: 'image',
+            }),
+            {
+              image: fields.object({
+                image: fields.image({
+                  label: 'Image',
+                  directory: 'public/images/posts',
+                  publicPath: '/images/posts/',
+                }),
+                caption: fields.text({ label: 'Légende (optionnelle)' }),
+              }),
+              youtube: fields.object({
+                url: fields.url({
+                  label: 'URL embed YouTube',
+                  description: 'Format : https://www.youtube.com/embed/VIDEO_ID',
+                }),
+                caption: fields.text({ label: 'Légende (optionnelle)' }),
+              }),
+              video: fields.object({
+                url: fields.url({ label: 'URL du fichier vidéo' }),
+                caption: fields.text({ label: 'Légende (optionnelle)' }),
+              }),
+            }
+          ),
+          {
+            label: "Médias de l'article",
+            itemLabel: (props) => props.discriminant,
+          }
+        ),
+      },
+    }),
     projects: collection({
       label: 'Projets phares',
       slugField: 'name',

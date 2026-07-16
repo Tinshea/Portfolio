@@ -12,7 +12,8 @@ export const pathnames: Pathnames<typeof locales> = {
   '/projects/[slug]': {
     en: '/projects/[slug]',
     fr: '/projets/[slug]'
-  }
+  },
+  '/blog/[slug]': '/blog/[slug]'
 };
 
 export const localePrefix: LocalePrefix<typeof locales> = 'always';

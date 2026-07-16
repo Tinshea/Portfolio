@@ -55,7 +55,7 @@
 
   "Blog": {
     "empty": "No posts published yet.",
-    "posts": []
+    "backToBlog": "Back to blog"
   },
 
   "Experiences": {

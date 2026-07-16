@@ -33,10 +33,14 @@ export interface Repo {
 }
 
 export interface BlogPost {
+  slug: string;
   title: string;
+  /** ISO date (YYYY-MM-DD); formatted per locale at render time. */
   date: string;
   description: string;
-  link: string;
+  /** Long-form text; blank lines (\n\n) split paragraphs. */
+  body: string;
+  media: FeaturedMedia[];
 }
 
 export interface FeaturedMedia {

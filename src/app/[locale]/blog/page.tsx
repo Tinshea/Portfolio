@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import user from "@/data/user.json";
+import { getBlogPosts } from "@/lib/blog";
 import BlogClient from "./BlogClient";
 
 export async function generateMetadata({ params: { locale } }: { params: { locale: string } }): Promise<Metadata> {
@@ -28,6 +29,7 @@ export async function generateMetadata({ params: { locale } }: { params: { local
   };
 }
 
-export default function Blog() {
-  return <BlogClient />;
+export default async function Blog({ params: { locale } }: { params: { locale: string } }) {
+  const posts = await getBlogPosts(locale);
+  return <BlogClient posts={posts} />;
 }

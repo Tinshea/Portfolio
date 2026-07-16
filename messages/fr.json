@@ -55,7 +55,7 @@
 
   "Blog": {
     "empty": "Aucun article publié pour le moment.",
-    "posts": []
+    "backToBlog": "Retour au blog"
   },
 
   "Experiences": {

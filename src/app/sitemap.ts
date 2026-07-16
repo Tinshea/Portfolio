@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { locales } from "@/config";
 import { getCaseStudySlugs } from "@/lib/featured";
+import { getBlogSlugs } from "@/lib/blog";
 
 const SITE_URL = "https://www.malekbouzarkouna.com";
 
@@ -43,5 +44,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }))
   );
 
-  return [...staticEntries, ...projectEntries];
+  // Blog posts, one URL per locale (same slug in both languages).
+  const blogSlugs = await getBlogSlugs();
+  const blogEntries = blogSlugs.flatMap((slug) =>
+    locales.map((locale) => ({
+      url: `${SITE_URL}/${locale}/blog/${slug}`,
+      changeFrequency: "monthly" as const,
+      priority: 0.5,
+      alternates: {
+        languages: Object.fromEntries(
+          locales.map((l) => [l, `${SITE_URL}/${l}/blog/${slug}`])
+        ),
+      },
+    }))
+  );
+
+  return [...staticEntries, ...projectEntries, ...blogEntries];
 }

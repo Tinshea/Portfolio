@@ -54,4 +54,6 @@ Dans `messages/fr.json` et `messages/en.json`, ajoutez une entrée à `Experienc
 
 ## Ajouter un article de blog
 
-Ajoutez une entrée à `Blog.posts` (`title`, `date`, `description`, `link`) dans les deux fichiers de langue. Tant que le tableau est vide, la page `/blog` affiche un état vide propre.
+Comme les projets : via l'admin **`/keystatic` → « Articles de blog »**. Un article a un titre EN (qui sert d'URL) et un titre FR optionnel, une date, un résumé et un texte long FR/EN (ligne vide = nouveau paragraphe), et des médias (images uploadées, YouTube, vidéo). Chaque article a sa page `/fr/blog/slug` et `/en/blog/slug`, ajoutée automatiquement au sitemap.
+
+C'est l'endroit idéal pour parler de projets qui ne méritent pas la vitrine : un dépôt non épinglé, une expérimentation homelab, un compte rendu de bug intéressant... Tant qu'il n'y a aucun article, la page `/blog` affiche un état vide propre.

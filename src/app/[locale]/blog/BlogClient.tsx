@@ -7,12 +7,11 @@ import { Box, Typography, useTheme } from "@mui/material";
 import { BlogPost } from "@/types";
 import useIsMobile from "@/hooks/useIsMobile";
 
-export default function BlogClient() {
+export default function BlogClient({ posts }: { readonly posts: BlogPost[] }) {
   const theme = useTheme();
   const isMobile = useIsMobile();
   const t = useTranslations("Blog");
   const tCategory = useTranslations("Category");
-  const posts = t.raw("posts") as BlogPost[];
 
   return (
     <>
