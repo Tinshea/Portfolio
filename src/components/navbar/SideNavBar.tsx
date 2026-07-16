@@ -161,7 +161,7 @@ export default function SideNavBar({
           </IconButton>
         </Box>
         <Box component="li">
-          <LanguageSelector isArrow={true} sx={{ boxShadow: 2 }} />
+          <LanguageSelector menuPlacement="top" sx={{ boxShadow: 2 }} />
         </Box>
       </Box>
     </Box>

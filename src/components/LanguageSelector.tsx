@@ -4,21 +4,20 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { SxProps, Theme } from "@mui/material/styles";
 import { FlagIcon } from "react-flag-kit";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 
 import { useRouter, usePathname } from "@/navigation";
 import { useLocale } from "next-intl";
 
 interface LanguageSelectorProps {
-  isArrow?: boolean;
+  /** Where the menu opens relative to the trigger. Use "top" when the button sits near the bottom of the viewport. */
+  menuPlacement?: "top" | "bottom";
   /** Extra styles for the trigger button (e.g. boxShadow to match sibling buttons). */
   sx?: SxProps<Theme>;
 }
 
-export default function LanguageSelector({ isArrow = false, sx }: Readonly<LanguageSelectorProps>) {
+export default function LanguageSelector({ menuPlacement = "bottom", sx }: Readonly<LanguageSelectorProps>) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  // The flag always reflects the live locale (a local state here used to keep
-  // showing the previous language after switching).
+  // The flag always reflects the live locale.
   const locale = useLocale();
 
   const router = useRouter();
@@ -42,25 +41,38 @@ export default function LanguageSelector({ isArrow = false, sx }: Readonly<Langu
 
   const flagCode = locale === "fr" ? "FR" : "US";
 
+  // The menu opens away from the button (above when placed at the bottom of
+  // the screen) so it never covers its own trigger.
+  const menuOrigins =
+    menuPlacement === "top"
+      ? {
+          anchorOrigin: { vertical: "top", horizontal: "center" } as const,
+          transformOrigin: { vertical: "bottom", horizontal: "center" } as const,
+        }
+      : {
+          anchorOrigin: { vertical: "bottom", horizontal: "center" } as const,
+          transformOrigin: { vertical: "top", horizontal: "center" } as const,
+        };
+
   return (
     // Fragment root: a wrapping <div> used to break flex alignment in the
     // navbars (the sibling buttons are direct flex children).
     <>
+      {/* Flag only, fixed 40px square: the hover/focus halo stays a perfect
+          circle like every sibling icon button. */}
       <IconButton
         aria-label="Language"
         aria-haspopup="menu"
         onClick={handleMenuOpen}
-        sx={{ color: "text.primary", ...sx }}
+        sx={{ color: "text.primary", width: 40, height: 40, ...sx }}
       >
         <FlagIcon code={flagCode} style={{ width: "24px", height: "16px", display: "block" }} />
-        {isArrow && <ArrowDropDownIcon fontSize="small" sx={{ marginLeft: 0.5 }} />}
       </IconButton>
       <Menu
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
         onClose={handleMenuClose}
-        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-        transformOrigin={{ vertical: "top", horizontal: "center" }}
+        {...menuOrigins}
       >
         <MenuItem selected={locale === "en"} onClick={() => handleLanguageChange("en")}>
           <FlagIcon
