@@ -16,7 +16,7 @@ const SocialLinks = ({ githubusername, linkedinusername }: Readonly<SocialLinksP
   const theme = useTheme();
 
   return (
-    <Stack direction="row" spacing={2} component="ul" sx={{ listStyle: "none", margin: 0, padding: 0 }}>
+    <Stack direction="row" spacing={2} alignItems="center" sx={{ margin: 0, padding: 0 }}>
       <IconButton href={`https://github.com/${githubusername}`} aria-label="GitHub" target="_blank">
         <GitHubIcon sx={{ color: theme.palette.text.primary }} />
       </IconButton>
