@@ -13,6 +13,7 @@ export const pathnames: Pathnames<typeof locales> = {
     en: '/projects/[slug]',
     fr: '/projets/[slug]'
   },
+  '/blog': '/blog',
   '/blog/[slug]': '/blog/[slug]'
 };
 

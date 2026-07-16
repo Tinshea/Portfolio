@@ -7,6 +7,7 @@ import { Button, Box } from "@mui/material";
 import LanguageSelector from "../LanguageSelector";
 import { useMode } from "@/contexts/ModeProvider";
 import { useTranslations } from "next-intl";
+import { Link } from "@/navigation";
 import { useResumeHref } from "@/contexts/Providers";
 
 interface SideNavBarProps {
@@ -62,6 +63,13 @@ export default function SideNavBar({
           <Button variant="text" component="a" href="#experiences">
             {t("experiences")}
           </Button>
+        </Box>
+        <Box component="li" sx={{ margin: '10px 0' }}>
+          <Link href="/blog" passHref legacyBehavior>
+            <Button variant="text" component="a">
+              {t("blog")}
+            </Button>
+          </Link>
         </Box>
         <Box component="li" sx={{ margin: '10px 0' }}>
           <Button
