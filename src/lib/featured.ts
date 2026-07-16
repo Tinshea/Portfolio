@@ -12,8 +12,11 @@ export async function getFeaturedItems(locale: string): Promise<FeaturedItem[]> 
   return entries
     .sort((a, b) => (a.entry.order ?? 99) - (b.entry.order ?? 99))
     .map(({ slug, entry }) => {
-      const body = (isFr ? entry.page.bodyFr : entry.page.bodyEn) ?? "";
-      const hasPage = body.trim().length > 0;
+      // Fall back to the other language so a half-filled entry still works.
+      const bodyFr = entry.page.bodyFr ?? "";
+      const bodyEn = entry.page.bodyEn ?? "";
+      const body = (isFr ? bodyFr || bodyEn : bodyEn || bodyFr).trim();
+      const hasPage = body.length > 0;
 
       const media: FeaturedMedia[] = entry.page.media
         .map((item): FeaturedMedia => {
@@ -35,7 +38,10 @@ export async function getFeaturedItems(locale: string): Promise<FeaturedItem[]> 
       return {
         name: entry.name,
         slug,
-        description: (isFr ? entry.descriptionFr : entry.descriptionEn) ?? "",
+        description:
+          ((isFr
+            ? entry.descriptionFr || entry.descriptionEn
+            : entry.descriptionEn || entry.descriptionFr) ?? ""),
         tags: entry.tags as string[],
         image: entry.cardImage ?? entry.cardImageUrl ?? undefined,
         link: entry.link ?? undefined,

@@ -29,12 +29,18 @@ export async function getBlogPosts(locale: string): Promise<BlogPost[]> {
         })
         .filter((item) => item.src.length > 0);
 
+      // Fall back to the other language so a half-filled entry still works.
+      const bodyFr = entry.bodyFr ?? "";
+      const bodyEn = entry.bodyEn ?? "";
       return {
         slug,
         title: (isFr && entry.titleFr ? entry.titleFr : entry.title) ?? "",
         date: entry.publishedAt ?? "",
-        description: (isFr ? entry.descriptionFr : entry.descriptionEn) ?? "",
-        body: (isFr ? entry.bodyFr : entry.bodyEn) ?? "",
+        description:
+          ((isFr
+            ? entry.descriptionFr || entry.descriptionEn
+            : entry.descriptionEn || entry.descriptionFr) ?? ""),
+        body: isFr ? bodyFr || bodyEn : bodyEn || bodyFr,
         media,
       };
     });
