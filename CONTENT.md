@@ -9,12 +9,13 @@ Dans `messages/fr.json` et `messages/en.json`, ajoutez une entrée au tableau `F
 ```json
 {
   "name": "Mon projet",
+  "slug": "mon-projet",
   "description": "Une ou deux phrases affichées sur la carte.",
   "tags": ["Tag1", "Tag2"],
   "image": "/projects/mon-projet.jpg",
   "link": "https://github.com/Tinshea/MonProjet",
   "details": {
-    "body": "Texte long affiché dans la fenêtre au clic.\n\nUne ligne vide (\\n\\n) sépare les paragraphes.",
+    "body": "Texte long affiché sur la page du projet.\n\nUne ligne vide (\\n\\n) sépare les paragraphes.",
     "media": [
       { "type": "image", "src": "/projects/mon-projet-1.jpg", "caption": "Légende optionnelle" },
       { "type": "video", "src": "/projects/demo.mp4" },
@@ -29,9 +30,9 @@ Comportement des champs :
 | Champ | Obligatoire | Effet |
 |---|---|---|
 | `name`, `description`, `tags` | oui | Contenu de la carte |
-| `image` | non | Visuel de la carte. Sans `image`, un lien GitHub génère la vignette automatiquement |
-| `link` | non | Lien externe (GitHub, démo). Affiché en bouton dans la fenêtre de détail |
-| `details` | non | **Sa présence rend la carte cliquable** : elle ouvre une fenêtre avec `body` (texte long) et `media` |
+| `image` | non | Visuel de la carte et de la page. Sans `image`, un lien GitHub génère la vignette automatiquement |
+| `link` | non | Lien externe (GitHub, démo). Sans `details`, la carte pointe directement dessus ; avec, il devient un bouton sur la page du projet |
+| `details` + `slug` | non | **Créent une page dédiée** (`/fr/projets/mon-projet`, `/en/projects/mon-projet`) avec `body` (texte long) et `media`. Le `slug` doit être identique dans les deux langues et est ajouté automatiquement au sitemap |
 
 Types de média : `image` (jpg/png/webp), `video` (mp4/webm local), `youtube` (URL **embed** : `https://www.youtube.com/embed/...`).
 

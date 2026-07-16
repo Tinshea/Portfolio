@@ -42,6 +42,7 @@
     "heading": "Projets phares",
     "githubHeading": "Autres dépôts GitHub",
     "close": "Fermer",
+    "backToProjects": "Retour aux projets",
     "items": [
       {
         "name": "ScanGo",
@@ -58,6 +59,7 @@
       },
       {
         "name": "Homelab",
+        "slug": "homelab",
         "description": "Serveur personnel auto-hébergé : services conteneurisés, reverse proxy, sauvegardes automatisées et monitoring. Mon terrain d'expérimentation pour l'infrastructure et le réseau.",
         "tags": ["Self-hosting", "Docker", "Linux"],
         "details": {

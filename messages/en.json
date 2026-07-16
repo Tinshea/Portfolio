@@ -42,6 +42,7 @@
     "heading": "Featured work",
     "githubHeading": "More from GitHub",
     "close": "Close",
+    "backToProjects": "Back to projects",
     "items": [
       {
         "name": "ScanGo",
@@ -58,6 +59,7 @@
       },
       {
         "name": "Homelab",
+        "slug": "homelab",
         "description": "Self-hosted home server: containerized services, reverse proxy, automated backups and monitoring. My permanent playground for infrastructure and networking.",
         "tags": ["Self-hosting", "Docker", "Linux"],
         "details": {

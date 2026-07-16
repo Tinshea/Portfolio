@@ -51,11 +51,13 @@ export interface FeaturedItem {
   name: string;
   description: string;
   tags: string[];
+  /** URL segment of the detail page; required when `details` is present. Same value in every locale. */
+  slug?: string;
   /** Card visual. Defaults to the GitHub OpenGraph render when `link` points to GitHub. */
   image?: string;
   /** Optional external link (GitHub, demo...). */
   link?: string;
-  /** Optional rich detail sheet; when present, clicking the card opens it in a dialog. */
+  /** Optional case-study content; when present, clicking the card opens the project's dedicated page. */
   details?: {
     /** Long-form text; blank lines (\n\n) split paragraphs. */
     body?: string;

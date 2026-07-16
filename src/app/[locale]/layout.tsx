@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
-import { getMessages } from "next-intl/server";
+import { getMessages, unstable_setRequestLocale } from "next-intl/server";
 import Providers from "@/contexts/Providers";
 import { getResumePath } from "@/lib/resume";
 import user from "@/data/user.json";
@@ -22,6 +22,8 @@ export default async function RootLayout({
   readonly children: React.ReactNode;
   readonly params: { locale: string };
 }) {
+  // Required for statically generated routes (e.g. project pages).
+  unstable_setRequestLocale(locale);
   const messages = await getMessages({ locale });
 
   const personJsonLd = {
