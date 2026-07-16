@@ -1,46 +1,46 @@
 # Guide de mise à jour du contenu
 
-Tout le contenu éditable vit dans `messages/fr.json` et `messages/en.json` (toujours modifier **les deux**). Aucun changement de code n'est nécessaire pour les opérations ci-dessous.
+## Projets phares : interface d'admin Keystatic
 
-## Ajouter un bloc « Projet phare » (code ou hors code)
+Les blocs projets s'éditent dans une interface d'admin, **sans toucher au code**. Chaque projet est stocké dans `content/projects/*.json` (une entrée bilingue par projet) ; les images uploadées vont dans `public/images/projects/`.
 
-Dans `messages/fr.json` et `messages/en.json`, ajoutez une entrée au tableau `Featured.items` :
+### En production (le vrai « zéro code, zéro push »)
 
-```json
-{
-  "name": "Mon projet",
-  "slug": "mon-projet",
-  "description": "Une ou deux phrases affichées sur la carte.",
-  "tags": ["Tag1", "Tag2"],
-  "image": "/projects/mon-projet.jpg",
-  "link": "https://github.com/Tinshea/MonProjet",
-  "details": {
-    "body": "Texte long affiché sur la page du projet.\n\nUne ligne vide (\\n\\n) sépare les paragraphes.",
-    "media": [
-      { "type": "image", "src": "/projects/mon-projet-1.jpg", "caption": "Légende optionnelle" },
-      { "type": "video", "src": "/projects/demo.mp4" },
-      { "type": "youtube", "src": "https://www.youtube.com/embed/VIDEO_ID" }
-    ]
-  }
-}
-```
+Une fois la configuration ci-dessous faite : allez sur `https://www.malekbouzarkouna.com/keystatic`, connectez-vous avec votre compte GitHub, éditez ou créez un projet (formulaires FR/EN, glisser-déposer d'images, champ YouTube), cliquez « Commit ». Keystatic committe dans le repo à votre place, Vercel redéploie automatiquement : en ligne en 1 à 2 minutes.
 
-Comportement des champs :
+### Configuration initiale (une seule fois, ~5 min)
 
-| Champ | Obligatoire | Effet |
-|---|---|---|
-| `name`, `description`, `tags` | oui | Contenu de la carte |
-| `image` | non | Visuel de la carte et de la page. Sans `image`, un lien GitHub génère la vignette automatiquement |
-| `link` | non | Lien externe (GitHub, démo). Sans `details`, la carte pointe directement dessus ; avec, il devient un bouton sur la page du projet |
-| `details` + `slug` | non | **Créent une page dédiée** (`/fr/projets/mon-projet`, `/en/projects/mon-projet`) avec `body` (texte long) et `media`. Le `slug` doit être identique dans les deux langues et est ajouté automatiquement au sitemap |
+1. En local, lancez le serveur de dev en mode GitHub :
+   ```powershell
+   $env:KEYSTATIC_STORAGE = 'github'
+   npm run dev
+   ```
+2. Ouvrez http://localhost:3000/keystatic : Keystatic propose de **créer son app GitHub** pour le repo `Tinshea/Portfolio`. Suivez le flux (2 clics) ; il écrit tout seul 4 variables dans `.env.local` :
+   `KEYSTATIC_GITHUB_CLIENT_ID`, `KEYSTATIC_GITHUB_CLIENT_SECRET`, `KEYSTATIC_SECRET`, `NEXT_PUBLIC_KEYSTATIC_GITHUB_APP_SLUG`.
+3. Copiez ces 4 variables dans **Vercel → Settings → Environment Variables**, puis redéployez.
 
-Types de média : `image` (jpg/png/webp), `video` (mp4/webm local), `youtube` (URL **embed** : `https://www.youtube.com/embed/...`).
+### En local (pour développer)
 
-Les fichiers locaux (photos, vidéos) se déposent dans `public/projects/` et se référencent par `/projects/nom-du-fichier.ext`.
+`npm run dev` puis http://localhost:3000/keystatic : l'admin écrit directement dans les fichiers locaux (mode local, pas de commit automatique).
+
+### Champs d'un projet
+
+| Champ | Effet |
+|---|---|
+| Nom | Titre de la carte et de la page (le slug de l'URL en découle) |
+| Ordre | Position dans la grille (1 = premier) |
+| Descriptions FR/EN | Une ou deux phrases sur la carte |
+| Tags | Puces techniques |
+| Lien externe | GitHub ou démo. Sans page détaillée, la carte pointe directement dessus |
+| Image de la carte / URL externe | Visuel de la carte. Sans rien, un lien GitHub génère une vignette automatiquement |
+| **Texte long FR/EN** | **Remplir ce champ crée la page dédiée** (`/fr/projets/slug`, `/en/projects/slug`, ajoutée au sitemap). Une ligne vide sépare les paragraphes |
+| Médias | Images uploadées, vidéos YouTube (URL embed `https://www.youtube.com/embed/ID`) ou URL de fichier vidéo, affichés sur la page |
+
+Conseil poids : les vidéos vont sur YouTube (mode « non répertorié » si besoin), jamais dans le repo. Les images, compressées, pèsent 100-300 Ko : négligeable.
 
 ## Mettre à jour le CV
 
-Déposez simplement le PDF dans `public/assets/` avec le bon nom, le site le détecte tout seul :
+Déposez le PDF dans `public/assets/` avec le bon nom, le site le détecte tout seul :
 
 | Fichier | Utilisé pour |
 |---|---|
@@ -48,12 +48,10 @@ Déposez simplement le PDF dans `public/assets/` avec le bon nom, le site le dé
 | `resume-en.pdf` | visiteurs en anglais (s'il existe) |
 | `resume.pdf` | repli si le fichier de la langue n'existe pas |
 
-Remplacer un CV = écraser le fichier. Rien d'autre à faire (en production : commit + déploiement).
-
 ## Ajouter une expérience
 
-Ajoutez une entrée à `Experiences.experiencesData` dans les deux fichiers de langue (mêmes champs que les entrées existantes : `id`, `title`, `company`, `logo`, `description`, `date`, `tags`).
+Dans `messages/fr.json` et `messages/en.json`, ajoutez une entrée à `Experiences.experiencesData` (mêmes champs que les entrées existantes).
 
 ## Ajouter un article de blog
 
-Ajoutez une entrée à `Blog.posts` (`title`, `date`, `description`, `link`). Tant que le tableau est vide, la page `/blog` affiche un état vide propre.
+Ajoutez une entrée à `Blog.posts` (`title`, `date`, `description`, `link`) dans les deux fichiers de langue. Tant que le tableau est vide, la page `/blog` affiche un état vide propre.

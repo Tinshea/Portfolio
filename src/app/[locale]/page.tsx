@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import user from "@/data/user.json";
+import { getFeaturedItems } from "@/lib/featured";
 import HomeClient from "./HomeClient";
 
 export async function generateMetadata({ params: { locale } }: { params: { locale: string } }): Promise<Metadata> {
@@ -29,6 +30,7 @@ export async function generateMetadata({ params: { locale } }: { params: { local
   };
 }
 
-export default function Home() {
-  return <HomeClient />;
+export default async function Home({ params: { locale } }: { params: { locale: string } }) {
+  const featuredItems = await getFeaturedItems(locale);
+  return <HomeClient featuredItems={featuredItems} />;
 }

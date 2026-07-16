@@ -1,0 +1,15 @@
+{
+  "name": "ScanGo",
+  "order": 1,
+  "descriptionFr": "Lecteur de mangas full-stack : front React, API Go, MongoDB. Intégration MangaDex, comptes utilisateurs, commentaires par chapitre et images hébergées sur Cloudinary.",
+  "descriptionEn": "Full-stack manga reader: React front end, Go API, MongoDB. MangaDex integration, user accounts, per-chapter comments and Cloudinary image hosting.",
+  "tags": ["React", "Go", "MongoDB"],
+  "link": "https://github.com/Tinshea/ScanGo",
+  "cardImage": null,
+  "cardImageUrl": "https://opengraph.githubassets.com/1/Tinshea/ScanGo",
+  "page": {
+    "bodyFr": "",
+    "bodyEn": "",
+    "media": []
+  }
+}

@@ -14,10 +14,11 @@ import user from "@/data/user.json";
 import AnimatedSection from "@/components/AnimatedSection";
 import { TextDecrypt } from "@/components/TextDecrypt";
 import useIsMobile from "@/hooks/useIsMobile";
+import { FeaturedItem } from "@/types";
 
 const StarsBackground = dynamic(() => import("@/components/StarsBackground"), { ssr: false });
 
-export default function HomeClient() {
+export default function HomeClient({ featuredItems }: { readonly featuredItems: FeaturedItem[] }) {
   const t = useTranslations("HomePage");
   const tNav = useTranslations("Navbar");
   const resumeHref = useResumeHref();
@@ -109,7 +110,7 @@ export default function HomeClient() {
           <Experiences />
         </AnimatedSection>
         <AnimatedSection>
-          <PinnedRepositories username={user.githubusername} />
+          <PinnedRepositories username={user.githubusername} featuredItems={featuredItems} />
         </AnimatedSection>
         <AnimatedSection>
           <ContactSection />

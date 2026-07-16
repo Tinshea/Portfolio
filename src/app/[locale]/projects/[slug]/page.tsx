@@ -1,36 +1,27 @@
 import type { Metadata } from "next";
-import { getTranslations, unstable_setRequestLocale } from "next-intl/server";
+import { unstable_setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { locales } from "@/config";
 import user from "@/data/user.json";
-import { FeaturedItem } from "@/types";
-import enMessages from "../../../../../messages/en.json";
+import { getFeaturedItem, getCaseStudySlugs } from "@/lib/featured";
 import ProjectDetailClient from "./ProjectDetailClient";
 
 interface Params {
   params: { locale: string; slug: string };
 }
 
-// Only locale x slug combinations declared in Featured.items exist; anything
-// else is a hard 404 (otherwise streaming would commit a 200 before
+// Only locale x slug combinations declared in the content collection exist;
+// anything else is a hard 404 (otherwise streaming would commit a 200 before
 // notFound() runs).
 export const dynamicParams = false;
 
-export function generateStaticParams() {
-  const items = (enMessages.Featured?.items ?? []) as FeaturedItem[];
-  const slugs = items.filter((item) => item.details && item.slug).map((item) => item.slug!);
+export async function generateStaticParams() {
+  const slugs = await getCaseStudySlugs();
   return locales.flatMap((locale) => slugs.map((slug) => ({ locale, slug })));
 }
 
-async function getItem(locale: string, slug: string): Promise<FeaturedItem | undefined> {
-  const t = await getTranslations({ locale, namespace: "Featured" });
-  const raw = t.raw("items");
-  if (!Array.isArray(raw)) return undefined;
-  return (raw as FeaturedItem[]).find((item) => item.slug === slug && item.details);
-}
-
 export async function generateMetadata({ params: { locale, slug } }: Params): Promise<Metadata> {
-  const item = await getItem(locale, slug);
+  const item = await getFeaturedItem(locale, slug);
   if (!item) return {};
 
   const title = `${user.name} | ${item.name}`;
@@ -56,7 +47,7 @@ export async function generateMetadata({ params: { locale, slug } }: Params): Pr
 
 export default async function ProjectPage({ params: { locale, slug } }: Params) {
   unstable_setRequestLocale(locale);
-  const item = await getItem(locale, slug);
+  const item = await getFeaturedItem(locale, slug);
   if (!item) notFound();
 
   return <ProjectDetailClient item={item} />;

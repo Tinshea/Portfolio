@@ -19,7 +19,8 @@ export const config = {
 
     // Enable redirects that add missing locales
     // (e.g. `/pathnames` -> `/en/pathnames`)
-    // Excludes API routes, which must not be locale-prefixed.
-    '/((?!api|_next|_vercel|.*\\..*).*)'
+    // Excludes API routes and the Keystatic admin, which must not be
+    // locale-prefixed.
+    '/((?!api|keystatic|_next|_vercel|.*\\..*).*)'
   ]
 };

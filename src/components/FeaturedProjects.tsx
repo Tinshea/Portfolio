@@ -6,9 +6,9 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/navigation";
 import { FeaturedItem } from "@/types";
 
-// Featured blocks are data-driven: add or edit entries in messages/{en,fr}.json
-// under Featured.items. An entry with `details` + `slug` gets a dedicated
-// case-study page at /projects/[slug]; see CONTENT.md at the repo root.
+// Featured blocks are managed in the /keystatic admin (content/projects/*).
+// An entry with a long body gets a dedicated case-study page at
+// /projects/[slug]; see CONTENT.md at the repo root.
 
 // md column spans, repeating: 7/5 then 5/7 for an asymmetric rhythm.
 const COLUMN_SPANS = [7, 5, 5, 7] as const;
@@ -84,10 +84,8 @@ const FeaturedCard: React.FC<{ item: FeaturedItem }> = ({ item }) => {
   );
 };
 
-const FeaturedProjects: React.FC = () => {
+const FeaturedProjects: React.FC<{ items: FeaturedItem[] }> = ({ items }) => {
   const t = useTranslations("Featured");
-  const rawItems = t.raw("items");
-  const items: FeaturedItem[] = Array.isArray(rawItems) ? (rawItems as FeaturedItem[]) : [];
 
   if (items.length === 0) return null;
 

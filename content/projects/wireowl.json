@@ -1,0 +1,15 @@
+{
+  "name": "WireOwl",
+  "order": 4,
+  "descriptionFr": "Analyseur de paquets réseau en Python, inspiré de Wireshark : parsing multi-protocoles, moteur de filtres SQLite et rapports PDF automatisés.",
+  "descriptionEn": "Wireshark-inspired network packet analyzer in Python: multi-protocol parsing, SQLite-backed filter engine and automated PDF reports.",
+  "tags": ["Python", "TCP/IP", "SQLite"],
+  "link": "https://github.com/Tinshea/WireOwl",
+  "cardImage": null,
+  "cardImageUrl": "https://opengraph.githubassets.com/1/Tinshea/WireOwl",
+  "page": {
+    "bodyFr": "",
+    "bodyEn": "",
+    "media": []
+  }
+}

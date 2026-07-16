@@ -8,7 +8,12 @@ import FeaturedProjects from "../FeaturedProjects";
 import { FeaturedItem, PinnedRepo } from "@/types";
 import useIsMobile from "@/hooks/useIsMobile";
 
-const PinnedRepositories: React.FC<{ username: string }> = ({ username }) => {
+interface PinnedRepositoriesProps {
+  username: string;
+  featuredItems: FeaturedItem[];
+}
+
+const PinnedRepositories: React.FC<PinnedRepositoriesProps> = ({ username, featuredItems }) => {
   const [pinnedRepos, setPinnedRepos] = useState<PinnedRepo[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -40,10 +45,7 @@ const PinnedRepositories: React.FC<{ username: string }> = ({ username }) => {
   }, [username]);
 
   // Featured projects are curated above; keep the GitHub feed free of duplicates.
-  const rawFeatured = tFeatured.raw("items");
-  const featuredNames = Array.isArray(rawFeatured)
-    ? (rawFeatured as FeaturedItem[]).map((item) => item.name)
-    : [];
+  const featuredNames = featuredItems.map((item) => item.name);
   const gridRepos = pinnedRepos
     .filter((repo) => !featuredNames.includes(repo.name))
     .slice(0, maxProjects);
@@ -79,7 +81,7 @@ const PinnedRepositories: React.FC<{ username: string }> = ({ username }) => {
       </Typography>
 
       <Box sx={{ width: "100%", maxWidth: isMobile ? "100%" : "1250px", margin: "auto" }}>
-        <FeaturedProjects />
+        <FeaturedProjects items={featuredItems} />
 
         {loading && (
           <Grid container spacing={isMobile ? 2 : 4} sx={{ marginTop: isMobile ? 0 : 1 }}>

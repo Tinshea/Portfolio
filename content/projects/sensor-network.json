@@ -1,0 +1,15 @@
+{
+  "name": "Sensor_Network",
+  "order": 2,
+  "descriptionFr": "Réseau de capteurs distribué en Java (BCM4Java) : langage de requêtes dédié, découverte dynamique des nœuds, exécution synchrone et asynchrone à haute performance.",
+  "descriptionEn": "Distributed sensor network in Java (BCM4Java): custom query language, dynamic node discovery, synchronous and high-performance asynchronous execution.",
+  "tags": ["Java", "BCM4Java", "Multithreading"],
+  "link": "https://github.com/Tinshea/Sensor_Network",
+  "cardImage": null,
+  "cardImageUrl": "https://raw.githubusercontent.com/Tinshea/Sensor_Network/main/banner.jpg",
+  "page": {
+    "bodyFr": "",
+    "bodyEn": "",
+    "media": []
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "name": "Homelab",
+  "order": 3,
+  "descriptionFr": "Serveur personnel auto-hébergé : services conteneurisés, reverse proxy, sauvegardes automatisées et monitoring. Mon terrain d'expérimentation pour l'infrastructure et le réseau.",
+  "descriptionEn": "Self-hosted home server: containerized services, reverse proxy, automated backups and monitoring. My permanent playground for infrastructure and networking.",
+  "tags": ["Self-hosting", "Docker", "Linux"],
+  "link": null,
+  "cardImage": null,
+  "cardImageUrl": null,
+  "page": {
+    "bodyFr": "Mon serveur personnel tourne en continu et héberge mes propres services : stockage de fichiers, médias, outils de développement et projets en test.\n\nSous le capot : services conteneurisés, reverse proxy avec HTTPS, sauvegardes planifiées et monitoring. C'est mon terrain de jeu pour pratiquer l'administration système et le réseau sur une vraie infrastructure.",
+    "bodyEn": "My home server runs around the clock and hosts my own services: file storage, media, development tools and projects under test.\n\nUnder the hood: containerized services, a reverse proxy with HTTPS, scheduled backups and monitoring. It is my playground for practicing system administration and networking on real infrastructure.",
+    "media": []
+  }
+}
