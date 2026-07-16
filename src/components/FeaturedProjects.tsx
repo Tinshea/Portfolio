@@ -27,7 +27,9 @@ const FeaturedCardContent: React.FC<{ item: FeaturedItem }> = ({ item }) => (
       component="img"
       image={cardImage(item)}
       alt={`${item.name} preview`}
-      sx={{ objectFit: "cover", height: 200, width: "100%", flexShrink: 0 }}
+      // 2:1 matches GitHub's OpenGraph renders so their text never gets
+      // cropped (a fixed height used to cut the repo title on mobile).
+      sx={{ objectFit: "cover", aspectRatio: "2 / 1", width: "100%", flexShrink: 0 }}
     />
     <CardContent sx={{ display: "flex", flexDirection: "column", gap: 1.5, flexGrow: 1, width: "100%" }}>
       <Typography variant="h5" component="h4" color="text.primary">
