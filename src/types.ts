@@ -41,6 +41,8 @@ export interface BlogPost {
   /** Long-form text; blank lines (\n\n) split paragraphs. */
   body: string;
   media: FeaturedMedia[];
+  /** Set for projects surfaced in the blog list: the card links to the project page. */
+  projectSlug?: string;
 }
 
 export interface FeaturedMedia {

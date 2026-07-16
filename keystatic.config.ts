@@ -137,6 +137,21 @@ export default config({
         cardImageUrl: fields.url({
           label: "... ou URL d'image externe",
         }),
+        blog: fields.object(
+          {
+            showInBlog: fields.checkbox({
+              label: 'Afficher aussi dans le blog',
+              description:
+                "Le projet apparaît dans la liste du blog (sa carte renvoie vers la page projet). Rien à réécrire.",
+              defaultValue: false,
+            }),
+            publishedAt: fields.date({
+              label: 'Date de publication (blog)',
+              description: 'Utilisée pour trier la liste du blog.',
+            }),
+          },
+          { label: 'Blog' }
+        ),
         page: fields.object(
           {
             bodyFr: fields.text({

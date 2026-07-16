@@ -35,6 +35,7 @@ Une fois la configuration ci-dessous faite : allez sur `https://www.malekbouzark
 | Image de la carte / URL externe | Visuel de la carte. Sans rien, un lien GitHub génère une vignette automatiquement |
 | **Texte long FR/EN** | **Remplir ce champ crée la page dédiée** (`/fr/projets/slug`, `/en/projects/slug`, ajoutée au sitemap). Une ligne vide sépare les paragraphes |
 | Médias | Images uploadées, vidéos YouTube (URL embed `https://www.youtube.com/embed/ID`) ou URL de fichier vidéo, affichés sur la page |
+| **Blog → « Afficher aussi dans le blog »** | Le projet apparaît en plus dans la liste du blog (avec la date renseignée), sa carte renvoyant vers la page projet. **Rien à réécrire.** |
 
 Conseil poids : les vidéos vont sur YouTube (mode « non répertorié » si besoin), jamais dans le repo. Les images, compressées, pèsent 100-300 Ko : négligeable.
 
