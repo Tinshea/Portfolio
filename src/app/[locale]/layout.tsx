@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/next";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
 import { getMessages, unstable_setRequestLocale } from "next-intl/server";
@@ -52,6 +53,7 @@ export default async function RootLayout({
         <Providers locale={locale} messages={messages} resumeHref={getResumePath(locale)}>
           {children}
         </Providers>
+        <Analytics />
       </body>
     </html>
   );
