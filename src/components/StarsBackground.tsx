@@ -2,7 +2,6 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import { Box, useTheme } from '@mui/material';
-import { useReducedMotion } from 'framer-motion';
 
 // Plain-canvas port of the previous three.js starfield: points scattered in a
 // sphere, slowly rotating, perspective-projected from a camera at z = 1. Same
@@ -118,7 +117,6 @@ function createStars(): Float32Array {
 const StarsBackground = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const theme = useTheme();
-  const prefersReducedMotion = useReducedMotion();
   const isDark = theme.palette.mode === 'dark';
   // Neutral star dust: bone-blue on the night sky, ink on paper (dark and
   // large enough to read on the ivory background). The page accent appears
@@ -150,8 +148,6 @@ const StarsBackground = () => {
       canvas.width = width * dpr;
       canvas.height = height * dpr;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      // Resizing clears the bitmap; with reduced motion no loop will repaint it.
-      if (prefersReducedMotion) requestAnimationFrame(draw);
     };
     window.addEventListener('resize', resize);
 
@@ -240,9 +236,11 @@ const StarsBackground = () => {
         ctx.fillStyle = color;
       }
 
-      if (!prefersReducedMotion) {
-        frame = requestAnimationFrame(draw);
-      }
+      // The starfield rotates on every browser: it is a slow, ambient drift
+      // (no flashing, no scroll parallax), the least motion-sensitive case, and
+      // the site's signature. Entry animations elsewhere still honor
+      // prefers-reduced-motion via CSS.
+      frame = requestAnimationFrame(draw);
     };
     resize();
     frame = requestAnimationFrame(draw);
@@ -251,7 +249,7 @@ const StarsBackground = () => {
       cancelAnimationFrame(frame);
       window.removeEventListener('resize', resize);
     };
-  }, [isDark, color, accent, prefersReducedMotion, mounted]);
+  }, [isDark, color, accent, mounted]);
 
   return (
     <Box
