@@ -2,6 +2,17 @@ import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
+import { Playfair_Display } from "next/font/google";
+
+// Display serif for headings (see src/themes): loaded here so the CSS
+// variable exists on <body> alongside the Geist ones.
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
+  style: ["normal", "italic"],
+  variable: "--font-playfair",
+  display: "swap",
+});
 import { hasLocale } from "next-intl";
 import { getMessages, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
@@ -54,7 +65,7 @@ export default async function RootLayout({
   return (
     <html lang={locale}>
       <body
-        className={`${GeistSans.variable} ${GeistMono.variable}`}
+        className={`${GeistSans.variable} ${GeistMono.variable} ${playfair.variable}`}
         style={{ margin: "0" }}
       >
         <script

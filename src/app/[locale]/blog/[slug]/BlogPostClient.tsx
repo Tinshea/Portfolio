@@ -72,6 +72,9 @@ const BlogPostClient: React.FC<{ post: BlogPost }> = ({ post }) => {
               fontWeight: "bold",
               fontSize: isMobile ? "1.75rem" : "2.5rem",
               lineHeight: 1.2,
+              "@media (prefers-reduced-motion: no-preference)": {
+                animation: "riseIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) both",
+              },
             }}
           >
             {post.title}

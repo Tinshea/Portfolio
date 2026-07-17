@@ -1,12 +1,15 @@
 "use client";
 
 import React from "react";
+import dynamic from "next/dynamic";
 import { Box, Typography, useTheme } from "@mui/material";
 import { useTranslations } from "next-intl";
 import NavBar from "@/components/navbar/NavBar";
 import ExperienceList from "@/components/experiencesPages/ExperienceList";
 import { ExperienceType } from "@/types";
 import useIsMobile from "@/hooks/useIsMobile";
+
+const StarsBackground = dynamic(() => import("@/components/StarsBackground"), { ssr: false });
 
 interface ExperiencesClientProps {
   readonly experiences: ExperienceType[];
@@ -24,18 +27,22 @@ export default function ExperiencesClient({ experiences, formations }: Experienc
     textTransform: "uppercase",
     letterSpacing: "0.1rem",
     fontSize: isMobile ? "1.5rem" : "2rem",
+    "@media (prefers-reduced-motion: no-preference)": {
+      animation: "riseIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) both",
+    },
   } as const;
 
   return (
     <>
+      <StarsBackground />
       <NavBar alwaysShowTopNav={true} />
       <Box
         sx={{
-          backgroundColor: theme.palette.background.default,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
           position: "relative",
+          zIndex: 1,
           minHeight: "100vh",
           paddingTop: theme.spacing(10),
         }}

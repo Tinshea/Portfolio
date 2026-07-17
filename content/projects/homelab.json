@@ -9,7 +9,7 @@
     "Docker"
   ],
   "blog": {
-    "showInBlog": true
+    "showInBlog": false
   },
   "page": {
     "bodyFr": "Mon serveur personnel tourne en continu et héberge mes propres services : stockage de fichiers, médias, outils de développement et projets en test.\n\nSous le capot : services conteneurisés, reverse proxy avec HTTPS, sauvegardes planifiées et monitoring. C'est mon terrain de jeu pour pratiquer l'administration système et le réseau sur une vraie infrastructure.",

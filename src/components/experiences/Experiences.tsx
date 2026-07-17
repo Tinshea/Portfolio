@@ -52,7 +52,17 @@ const Experiences: React.FC<ExperiencesProps> = ({ experiences: allExperiences }
       {experiences.length > 0 ? (
         <Grid container sx={{ maxWidth: isMobile ? "100%" : "1250px" }}>
           {experiences.map((experience, index) => (
-            <Grid item xs={12} key={experience.title + experience.company + experience.date}>
+            <Grid
+              item
+              xs={12}
+              key={experience.title + experience.company + experience.date}
+              sx={{
+                "@media (prefers-reduced-motion: no-preference)": {
+                  animation: "riseIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) both",
+                  animationDelay: `${Math.min(index, 8) * 90}ms`,
+                },
+              }}
+            >
               <Experience
                 id={experience.id}
                 title={experience.title}

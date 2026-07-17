@@ -27,7 +27,7 @@ const BlogPosts: React.FC<BlogPostsProps> = ({ posts }) => {
   return (
     <Box sx={{ p: isMobile ? 1 : 2, width: "100%", maxWidth: "1000px" }}>
       <Grid container spacing={isMobile ? 1 : 3}>
-        {posts.map((post) => {
+        {posts.map((post, index) => {
           // Project entries link to their existing project page; regular
           // articles link to their blog post page.
           const href = post.projectSlug
@@ -35,7 +35,15 @@ const BlogPosts: React.FC<BlogPostsProps> = ({ posts }) => {
             : ({ pathname: "/blog/[slug]", params: { slug: post.slug } } as const);
           return (
             <Grid item xs={12} md={6} key={post.slug}>
-              <Card sx={{ height: "100%" }}>
+              <Card
+                sx={{
+                  height: "100%",
+                  "@media (prefers-reduced-motion: no-preference)": {
+                    animation: "riseIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) both",
+                    animationDelay: `${Math.min(index, 8) * 80}ms`,
+                  },
+                }}
+              >
                 <Link href={href} passHref legacyBehavior>
                   <CardActionArea component="a" sx={{ height: "100%" }}>
                     <CardContent>
