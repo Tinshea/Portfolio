@@ -41,7 +41,15 @@
   },
   "Contact": {
     "title": "Contact",
-    "text": "Un poste, une mission ou une question technique ? Écrivez-moi, je réponds vite."
+    "text": "Un poste, une mission ou une question technique ? Écrivez-moi, je réponds vite.",
+    "formName": "Nom",
+    "formEmail": "Email",
+    "formMessage": "Message",
+    "formSend": "Envoyer",
+    "formSending": "Envoi…",
+    "formSuccess": "Message envoyé, merci ! Je vous réponds vite.",
+    "formError": "L'envoi a échoué. Réessayez ou écrivez-moi directement par email.",
+    "orEmail": "ou par email :"
   },
   "Footer": {
     "rights": "Tous droits réservés."

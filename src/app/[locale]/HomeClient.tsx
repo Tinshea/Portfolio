@@ -23,10 +23,12 @@ export default function HomeClient({
   featuredItems,
   experiences,
   about,
+  contactFormEnabled,
 }: {
   readonly featuredItems: FeaturedItem[];
   readonly experiences: ExperienceType[];
   readonly about: AboutContent;
+  readonly contactFormEnabled: boolean;
 }) {
   const t = useTranslations("HomePage");
   const tNav = useTranslations("Navbar");
@@ -122,7 +124,7 @@ export default function HomeClient({
           <PinnedRepositories username={user.githubusername} featuredItems={featuredItems} />
         </AnimatedSection>
         <AnimatedSection>
-          <ContactSection />
+          <ContactSection formEnabled={contactFormEnabled} />
         </AnimatedSection>
         <Footer />
       </Box>

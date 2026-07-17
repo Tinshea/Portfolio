@@ -39,6 +39,17 @@ Une fois la configuration ci-dessous faite : allez sur `https://www.malekbouzark
 
 Conseil poids : les vidéos vont sur YouTube (mode « non répertorié » si besoin), jamais dans le repo. Les images, compressées, pèsent 100-300 Ko : négligeable.
 
+## Activer le formulaire de contact
+
+Le formulaire de la section Contact s'active avec un compte [Resend](https://resend.com) (gratuit : 100 emails/jour) :
+
+1. Créez un compte Resend et générez une **API key**.
+2. Ajoutez `RESEND_API_KEY` dans **Vercel → Settings → Environment Variables** (Production), puis redéployez.
+3. Sans domaine vérifié chez Resend, les messages partent de `onboarding@resend.dev` et n'arrivent qu'à l'adresse du compte Resend — créez le compte avec votre adresse. Pour un envoi propre depuis `@malekbouzarkouna.com`, vérifiez le domaine chez Resend puis ajoutez `CONTACT_FROM` (ex. : `Portfolio <contact@malekbouzarkouna.com>`).
+4. Optionnel : `CONTACT_TO` pour recevoir ailleurs que sur l'email de `src/data/user.json`.
+
+Sans `RESEND_API_KEY`, le site garde simplement le bouton email direct (comportement actuel).
+
 ## Modifier le « À propos »
 
 Via l'admin **`/keystatic` → « À propos »** : le paragraphe FR/EN de l'accueil et la liste des technos affichées à côté (ajouter, supprimer, réordonner les puces).

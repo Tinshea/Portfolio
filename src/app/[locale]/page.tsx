@@ -39,5 +39,14 @@ export default async function Home({ params: { locale } }: { params: { locale: s
     getExperiences(locale),
     getAbout(locale),
   ]);
-  return <HomeClient featuredItems={featuredItems} experiences={experiences} about={about} />;
+  return (
+    <HomeClient
+      featuredItems={featuredItems}
+      experiences={experiences}
+      about={about}
+      // Build-time check: adding RESEND_API_KEY on Vercel + redeploy enables
+      // the form; without it the section keeps the plain mailto button.
+      contactFormEnabled={Boolean(process.env.RESEND_API_KEY)}
+    />
+  );
 }

@@ -41,7 +41,15 @@
   },
   "Contact": {
     "title": "Contact",
-    "text": "A role, a mission, or a technical question? Write to me, I answer quickly."
+    "text": "A role, a mission, or a technical question? Write to me, I answer quickly.",
+    "formName": "Name",
+    "formEmail": "Email",
+    "formMessage": "Message",
+    "formSend": "Send",
+    "formSending": "Sending…",
+    "formSuccess": "Message sent, thank you! I will get back to you quickly.",
+    "formError": "Sending failed. Try again or write to me directly by email.",
+    "orEmail": "or by email:"
   },
   "Footer": {
     "rights": "All rights reserved."
