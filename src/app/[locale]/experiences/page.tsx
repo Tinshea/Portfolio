@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, unstable_setRequestLocale } from "next-intl/server";
 import user from "@/data/user.json";
 import { getExperiences, getFormations } from "@/lib/experiences";
 import ExperiencesClient from "./ExperiencesClient";
@@ -30,6 +30,7 @@ export async function generateMetadata({ params: { locale } }: { params: { local
 }
 
 export default async function Experience({ params: { locale } }: { params: { locale: string } }) {
+  unstable_setRequestLocale(locale);
   const [experiences, formations] = await Promise.all([
     getExperiences(locale),
     getFormations(locale),

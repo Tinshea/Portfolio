@@ -5,7 +5,14 @@ import { GeistMono } from "geist/font/mono";
 import { getMessages, unstable_setRequestLocale } from "next-intl/server";
 import Providers from "@/contexts/Providers";
 import { getResumePath } from "@/lib/resume";
+import { locales } from "@/config";
 import user from "@/data/user.json";
+
+// Pre-render every locale tree statically; pages opt in by calling
+// unstable_setRequestLocale before using next-intl.
+export function generateStaticParams() {
+  return locales.map((locale) => ({ locale }));
+}
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.malekbouzarkouna.com"),

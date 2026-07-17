@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 import { Box, Typography, useTheme, Chip } from "@mui/material";
 import { ExperienceType } from "@/types";
 import useIsMobile from "@/hooks/useIsMobile";
@@ -42,14 +43,15 @@ const ExperienceItem: React.FC<ExperienceItemProps> = ({ experience }) => {
           {
             experience.logo && (
               <Box mt={1} display="flex" justifyContent="center">
-                <img
-                  src={experience.logo}
-                  alt={`${experience.company} logo`}
-                  style={{
-                    maxWidth: "108px",
-                    height: 'auto',
-                  }}
-                />
+                <Box sx={{ position: 'relative', width: 108, height: 48 }}>
+                  <Image
+                    src={experience.logo}
+                    alt={`${experience.company} logo`}
+                    fill
+                    sizes="108px"
+                    style={{ objectFit: 'contain' }}
+                  />
+                </Box>
               </Box>
             )
           }

@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import { Card, CardContent, Typography, Box, Chip } from '@mui/material';
 import useIsMobile from '@/hooks/useIsMobile';
 
@@ -79,14 +80,15 @@ const ExperienceCardContent: React.FC<ExperienceCardContentProps> = ({
       {
         logo && (
           <Box mt={1} display="flex" justifyContent="center">
-            <img
-              src={logo}
-              alt={`${company} logo`}
-              style={{
-                maxWidth: "108px",
-                height: 'auto',
-              }}
-            />
+            <Box sx={{ position: 'relative', width: 108, height: 48 }}>
+              <Image
+                src={logo}
+                alt={`${company} logo`}
+                fill
+                sizes="108px"
+                style={{ objectFit: 'contain' }}
+              />
+            </Box>
           </Box>
         )
       }

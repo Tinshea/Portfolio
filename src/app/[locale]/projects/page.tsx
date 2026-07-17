@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, unstable_setRequestLocale } from "next-intl/server";
 import user from "@/data/user.json";
 import ProjectsClient from "./ProjectsClient";
 
@@ -29,6 +29,7 @@ export async function generateMetadata({ params: { locale } }: { params: { local
   };
 }
 
-export default function Projects() {
+export default function Projects({ params: { locale } }: { readonly params: { locale: string } }) {
+  unstable_setRequestLocale(locale);
   return <ProjectsClient />;
 }
