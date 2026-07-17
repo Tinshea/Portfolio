@@ -37,7 +37,9 @@ const StarsBackground = () => {
   const theme = useTheme();
   const prefersReducedMotion = useReducedMotion();
   const isDark = theme.palette.mode === 'dark';
-  const color = isDark ? theme.palette.secondary.main : '#1d5468';
+  // Neutral star dust: bone-blue on the night sky, ink-blue on paper. The
+  // page accent stays reserved for interactive elements.
+  const color = isDark ? '#AEB2C4' : '#3A3F55';
 
   useEffect(() => {
     const canvas = canvasRef.current;
