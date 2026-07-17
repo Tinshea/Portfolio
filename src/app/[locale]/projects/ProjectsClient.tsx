@@ -1,14 +1,12 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import NavBar from "@/components/navbar/NavBar";
+import StarsBackground from "@/components/StarsBackground";
 import UserRepositories from "@/components/repositories/UserRepositories";
 import user from "@/data/user.json";
 import { Box, Typography, useTheme } from "@mui/material";
 import { useTranslations } from "next-intl";
 import useIsMobile from "@/hooks/useIsMobile";
-
-const StarsBackground = dynamic(() => import("@/components/StarsBackground"), { ssr: false });
 
 export default function ProjectsClient() {
   const theme = useTheme();

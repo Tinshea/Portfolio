@@ -1,15 +1,13 @@
 "use client";
 
 import React from "react";
-import dynamic from "next/dynamic";
 import { Box, Typography, useTheme } from "@mui/material";
 import { useTranslations } from "next-intl";
 import NavBar from "@/components/navbar/NavBar";
+import StarsBackground from "@/components/StarsBackground";
 import ExperienceList from "@/components/experiencesPages/ExperienceList";
 import { ExperienceType } from "@/types";
 import useIsMobile from "@/hooks/useIsMobile";
-
-const StarsBackground = dynamic(() => import("@/components/StarsBackground"), { ssr: false });
 
 interface ExperiencesClientProps {
   readonly experiences: ExperienceType[];

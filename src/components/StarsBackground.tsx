@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Box, useTheme } from '@mui/material';
 import { useReducedMotion } from 'framer-motion';
 
@@ -125,6 +125,12 @@ const StarsBackground = () => {
   // on exactly one star: the Ship's masthead.
   const color = isDark ? '#AEB2C4' : '#2C3040';
   const accent = isDark ? '#E24B60' : '#A3122E';
+  // The canvas is mounted only after hydration: rendering it on the server
+  // caused a hydration mismatch that left an orphaned second canvas. The
+  // component itself ships in the main bundle (static import), so the canvas
+  // still appears reliably on first client paint.
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -245,7 +251,7 @@ const StarsBackground = () => {
       cancelAnimationFrame(frame);
       window.removeEventListener('resize', resize);
     };
-  }, [isDark, color, accent, prefersReducedMotion]);
+  }, [isDark, color, accent, prefersReducedMotion, mounted]);
 
   return (
     <Box
@@ -258,7 +264,9 @@ const StarsBackground = () => {
         pointerEvents: 'none',
       }}
     >
-      <canvas ref={canvasRef} style={{ display: 'block', width: '100%', height: '100%' }} />
+      {mounted && (
+        <canvas ref={canvasRef} style={{ display: 'block', width: '100%', height: '100%' }} />
+      )}
     </Box>
   );
 };

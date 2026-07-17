@@ -1,14 +1,12 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import NavBar from "@/components/navbar/NavBar";
+import StarsBackground from "@/components/StarsBackground";
 import BlogPosts from "@/components/BlogPosts";
 import { useTranslations } from "next-intl";
 import { Box, Typography, useTheme } from "@mui/material";
 import { BlogPost } from "@/types";
 import useIsMobile from "@/hooks/useIsMobile";
-
-const StarsBackground = dynamic(() => import("@/components/StarsBackground"), { ssr: false });
 
 export default function BlogClient({ posts }: { readonly posts: BlogPost[] }) {
   const theme = useTheme();

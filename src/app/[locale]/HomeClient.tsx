@@ -1,6 +1,5 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import NavBar from "@/components/navbar/NavBar";
 import { Box, Button, Stack, Typography, useTheme } from "@mui/material";
 import { useTranslations } from "next-intl";
@@ -16,7 +15,7 @@ import { TextDecrypt } from "@/components/TextDecrypt";
 import { ExperienceType, FeaturedItem } from "@/types";
 import { AboutContent } from "@/lib/about";
 
-const StarsBackground = dynamic(() => import("@/components/StarsBackground"), { ssr: false });
+import StarsBackground from "@/components/StarsBackground";
 
 export default function HomeClient({
   featuredItems,
