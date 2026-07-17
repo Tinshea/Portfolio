@@ -4,6 +4,7 @@ import React from "react";
 import { Box, Chip, Typography, useTheme } from "@mui/material";
 import { useTranslations } from "next-intl";
 import useIsMobile from "@/hooks/useIsMobile";
+import { FONT_SERIF } from "@/themes";
 
 interface AboutMeProps {
   description: string;
@@ -53,6 +54,19 @@ const AboutMe: React.FC<AboutMeProps> = ({ description, stack }) => {
             lineHeight: 1.7,
             maxWidth: "65ch",
             textAlign: isMobile ? "center" : "left",
+            // Manuscript drop cap: the "récit" register. Centered mobile text
+            // can't float a drop cap, so it stays desktop-only.
+            "&::first-letter": isMobile
+              ? undefined
+              : {
+                  fontFamily: FONT_SERIF,
+                  float: "left",
+                  fontSize: "3.2em",
+                  lineHeight: 0.85,
+                  paddingRight: "0.14em",
+                  fontWeight: 600,
+                  color: theme.palette.secondary.main,
+                },
           }}
         >
           {description}

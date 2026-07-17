@@ -71,8 +71,10 @@ const StarsBackground = () => {
     const draw = (now: number) => {
       const delta = Math.min((now - last) / 1000, 0.1);
       last = now;
-      angleX -= delta / 10;
-      angleY -= delta / 15;
+      // Slightly faster on X: the dominant apparent motion of the dust reads
+      // as a slow, continuous ascent.
+      angleX -= delta / 7;
+      angleY -= delta / 12;
 
       const cosX = Math.cos(angleX), sinX = Math.sin(angleX);
       const cosY = Math.cos(angleY), sinY = Math.sin(angleY);

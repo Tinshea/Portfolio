@@ -77,6 +77,10 @@ export default function HomeClient({
               marginBottom: theme.spacing(5),
               letterSpacing: "0.15rem",
               fontSize: "clamp(1.15rem, 2.5vw, 2rem)",
+              // Editorial serif italic against the engraved uppercase title;
+              // line-height guards the descenders (g, j) from clipping.
+              fontStyle: "italic",
+              lineHeight: 1.2,
             }}
           >
             <TextDecrypt text={t("subtitle")} />

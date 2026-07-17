@@ -97,7 +97,8 @@ function getDesignTokens(mode: PaletteMode) {
             // stars stay visible. Radial washes only (the spiral nod): deep
             // indigo night in dark mode, a faint ink + gold breath in light.
             background: isDark
-              ? `radial-gradient(1000px circle at 78% 18%, #161C33, transparent 62%) fixed, ${NIGHT}`
+              ? `radial-gradient(1000px circle at 78% 18%, #161C33, transparent 62%) fixed,
+                 radial-gradient(700px circle at 12% 92%, rgba(226, 75, 96, 0.05), transparent 55%) fixed, ${NIGHT}`
               : `radial-gradient(1000px circle at 80% 16%, rgba(23, 23, 26, 0.05), transparent 60%) fixed,
                  radial-gradient(900px circle at 10% 88%, rgba(176, 137, 32, 0.05), transparent 55%) fixed, ${IVORY}`,
           },
@@ -105,6 +106,15 @@ function getDesignTokens(mode: PaletteMode) {
           '*:focus-visible': {
             outline: `2px solid ${accent}`,
             outlineOffset: '2px',
+          },
+          // High-contrast selection: the page answers in accent when touched.
+          '::selection': {
+            backgroundColor: accent,
+            color: isDark ? NIGHT : BONE,
+          },
+          html: {
+            scrollbarWidth: 'thin',
+            scrollbarColor: `${isDark ? 'rgba(242, 241, 236, 0.25)' : 'rgba(23, 23, 26, 0.3)'} transparent`,
           },
         },
       },
@@ -134,10 +144,13 @@ function getDesignTokens(mode: PaletteMode) {
                 : '4px 4px 0 rgba(163, 18, 46, 0.22)',
             },
           },
+          // Persona menu highlight: nav/text links invert into a slanted
+          // accent parallelogram on hover.
           text: {
             '&:hover': {
-              backgroundColor: 'transparent',
-              color: accent,
+              backgroundColor: accent,
+              color: isDark ? NIGHT : BONE,
+              clipPath: 'polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%)',
             },
           },
         },
@@ -156,13 +169,26 @@ function getDesignTokens(mode: PaletteMode) {
           root: {
             backgroundImage: 'none',
             border: `1px solid ${isDark ? 'rgba(242, 241, 236, 0.14)' : 'rgba(23, 23, 26, 0.14)'}`,
-            boxShadow: 'none',
+            // The offset-print shadow is present at rest and grows on hover;
+            // the slight counter-rotation gives the lift a kinetic energy.
+            boxShadow: isDark ? '3px 3px 0 rgba(0, 0, 0, 0.4)' : '3px 3px 0 rgba(23, 23, 26, 0.1)',
             transition: 'transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s',
             '&:hover': {
-              transform: 'translateY(-4px)',
+              transform: 'translateY(-5px) rotate(-0.4deg)',
               borderColor: accent,
               boxShadow: hardShadow,
             },
+          },
+        },
+      },
+      MuiDivider: {
+        styleOverrides: {
+          // Engraved-plate rule: a fine double hairline instead of a single line.
+          root: {
+            border: 'none',
+            height: 3,
+            borderTop: `1px solid ${isDark ? 'rgba(242, 241, 236, 0.14)' : 'rgba(23, 23, 26, 0.14)'}`,
+            borderBottom: `1px solid ${isDark ? 'rgba(242, 241, 236, 0.14)' : 'rgba(23, 23, 26, 0.14)'}`,
           },
         },
       },
