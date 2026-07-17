@@ -25,9 +25,12 @@ interface Constellation {
 }
 
 const CONSTELLATIONS: Constellation[] = [
+  // Centers live on the FAR hemisphere (negative z): the camera sits inside
+  // the star sphere, so far-side points project near the screen center while
+  // near-side points land off-screen. Four figures, four screen quadrants.
   {
     // The Drill (spiral)
-    center: [0.7, 0.55, 0.45],
+    center: [0.55, 0.5, -0.75],
     scale: 0.3,
     points: [
       [0, 0], [0.12, 0.08], [0.05, 0.22], [-0.15, 0.18], [-0.24, -0.04],
@@ -37,7 +40,7 @@ const CONSTELLATIONS: Constellation[] = [
   },
   {
     // The Arrow
-    center: [-0.8, 0.3, 0.5],
+    center: [-0.6, 0.45, -0.7],
     scale: 0.32,
     points: [
       [-0.35, 0.28], [-0.05, 0.05], [0.3, -0.22], [0.1, -0.26], [0.3, -0.02],
@@ -46,7 +49,7 @@ const CONSTELLATIONS: Constellation[] = [
   },
   {
     // The Butterfly
-    center: [-0.5, -0.6, 0.5],
+    center: [-0.5, -0.55, -0.7],
     scale: 0.3,
     points: [
       [0, 0.14], [0, -0.1], [-0.26, 0.3], [-0.3, -0.08], [0.26, 0.3], [0.3, -0.08],
@@ -55,7 +58,7 @@ const CONSTELLATIONS: Constellation[] = [
   },
   {
     // Ulysses' Ship: hull, mast, sail; the masthead star is the accent.
-    center: [0.6, -0.45, 0.55],
+    center: [0.6, -0.5, -0.7],
     scale: 0.36,
     points: [
       [-0.3, -0.14], [0.3, -0.14], [0.2, -0.26], [-0.2, -0.26],
