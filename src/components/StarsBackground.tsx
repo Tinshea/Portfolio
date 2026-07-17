@@ -46,7 +46,7 @@ const CONSTELLATIONS: Constellation[] = [
   },
   {
     // The Butterfly
-    center: [-0.4, -0.65, -0.6],
+    center: [-0.5, -0.6, 0.5],
     scale: 0.3,
     points: [
       [0, 0.14], [0, -0.1], [-0.26, 0.3], [-0.3, -0.08], [0.26, 0.3], [0.3, -0.08],
@@ -55,7 +55,7 @@ const CONSTELLATIONS: Constellation[] = [
   },
   {
     // Ulysses' Ship: hull, mast, sail; the masthead star is the accent.
-    center: [0.55, -0.5, -0.65],
+    center: [0.6, -0.45, 0.55],
     scale: 0.36,
     points: [
       [-0.3, -0.14], [0.3, -0.14], [0.2, -0.26], [-0.2, -0.26],
@@ -117,9 +117,10 @@ const StarsBackground = () => {
   const theme = useTheme();
   const prefersReducedMotion = useReducedMotion();
   const isDark = theme.palette.mode === 'dark';
-  // Neutral star dust: bone-blue on the night sky, ink-blue on paper. The
-  // page accent appears on exactly one star: the Ship's masthead.
-  const color = isDark ? '#AEB2C4' : '#3A3F55';
+  // Neutral star dust: bone-blue on the night sky, ink on paper (dark and
+  // large enough to read on the ivory background). The page accent appears
+  // on exactly one star: the Ship's masthead.
+  const color = isDark ? '#AEB2C4' : '#2C3040';
   const accent = isDark ? '#E24B60' : '#A3122E';
 
   useEffect(() => {
@@ -161,10 +162,10 @@ const StarsBackground = () => {
       const cosX = Math.cos(angleX), sinX = Math.sin(angleX);
       const cosY = Math.cos(angleY), sinY = Math.sin(angleY);
       const scale = (height / 2) * FOCAL;
-      const baseSize = isDark ? 0.9 : 1.2;
+      const baseSize = isDark ? 0.9 : 1.5;
 
       ctx.clearRect(0, 0, width, height);
-      ctx.globalAlpha = isDark ? 1 : 0.9;
+      ctx.globalAlpha = isDark ? 1 : 0.95;
       ctx.fillStyle = color;
 
       for (let i = 0; i < STAR_COUNT; i++) {
@@ -209,7 +210,7 @@ const StarsBackground = () => {
         }
         ctx.strokeStyle = color;
         ctx.lineWidth = 1;
-        ctx.globalAlpha = isDark ? 0.24 : 0.2;
+        ctx.globalAlpha = isDark ? 0.24 : 0.32;
         for (const [a, b] of meta.edges) {
           const p = nodes[a];
           const q = nodes[b];
@@ -222,9 +223,9 @@ const StarsBackground = () => {
         nodes.forEach((p, i) => {
           if (!p) return;
           const isAccent = meta.accentIndex === i;
-          ctx.globalAlpha = isAccent ? 0.95 : 0.7;
+          ctx.globalAlpha = isAccent ? 0.95 : isDark ? 0.7 : 0.85;
           ctx.fillStyle = isAccent ? accent : color;
-          const size = Math.min((isAccent ? 2.4 : 1.7) / p.depth, 4.5);
+          const size = Math.min((isAccent ? 2.4 : isDark ? 1.7 : 2) / p.depth, 4.5);
           ctx.fillRect(p.sx - size / 2, p.sy - size / 2, size, size);
         });
         ctx.fillStyle = color;
