@@ -5,25 +5,12 @@ import { Box, Chip, Typography, useTheme } from "@mui/material";
 import { useTranslations } from "next-intl";
 import useIsMobile from "@/hooks/useIsMobile";
 
-// Grounded in the actual repositories and experience data shown on the site.
-const TECH_STACK = [
-  "Java",
-  "Go",
-  "TypeScript",
-  "React",
-  "Next.js",
-  "Node.js",
-  "Python",
-  "SQL",
-  "MongoDB",
-  "Docker",
-];
-
 interface AboutMeProps {
   description: string;
+  stack: string[];
 }
 
-const AboutMe: React.FC<AboutMeProps> = ({ description }) => {
+const AboutMe: React.FC<AboutMeProps> = ({ description, stack }) => {
   const theme = useTheme();
   const isMobile = useIsMobile();
   const t = useTranslations("HomePage");
@@ -73,31 +60,33 @@ const AboutMe: React.FC<AboutMeProps> = ({ description }) => {
       </Box>
 
       {/* Tech stack panel */}
-      <Box sx={{ flex: "1 1 40%", maxWidth: isMobile ? "100%" : "360px" }}>
-        <Typography
-          variant="h6"
-          component="h3"
-          sx={{
-            color: theme.palette.text.secondary,
-            marginBottom: theme.spacing(2),
-            textAlign: isMobile ? "center" : "left",
-          }}
-        >
-          {t("stackTitle")}
-        </Typography>
-        <Box
-          sx={{
-            display: "flex",
-            flexWrap: "wrap",
-            gap: 1,
-            justifyContent: isMobile ? "center" : "flex-start",
-          }}
-        >
-          {TECH_STACK.map((tech) => (
-            <Chip key={tech} label={tech} variant="outlined" />
-          ))}
+      {stack.length > 0 && (
+        <Box sx={{ flex: "1 1 40%", maxWidth: isMobile ? "100%" : "360px" }}>
+          <Typography
+            variant="h6"
+            component="h3"
+            sx={{
+              color: theme.palette.text.secondary,
+              marginBottom: theme.spacing(2),
+              textAlign: isMobile ? "center" : "left",
+            }}
+          >
+            {t("stackTitle")}
+          </Typography>
+          <Box
+            sx={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: 1,
+              justifyContent: isMobile ? "center" : "flex-start",
+            }}
+          >
+            {stack.map((tech) => (
+              <Chip key={tech} label={tech} variant="outlined" />
+            ))}
+          </Box>
         </Box>
-      </Box>
+      )}
     </Box>
   );
 };

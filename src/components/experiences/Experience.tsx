@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, CardContent, Typography, Box, Chip, useTheme, Theme } from '@mui/material';
+import { Card, CardContent, Typography, Box, Chip } from '@mui/material';
 import useIsMobile from '@/hooks/useIsMobile';
 
 interface ExperienceCardProps {
@@ -20,7 +20,6 @@ const ExperienceCard: React.FC<ExperienceCardProps> = ({
   tags,
   logo
 }) => {
-  const theme = useTheme();
   const isMobile = useIsMobile();
 
   return (
@@ -39,7 +38,6 @@ const ExperienceCard: React.FC<ExperienceCardProps> = ({
           tags={tags}
           logo={logo}
           isMobile={isMobile}
-          theme={theme}
         />
       </CardContent>
     </Card>
@@ -54,7 +52,6 @@ interface ExperienceCardContentProps {
   tags: string[];
   logo?: string;
   isMobile: boolean;
-  theme: Theme;
 }
 
 const ExperienceCardContent: React.FC<ExperienceCardContentProps> = ({
@@ -64,14 +61,15 @@ const ExperienceCardContent: React.FC<ExperienceCardContentProps> = ({
   description,
   tags,
   logo,
-  isMobile,
-  theme
+  isMobile
 }) => (
   <Box
     display="flex"
     flexDirection={isMobile ? 'column' : 'row'} // Sur mobile, on empile les éléments verticalement
     justifyContent="space-between"
-    alignItems={isMobile ? 'center' : 'flex-start'} // Alignement centré sur mobile
+    // stretch: la colonne date+logo prend toute la hauteur de la carte, son
+    // justifyContent:center centre alors le bloc verticalement.
+    alignItems={isMobile ? 'center' : 'stretch'}
     p={isMobile ? 1 : 2}
   >
     <Box sx={{ minWidth: isMobile ? '100%' : '150px', textAlign: 'left', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
@@ -80,26 +78,15 @@ const ExperienceCardContent: React.FC<ExperienceCardContentProps> = ({
       </Typography>
       {
         logo && (
-          <Box mt={1} display="flex" justifyContent={isMobile ? 'center' : 'left'}>
-            {/* Dark tile keeps light-on-transparent company logos readable in both modes. */}
-            <Box
-              sx={{
-                backgroundColor: '#1b262c',
-                borderRadius: 2,
-                padding: theme.spacing(1),
-                display: 'flex',
-                alignItems: 'center',
+          <Box mt={1} display="flex" justifyContent="center">
+            <img
+              src={logo}
+              alt={`${company} logo`}
+              style={{
+                maxWidth: "108px",
+                height: 'auto',
               }}
-            >
-              <img
-                src={logo}
-                alt={`${company} logo`}
-                style={{
-                  maxWidth: "108px",
-                  height: 'auto',
-                }}
-              />
-            </Box>
+            />
           </Box>
         )
       }

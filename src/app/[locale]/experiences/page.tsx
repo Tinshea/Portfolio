@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import user from "@/data/user.json";
+import { getExperiences, getFormations } from "@/lib/experiences";
 import ExperiencesClient from "./ExperiencesClient";
 
 export async function generateMetadata({ params: { locale } }: { params: { locale: string } }): Promise<Metadata> {
@@ -28,6 +29,10 @@ export async function generateMetadata({ params: { locale } }: { params: { local
   };
 }
 
-export default function Experience() {
-  return <ExperiencesClient />;
+export default async function Experience({ params: { locale } }: { params: { locale: string } }) {
+  const [experiences, formations] = await Promise.all([
+    getExperiences(locale),
+    getFormations(locale),
+  ]);
+  return <ExperiencesClient experiences={experiences} formations={formations} />;
 }

@@ -8,23 +8,23 @@ import ExperienceList from "@/components/experiencesPages/ExperienceList";
 import { ExperienceType } from "@/types";
 import useIsMobile from "@/hooks/useIsMobile";
 
-export default function ExperiencesClient() {
+interface ExperiencesClientProps {
+  readonly experiences: ExperienceType[];
+  readonly formations: ExperienceType[];
+}
+
+export default function ExperiencesClient({ experiences, formations }: ExperiencesClientProps) {
   const theme = useTheme();
   const isMobile = useIsMobile();
   const t = useTranslations("Category");
-  const t_experience = useTranslations("Experiences");
-  const rawExperiencesData = t_experience.raw("experiencesData");
 
-  let experiences: ExperienceType[] = [];
-
-  if (Array.isArray(rawExperiencesData)) {
-    experiences = rawExperiencesData as ExperienceType[];
-  } else {
-    console.error(
-      "Unexpected data format for experiencesData:",
-      rawExperiencesData
-    );
-  }
+  const headingSx = {
+    fontWeight: "bold",
+    textAlign: "center",
+    textTransform: "uppercase",
+    letterSpacing: "0.1rem",
+    fontSize: isMobile ? "1.5rem" : "2rem",
+  } as const;
 
   return (
     <>
@@ -40,20 +40,19 @@ export default function ExperiencesClient() {
           paddingTop: theme.spacing(10),
         }}
       >
-        <Typography
-          variant="h1"
-          color="text.primary"
-          sx={{
-            fontWeight: "bold",
-            textAlign: "center",
-            textTransform: "uppercase",
-            letterSpacing: "0.1rem",
-            fontSize: isMobile ? "1.5rem" : "2rem",
-          }}
-        >
+        <Typography variant="h1" color="text.primary" sx={headingSx}>
           {t("experiences")}
         </Typography>
         <ExperienceList experiences={experiences} />
+
+        {formations.length > 0 && (
+          <>
+            <Typography variant="h2" color="text.primary" sx={headingSx}>
+              {t("formations")}
+            </Typography>
+            <ExperienceList experiences={formations} />
+          </>
+        )}
       </Box>
     </>
   );

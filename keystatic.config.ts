@@ -1,4 +1,4 @@
-import { config, fields, collection } from '@keystatic/core';
+import { config, fields, collection, singleton } from '@keystatic/core';
 import { block } from '@keystatic/core/content-components';
 
 // Insertable "YouTube" block for rich-text bodies: serialized as
@@ -14,16 +14,72 @@ const youtubeBlock = block({
   },
 });
 
-// Admin UI: /keystatic. GitHub mode (commits via the Keystatic GitHub App)
-// activates once its env vars exist, i.e. on Vercel after the one-time setup
-// described in CONTENT.md; otherwise falls back to local file editing.
-// Content lives in content/projects/, one JSON file per project.
-// NEXT_PUBLIC_ prefix required on both: this config also runs in the browser,
-// where non-public env vars are undefined (the UI would silently fall back to
-// the unauthenticated local mode).
+// Admin UI: /keystatic. In production, GitHub mode (commits via the Keystatic
+// GitHub App) as soon as the app is configured on Vercel. In dev, local file
+// editing — the GitHub env vars in .env must NOT flip dev to GitHub mode, or
+// the local admin would show the repo's content instead of the working tree.
+// NEXT_PUBLIC_KEYSTATIC_STORAGE=github forces it for the one-time app setup
+// (see CONTENT.md). NEXT_PUBLIC_ prefix required: this config also runs in
+// the browser, where non-public env vars are undefined.
 const useGitHubStorage =
-  Boolean(process.env.NEXT_PUBLIC_KEYSTATIC_GITHUB_APP_SLUG) ||
-  process.env.NEXT_PUBLIC_KEYSTATIC_STORAGE === 'github';
+  process.env.NODE_ENV === 'production'
+    ? Boolean(process.env.NEXT_PUBLIC_KEYSTATIC_GITHUB_APP_SLUG)
+    : process.env.NEXT_PUBLIC_KEYSTATIC_STORAGE === 'github';
+
+// Expériences et formations partagent la même fiche ; seuls les libellés et
+// le dossier d'upload changent. Les composants du site consomment les deux
+// via le même type (ExperienceType), donc les clés restent identiques.
+function careerSchema(opts: {
+  titleLabel: string;
+  orgLabel: string;
+  imageDirectory: string;
+  imagePublicPath: string;
+}) {
+  return {
+    title: fields.slug({
+      name: {
+        label: `${opts.titleLabel} (EN)`,
+        description: 'Version anglaise (sert aussi de nom de fichier).',
+      },
+    }),
+    titleFr: fields.text({
+      label: `${opts.titleLabel} (FR)`,
+      description: 'Laisser vide pour réutiliser la version EN.',
+    }),
+    company: fields.text({
+      label: opts.orgLabel,
+      validation: { length: { min: 1 } },
+    }),
+    order: fields.integer({
+      label: "Ordre d'affichage",
+      description: '1 = premier (le plus récent en haut).',
+      defaultValue: 99,
+    }),
+    dateFr: fields.text({
+      label: 'Période (FR)',
+      description: 'Ex. : Oct 2024 - Présent',
+    }),
+    dateEn: fields.text({
+      label: 'Période (EN)',
+      description: 'Ex. : Oct 2024 - Present',
+    }),
+    descriptionFr: fields.text({ label: 'Description (FR)', multiline: true }),
+    descriptionEn: fields.text({ label: 'Description (EN)', multiline: true }),
+    tags: fields.array(fields.text({ label: 'Tag' }), {
+      label: 'Tags',
+      itemLabel: (props) => props.value || 'Tag',
+    }),
+    logoUrl: fields.url({
+      label: 'URL du logo',
+      description: 'Logo hébergé ailleurs (SVG/PNG).',
+    }),
+    logoImage: fields.image({
+      label: '... ou logo uploadé',
+      directory: opts.imageDirectory,
+      publicPath: opts.imagePublicPath,
+    }),
+  };
+}
 
 export default config({
   storage: useGitHubStorage
@@ -259,6 +315,74 @@ export default config({
           },
           { label: 'Page détaillée (optionnelle)' }
         ),
+      },
+    }),
+    experiences: collection({
+      label: 'Expériences',
+      slugField: 'title',
+      path: 'content/experiences/*',
+      format: { data: 'json' },
+      schema: careerSchema({
+        titleLabel: 'Intitulé du poste',
+        orgLabel: 'Entreprise',
+        imageDirectory: 'public/images/experiences',
+        imagePublicPath: '/images/experiences/',
+      }),
+    }),
+    formations: collection({
+      label: 'Formations',
+      slugField: 'title',
+      path: 'content/formations/*',
+      format: { data: 'json' },
+      schema: careerSchema({
+        titleLabel: 'Diplôme',
+        orgLabel: 'École / Université',
+        imageDirectory: 'public/images/formations',
+        imagePublicPath: '/images/formations/',
+      }),
+    }),
+  },
+  singletons: {
+    about: singleton({
+      label: 'À propos',
+      path: 'content/about',
+      format: { data: 'json' },
+      schema: {
+        descriptionFr: fields.text({
+          label: 'Texte (FR)',
+          description: "Le paragraphe de la section « À propos » de l'accueil.",
+          multiline: true,
+        }),
+        descriptionEn: fields.text({
+          label: 'Texte (EN)',
+          multiline: true,
+        }),
+        stack: fields.array(fields.text({ label: 'Techno' }), {
+          label: 'Stack technique',
+          description: 'Les puces affichées à côté du texte.',
+          itemLabel: (props) => props.value || 'Techno',
+        }),
+      },
+    }),
+    // Les PDF sont nommés d'après la clé du champ (cvFr.pdf / cvEn.pdf) :
+    // re-uploader remplace le fichier au lieu d'en accumuler.
+    cv: singleton({
+      label: 'CV',
+      path: 'content/cv',
+      format: { data: 'json' },
+      schema: {
+        cvFr: fields.file({
+          label: 'CV (FR)',
+          description: 'PDF proposé aux visiteurs francophones.',
+          directory: 'public/assets',
+          publicPath: '/assets/',
+        }),
+        cvEn: fields.file({
+          label: 'CV (EN)',
+          description: 'PDF proposé aux visiteurs anglophones.',
+          directory: 'public/assets',
+          publicPath: '/assets/',
+        }),
       },
     }),
   },

@@ -7,22 +7,19 @@
     "about": "About",
     "seemore": "See more",
     "contact": "Contact",
-    "description": "Full-stack software engineer: Java and Go on the back end, React and TypeScript on the front end, with a strong interest in distributed systems. Currently at CGI, maintaining and evolving business-critical applications. I like to understand a system end to end before changing it.",
     "stackTitle": "Tech stack",
     "no_experiences": "No experience to display yet."
   },
-
   "ProjectsPage": {
     "title": "My Projects"
   },
-
   "Category": {
     "experiences": "Experiences",
     "projects": "Projects",
     "blog": "Blog",
-    "readMore": "Read more"
+    "readMore": "Read more",
+    "formations": "Education"
   },
-
   "Navbar": {
     "home": "Home",
     "projects": "Projects",
@@ -31,54 +28,26 @@
     "resume": "Resume",
     "about": "About"
   },
-
   "Seo": {
     "home": "Malek Bouzarkouna's portfolio, showcasing projects and experiences.",
     "projects": "Projects by Malek Bouzarkouna.",
     "experiences": "Experiences of Malek Bouzarkouna.",
     "blog": "Blog posts by Malek Bouzarkouna."
   },
-
   "Featured": {
     "heading": "Featured work",
     "githubHeading": "More from GitHub",
     "backToProjects": "Back to projects"
   },
-
   "Contact": {
     "title": "Contact",
     "text": "A role, a mission, or a technical question? Write to me, I answer quickly."
   },
-
   "Footer": {
     "rights": "All rights reserved."
   },
-
   "Blog": {
     "empty": "No posts published yet.",
     "backToBlog": "Back to blog"
-  },
-
-  "Experiences": {
-    "experiencesData": [
-      {
-      "id": 1,
-      "title": "TMA Engineer",
-      "company": "CGI",
-      "logo": "https://upload.wikimedia.org/wikipedia/commons/3/32/CGI_logo.svg",
-      "description": "Application maintenance and evolution using SQL, C, and SVN.",
-      "date": "Oct 2024 - Present",
-      "tags": ["SQL", "C", "SVN"]
-      },
-      {
-      "id": 2,
-      "title": "Full-Stack Developer",
-      "company": "Excalibra",
-      "logo": "https://www.excalibra.com/wp-content/uploads/2019/05/logo_EX_CALIBRA_544_180.png",
-      "description": "Development of a full-stack application using React and Node.js.",
-      "date": "June 2024 - July 2024",
-      "tags": ["JavaScript", "TypeScript", "React", "Storybook"]
-      }
-    ]
   }
 }

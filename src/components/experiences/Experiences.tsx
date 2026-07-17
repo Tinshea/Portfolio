@@ -6,25 +6,17 @@ import SeeMoreButton from "../SeeMoreButton";
 import { ExperienceType } from "@/types";
 import useIsMobile from "@/hooks/useIsMobile";
 
-const Experiences: React.FC = () => {
+interface ExperiencesProps {
+  experiences: ExperienceType[];
+}
+
+const Experiences: React.FC<ExperiencesProps> = ({ experiences: allExperiences }) => {
   const t = useTranslations("HomePage");
   const theme = useTheme();
   const isMobile = useIsMobile();
 
-  const t_experience = useTranslations("Experiences");
-  const rawExperiencesData = t_experience.raw("experiencesData");
   const maxExperiences = 3;
-
-  let experiences: ExperienceType[] = [];
-
-  if (Array.isArray(rawExperiencesData)) {
-    experiences = rawExperiencesData.slice(0, maxExperiences) as ExperienceType[];
-  } else {
-    console.error(
-      "Unexpected data format for experiencesData:",
-      rawExperiencesData
-    );
-  }
+  const experiences = allExperiences.slice(0, maxExperiences);
 
   return (
     <Box

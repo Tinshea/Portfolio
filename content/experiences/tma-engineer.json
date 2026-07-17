@@ -1,0 +1,12 @@
+{
+  "title": "TMA Engineer",
+  "titleFr": "",
+  "company": "CGI",
+  "order": 1,
+  "dateFr": "Oct 2024 - Présent",
+  "dateEn": "Oct 2024 - Present",
+  "descriptionFr": "Maintenance applicative et évolutive en utilisant SQL, C, et SVN.",
+  "descriptionEn": "Application maintenance and evolution using SQL, C, and SVN.",
+  "tags": ["SQL", "C", "SVN"],
+  "logoUrl": "https://upload.wikimedia.org/wikipedia/commons/3/32/CGI_logo.svg"
+}

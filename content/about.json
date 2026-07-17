@@ -1,0 +1,16 @@
+{
+  "descriptionFr": "Ingénieur développeur full-stack : back-end Java et Go, front-end React et TypeScript, avec un goût prononcé pour les systèmes distribués. Actuellement chez CGI, je maintiens et fais évoluer des applications métier critiques. J'aime comprendre un système de bout en bout avant de le faire évoluer.",
+  "descriptionEn": "Full-stack software engineer: Java and Go on the back end, React and TypeScript on the front end, with a strong interest in distributed systems. Currently at CGI, maintaining and evolving business-critical applications. I like to understand a system end to end before changing it.",
+  "stack": [
+    "Java",
+    "Go",
+    "TypeScript",
+    "React",
+    "Next.js",
+    "Node.js",
+    "Python",
+    "SQL",
+    "MongoDB",
+    "Docker"
+  ]
+}

@@ -41,26 +41,15 @@ const ExperienceItem: React.FC<ExperienceItemProps> = ({ experience }) => {
           </Typography>
           {
             experience.logo && (
-              <Box mt={1} display="flex" justifyContent={isMobile ? 'center' : 'left'}>
-                {/* Dark tile keeps light-on-transparent company logos readable in both modes. */}
-                <Box
-                  sx={{
-                    backgroundColor: '#1b262c',
-                    borderRadius: 2,
-                    padding: theme.spacing(1),
-                    display: 'flex',
-                    alignItems: 'center',
+              <Box mt={1} display="flex" justifyContent="center">
+                <img
+                  src={experience.logo}
+                  alt={`${experience.company} logo`}
+                  style={{
+                    maxWidth: "108px",
+                    height: 'auto',
                   }}
-                >
-                  <img
-                    src={experience.logo}
-                    alt={`${experience.company} logo`}
-                    style={{
-                      maxWidth: "108px",
-                      height: 'auto',
-                    }}
-                  />
-                </Box>
+                />
               </Box>
             )
           }

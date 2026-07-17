@@ -39,19 +39,22 @@ Une fois la configuration ci-dessous faite : allez sur `https://www.malekbouzark
 
 Conseil poids : les vidéos vont sur YouTube (mode « non répertorié » si besoin), jamais dans le repo. Les images, compressées, pèsent 100-300 Ko : négligeable.
 
+## Modifier le « À propos »
+
+Via l'admin **`/keystatic` → « À propos »** : le paragraphe FR/EN de l'accueil et la liste des technos affichées à côté (ajouter, supprimer, réordonner les puces).
+
 ## Mettre à jour le CV
 
-Déposez le PDF dans `public/assets/` avec le bon nom, le site le détecte tout seul :
+Via l'admin **`/keystatic` → « CV »** : uploadez le PDF français et/ou anglais, cliquez « Commit ». Chaque visiteur reçoit le PDF de sa langue (repli sur l'autre langue si un seul est fourni).
 
-| Fichier | Utilisé pour |
-|---|---|
-| `resume-fr.pdf` | visiteurs en français (s'il existe) |
-| `resume-en.pdf` | visiteurs en anglais (s'il existe) |
-| `resume.pdf` | repli si le fichier de la langue n'existe pas |
+À défaut, l'ancienne convention par fichiers reste active : déposez le PDF dans `public/assets/` (`resume-fr.pdf`, `resume-en.pdf`, ou `resume.pdf` en dernier repli).
 
-## Ajouter une expérience
+## Ajouter une expérience ou une formation
 
-Dans `messages/fr.json` et `messages/en.json`, ajoutez une entrée à `Experiences.experiencesData` (mêmes champs que les entrées existantes).
+Via l'admin **`/keystatic` → « Expériences » ou « Formations »** : une fiche bilingue par entrée (intitulé, entreprise/école, période FR/EN, description FR/EN, tags, logo par URL ou upload). Le champ « Ordre » règle le tri (1 = premier, donc le plus récent en haut).
+
+- L'accueil affiche les 3 premières expériences ; la page `/experiences` les liste toutes.
+- La section « Formations » de `/experiences` apparaît dès la première fiche créée.
 
 ## Ajouter un article de blog
 

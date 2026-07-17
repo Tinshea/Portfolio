@@ -14,11 +14,20 @@ import user from "@/data/user.json";
 import AnimatedSection from "@/components/AnimatedSection";
 import { TextDecrypt } from "@/components/TextDecrypt";
 import useIsMobile from "@/hooks/useIsMobile";
-import { FeaturedItem } from "@/types";
+import { ExperienceType, FeaturedItem } from "@/types";
+import { AboutContent } from "@/lib/about";
 
 const StarsBackground = dynamic(() => import("@/components/StarsBackground"), { ssr: false });
 
-export default function HomeClient({ featuredItems }: { readonly featuredItems: FeaturedItem[] }) {
+export default function HomeClient({
+  featuredItems,
+  experiences,
+  about,
+}: {
+  readonly featuredItems: FeaturedItem[];
+  readonly experiences: ExperienceType[];
+  readonly about: AboutContent;
+}) {
   const t = useTranslations("HomePage");
   const tNav = useTranslations("Navbar");
   const resumeHref = useResumeHref();
@@ -103,11 +112,11 @@ export default function HomeClient({ featuredItems }: { readonly featuredItems: 
       <Box sx={{ backgroundColor: theme.palette.background.default, position: "relative", zIndex: 1 }}>
         <Box sx={{ backgroundColor: theme.palette.background.alternative }}>
           <AnimatedSection>
-            <AboutMe description={t("description")} />
+            <AboutMe description={about.description} stack={about.stack} />
           </AnimatedSection>
         </Box>
         <AnimatedSection>
-          <Experiences />
+          <Experiences experiences={experiences} />
         </AnimatedSection>
         <AnimatedSection>
           <PinnedRepositories username={user.githubusername} featuredItems={featuredItems} />

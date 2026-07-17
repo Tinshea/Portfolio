@@ -26,6 +26,7 @@ export default async function RootLayout({
   // Required for statically generated routes (e.g. project pages).
   unstable_setRequestLocale(locale);
   const messages = await getMessages({ locale });
+  const resumeHref = await getResumePath(locale);
 
   const personJsonLd = {
     "@context": "https://schema.org",
@@ -50,7 +51,7 @@ export default async function RootLayout({
           // eslint-disable-next-line react/no-danger
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
         />
-        <Providers locale={locale} messages={messages} resumeHref={getResumePath(locale)}>
+        <Providers locale={locale} messages={messages} resumeHref={resumeHref}>
           {children}
         </Providers>
         <Analytics />

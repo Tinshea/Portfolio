@@ -7,22 +7,19 @@
     "about": "A propos",
     "seemore": "Voir plus",
     "contact": "Contact",
-    "description": "Ingénieur développeur full-stack : back-end Java et Go, front-end React et TypeScript, avec un goût prononcé pour les systèmes distribués. Actuellement chez CGI, je maintiens et fais évoluer des applications métier critiques. J'aime comprendre un système de bout en bout avant de le faire évoluer.",
     "stackTitle": "Stack technique",
     "no_experiences": "Aucune expérience à afficher pour le moment."
   },
-
   "ProjectsPage": {
     "title": "Mes projets"
   },
-
-  "Category":{
+  "Category": {
     "experiences": "Expériences",
     "projects": "Projets",
     "blog": "Blog",
-    "readMore": "Lire plus"
+    "readMore": "Lire plus",
+    "formations": "Formations"
   },
-
   "Navbar": {
     "home": "Accueil",
     "projects": "Projets",
@@ -31,54 +28,26 @@
     "resume": "CV",
     "about": "À propos"
   },
-
   "Seo": {
     "home": "Portfolio de Malek Bouzarkouna, présentant projets et expériences.",
     "projects": "Projets de Malek Bouzarkouna.",
     "experiences": "Expériences de Malek Bouzarkouna.",
     "blog": "Articles de blog de Malek Bouzarkouna."
   },
-
   "Featured": {
     "heading": "Projets phares",
     "githubHeading": "Autres dépôts GitHub",
     "backToProjects": "Retour aux projets"
   },
-
   "Contact": {
     "title": "Contact",
     "text": "Un poste, une mission ou une question technique ? Écrivez-moi, je réponds vite."
   },
-
   "Footer": {
     "rights": "Tous droits réservés."
   },
-
   "Blog": {
     "empty": "Aucun article publié pour le moment.",
     "backToBlog": "Retour au blog"
-  },
-
-  "Experiences": {
-    "experiencesData": [
-      {
-        "id": 1,
-        "title": "TMA Engineer",
-        "company": "CGI",
-        "logo": "https://upload.wikimedia.org/wikipedia/commons/3/32/CGI_logo.svg",
-        "description": "Maintenance applicative et évolutive en utilisant SQL, C, et SVN.",
-        "date": "Oct 2024 - Présent",
-        "tags": ["SQL", "C", "SVN"]
-      },
-      {
-        "id": 2,
-        "title": "Développeur Full-Stack",
-        "company": "Excalibra",
-        "logo": "https://www.excalibra.com/wp-content/uploads/2019/05/logo_EX_CALIBRA_544_180.png",
-        "description": "Développement d'une application full-stack en utilisant React et Node.js.",
-        "date": "Juin 2024 - Juillet 2024",
-        "tags": ["JavaScript", "TypeScript", "React", "Storybook"]
-      }
-    ]
   }
 }

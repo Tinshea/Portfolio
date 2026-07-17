@@ -1,0 +1,12 @@
+{
+  "title": "Full-Stack Developer",
+  "titleFr": "Développeur Full-Stack",
+  "company": "Excalibra",
+  "order": 2,
+  "dateFr": "Juin 2024 - Juillet 2024",
+  "dateEn": "June 2024 - July 2024",
+  "descriptionFr": "Développement d'une application full-stack en utilisant React et Node.js.",
+  "descriptionEn": "Development of a full-stack application using React and Node.js.",
+  "tags": ["JavaScript", "TypeScript", "React", "Storybook"],
+  "logoUrl": "https://www.excalibra.com/wp-content/uploads/2019/05/logo_EX_CALIBRA_544_180.png"
+}
