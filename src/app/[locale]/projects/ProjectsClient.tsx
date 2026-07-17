@@ -1,11 +1,14 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import NavBar from "@/components/navbar/NavBar";
 import UserRepositories from "@/components/repositories/UserRepositories";
 import user from "@/data/user.json";
 import { Box, Typography, useTheme } from "@mui/material";
 import { useTranslations } from "next-intl";
 import useIsMobile from "@/hooks/useIsMobile";
+
+const StarsBackground = dynamic(() => import("@/components/StarsBackground"), { ssr: false });
 
 export default function ProjectsClient() {
   const theme = useTheme();
@@ -14,9 +17,11 @@ export default function ProjectsClient() {
 
   return (
     <>
+      <StarsBackground />
       <NavBar alwaysShowTopNav={true} />
       <Box sx={{
-        backgroundColor: theme.palette.background.default,
+        position: "relative",
+        zIndex: 1,
         minHeight: "100vh",
         paddingTop: theme.spacing(10),
       }}>

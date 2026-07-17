@@ -1,11 +1,14 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import NavBar from "@/components/navbar/NavBar";
 import BlogPosts from "@/components/BlogPosts";
 import { useTranslations } from "next-intl";
 import { Box, Typography, useTheme } from "@mui/material";
 import { BlogPost } from "@/types";
 import useIsMobile from "@/hooks/useIsMobile";
+
+const StarsBackground = dynamic(() => import("@/components/StarsBackground"), { ssr: false });
 
 export default function BlogClient({ posts }: { readonly posts: BlogPost[] }) {
   const theme = useTheme();
@@ -15,16 +18,17 @@ export default function BlogClient({ posts }: { readonly posts: BlogPost[] }) {
 
   return (
     <>
+      <StarsBackground />
       <NavBar alwaysShowTopNav={true} />
       <Box
         sx={{
-          backgroundColor: theme.palette.background.default,
           minHeight: "100vh",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
           paddingTop: theme.spacing(10),
           position: "relative",
+          zIndex: 1,
           gap: theme.spacing(3),
         }}
       >
