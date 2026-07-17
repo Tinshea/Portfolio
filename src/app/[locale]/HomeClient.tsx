@@ -13,7 +13,6 @@ import Footer from "@/components/Footer";
 import user from "@/data/user.json";
 import AnimatedSection from "@/components/AnimatedSection";
 import { TextDecrypt } from "@/components/TextDecrypt";
-import useIsMobile from "@/hooks/useIsMobile";
 import { ExperienceType, FeaturedItem } from "@/types";
 import { AboutContent } from "@/lib/about";
 
@@ -34,7 +33,6 @@ export default function HomeClient({
   const tNav = useTranslations("Navbar");
   const resumeHref = useResumeHref();
   const theme = useTheme();
-  const isMobile = useIsMobile();
 
   return (
     <>
@@ -50,7 +48,9 @@ export default function HomeClient({
           minHeight: "100dvh",
           display: "flex",
           alignItems: "center",
-          padding: isMobile ? theme.spacing(2) : theme.spacing(4),
+          // Breakpoint padding (not JS mobile detection): the static HTML must
+          // already be right on phones, before hydration.
+          padding: { xs: theme.spacing(2), md: theme.spacing(4) },
         }}
       >
         <Box sx={{ maxWidth: "1200px", margin: "0 auto", width: "100%" }}>

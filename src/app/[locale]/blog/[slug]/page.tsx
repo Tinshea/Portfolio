@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { unstable_setRequestLocale } from "next-intl/server";
+import { setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { locales } from "@/config";
 import user from "@/data/user.json";
@@ -7,7 +7,7 @@ import { getBlogPost, getBlogSlugs } from "@/lib/blog";
 import BlogPostClient from "./BlogPostClient";
 
 interface Params {
-  params: { locale: string; slug: string };
+  params: Promise<{ locale: string; slug: string }>;
 }
 
 // Only slugs declared in the posts collection exist; anything else is a hard
@@ -19,7 +19,8 @@ export async function generateStaticParams() {
   return locales.flatMap((locale) => slugs.map((slug) => ({ locale, slug })));
 }
 
-export async function generateMetadata({ params: { locale, slug } }: Params): Promise<Metadata> {
+export async function generateMetadata({ params }: Params): Promise<Metadata> {
+  const { locale, slug } = await params;
   const post = await getBlogPost(locale, slug);
   if (!post) return {};
 
@@ -42,8 +43,9 @@ export async function generateMetadata({ params: { locale, slug } }: Params): Pr
   };
 }
 
-export default async function BlogPostPage({ params: { locale, slug } }: Params) {
-  unstable_setRequestLocale(locale);
+export default async function BlogPostPage({ params }: Params) {
+  const { locale, slug } = await params;
+  setRequestLocale(locale);
   const post = await getBlogPost(locale, slug);
   if (!post) notFound();
 

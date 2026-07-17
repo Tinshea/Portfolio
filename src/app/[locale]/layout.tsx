@@ -2,10 +2,12 @@ import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
-import { getMessages, unstable_setRequestLocale } from "next-intl/server";
+import { hasLocale } from "next-intl";
+import { getMessages, setRequestLocale } from "next-intl/server";
+import { notFound } from "next/navigation";
 import Providers from "@/contexts/Providers";
 import { getResumePath } from "@/lib/resume";
-import { locales } from "@/config";
+import { locales, routing } from "@/config";
 import user from "@/data/user.json";
 
 // Pre-render every locale tree statically; pages opt in by calling
@@ -25,13 +27,15 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({
   children,
-  params: { locale },
+  params,
 }: {
   readonly children: React.ReactNode;
-  readonly params: { locale: string };
+  readonly params: Promise<{ locale: string }>;
 }) {
+  const { locale } = await params;
+  if (!hasLocale(routing.locales, locale)) notFound();
   // Required for statically generated routes (e.g. project pages).
-  unstable_setRequestLocale(locale);
+  setRequestLocale(locale);
   const messages = await getMessages({ locale });
   const resumeHref = await getResumePath(locale);
 
@@ -55,7 +59,6 @@ export default async function RootLayout({
       >
         <script
           type="application/ld+json"
-          // eslint-disable-next-line react/no-danger
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
         />
         <Providers locale={locale} messages={messages} resumeHref={resumeHref}>

@@ -4,7 +4,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import getDesignTokens from '../themes'; // Assurez-vous que le chemin est correct
 import { NextIntlClientProvider } from 'next-intl';
-import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v16-appRouter';
 import React from 'react';
 import { ModeProvider, useMode } from '@/contexts/ModeProvider';
 

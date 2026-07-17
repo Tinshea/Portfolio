@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { unstable_setRequestLocale } from "next-intl/server";
+import { setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { locales } from "@/config";
 import user from "@/data/user.json";
@@ -7,7 +7,7 @@ import { getFeaturedItem, getCaseStudySlugs } from "@/lib/featured";
 import ProjectDetailClient from "./ProjectDetailClient";
 
 interface Params {
-  params: { locale: string; slug: string };
+  params: Promise<{ locale: string; slug: string }>;
 }
 
 // Only locale x slug combinations declared in the content collection exist;
@@ -20,7 +20,8 @@ export async function generateStaticParams() {
   return locales.flatMap((locale) => slugs.map((slug) => ({ locale, slug })));
 }
 
-export async function generateMetadata({ params: { locale, slug } }: Params): Promise<Metadata> {
+export async function generateMetadata({ params }: Params): Promise<Metadata> {
+  const { locale, slug } = await params;
   const item = await getFeaturedItem(locale, slug);
   if (!item) return {};
 
@@ -45,8 +46,9 @@ export async function generateMetadata({ params: { locale, slug } }: Params): Pr
   };
 }
 
-export default async function ProjectPage({ params: { locale, slug } }: Params) {
-  unstable_setRequestLocale(locale);
+export default async function ProjectPage({ params }: Params) {
+  const { locale, slug } = await params;
+  setRequestLocale(locale);
   const item = await getFeaturedItem(locale, slug);
   if (!item) notFound();
 

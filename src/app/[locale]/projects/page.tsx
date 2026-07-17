@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
-import { getTranslations, unstable_setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import user from "@/data/user.json";
 import ProjectsClient from "./ProjectsClient";
 
-export async function generateMetadata({ params: { locale } }: { params: { locale: string } }): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params;
   const tCategory = await getTranslations({ locale, namespace: "Category" });
   const tSeo = await getTranslations({ locale, namespace: "Seo" });
 
@@ -29,7 +30,8 @@ export async function generateMetadata({ params: { locale } }: { params: { local
   };
 }
 
-export default function Projects({ params: { locale } }: { readonly params: { locale: string } }) {
-  unstable_setRequestLocale(locale);
+export default async function Projects({ params }: { readonly params: Promise<{ locale: string }> }) {
+  const { locale } = await params;
+  setRequestLocale(locale);
   return <ProjectsClient />;
 }

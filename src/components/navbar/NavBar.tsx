@@ -1,19 +1,17 @@
 "use client";
 
 import { motion, useScroll, useTransform } from "framer-motion";
+import { Box } from "@mui/material";
 import user from "@/data/user.json";
 import SideNavBar from "./SideNavBar";
-import TopNavBar from "./TopNavBar";
-import useIsMobile from "@/hooks/useIsMobile";
+import DesktopNavBar from "./DesktopNavBar";
+import MobileNav from "./MobileNav";
 
 interface NavBarProps {
-  alwaysShowTopNav?: boolean;  // Boolean prop to control TopNavBar visibility
+  alwaysShowTopNav?: boolean;  // Boolean prop to control top nav visibility
 }
 
 export default function NavBar({ alwaysShowTopNav = false }: Readonly<NavBarProps>) {
-  const isMobile = useIsMobile();
-  const staticTopNav = alwaysShowTopNav || isMobile;
-
   // Scroll handling lives entirely in motion values: no React re-render per frame.
   const { scrollY, scrollYProgress } = useScroll();
   const visibility = useTransform(scrollY, [0, 600], [0, 1], { clamp: true });
@@ -25,54 +23,70 @@ export default function NavBar({ alwaysShowTopNav = false }: Readonly<NavBarProp
   const sideVisibility = useTransform(visibility, (v) => (v > 0.5 ? "hidden" : "visible"));
 
   const topPointerEvents = useTransform(visibility, (v) =>
-    staticTopNav || v > 0.3 ? "auto" : "none"
+    alwaysShowTopNav || v > 0.3 ? "auto" : "none"
   );
 
+  // The mobile/desktop split is pure CSS (breakpoint display toggles), so the
+  // statically rendered HTML is already correct on phones — no desktop nav
+  // flashing while the page hydrates.
   return (
     <div className="navbar">
-      {/* SideNavBar: Only visible on non-mobile screens */}
-      {!isMobile && !alwaysShowTopNav && (
+      {/* Desktop: full-viewport side nav that fades out as you scroll */}
+      {!alwaysShowTopNav && (
+        <Box sx={{ display: { xs: "none", md: "block" } }}>
+          <motion.div
+            style={{
+              opacity: sideOpacity,
+              y: sideY,
+              visibility: sideVisibility,
+              // The full-viewport wrapper passes clicks through; only the button
+              // clusters inside SideNavBar re-enable pointer events.
+              pointerEvents: "none",
+              position: "fixed",
+              width: "100%",
+              top: 0,
+              left: 0,
+              // Above the page content (which is position:relative) but below the
+              // top navbar (100) and the mobile drawer (1200).
+              zIndex: 90,
+            }}
+          >
+            <SideNavBar
+              githubusername={user.githubusername}
+              linkedinusername={user.linkedinusername}
+            />
+          </motion.div>
+        </Box>
+      )}
+
+      {/* Desktop: top nav, static or revealed on scroll */}
+      <Box sx={{ display: { xs: "none", md: "block" } }}>
         <motion.div
           style={{
-            opacity: sideOpacity,
-            y: sideY,
-            visibility: sideVisibility,
-            // The full-viewport wrapper passes clicks through; only the button
-            // clusters inside SideNavBar re-enable pointer events.
-            pointerEvents: "none",
+            opacity: alwaysShowTopNav ? 1 : visibility,
+            pointerEvents: alwaysShowTopNav ? "auto" : topPointerEvents,
             position: "fixed",
             width: "100%",
             top: 0,
             left: 0,
-            // Above the page content (which is position:relative) but below the
-            // top navbar (100) and the mobile drawer (1200).
-            zIndex: 90,
+            zIndex: 100,
           }}
         >
-          <SideNavBar
+          <DesktopNavBar
             githubusername={user.githubusername}
             linkedinusername={user.linkedinusername}
+            progress={scrollYProgress}
           />
         </motion.div>
-      )}
+      </Box>
 
-      <motion.div
-        style={{
-          opacity: staticTopNav ? 1 : visibility,
-          pointerEvents: staticTopNav ? "auto" : topPointerEvents,
-          position: "fixed",
-          width: "100%",
-          top: 0,
-          left: 0,
-          zIndex: 100,
-        }}
-      >
-        <TopNavBar
+      {/* Mobile: always-visible hamburger + drawer */}
+      <Box sx={{ display: { xs: "block", md: "none" } }}>
+        <MobileNav
           githubusername={user.githubusername}
           linkedinusername={user.linkedinusername}
-          progress={scrollYProgress}
         />
-      </motion.div>
+      </Box>
     </div>
   );
 }

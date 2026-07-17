@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import { getTranslations, unstable_setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import user from "@/data/user.json";
 import { getBlogPosts } from "@/lib/blog";
 import BlogClient from "./BlogClient";
 
-export async function generateMetadata({ params: { locale } }: { params: { locale: string } }): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params;
   const tCategory = await getTranslations({ locale, namespace: "Category" });
   const tSeo = await getTranslations({ locale, namespace: "Seo" });
 
@@ -29,8 +30,9 @@ export async function generateMetadata({ params: { locale } }: { params: { local
   };
 }
 
-export default async function Blog({ params: { locale } }: { params: { locale: string } }) {
-  unstable_setRequestLocale(locale);
+export default async function Blog({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params;
+  setRequestLocale(locale);
   const posts = await getBlogPosts(locale);
   return <BlogClient posts={posts} />;
 }

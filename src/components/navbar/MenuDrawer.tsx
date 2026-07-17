@@ -10,7 +10,7 @@ import { useMode } from "@/contexts/ModeProvider";
 import { useTranslations } from "next-intl";
 import { useResumeHref } from "@/contexts/Providers";
 import LanguageSelector from "../LanguageSelector";
-import { NAV_LINKS, resolveNavHref } from "./navLinks";
+import { NAV_LINKS } from "./navLinks";
 
 interface MenuDrawerProps {
   open: boolean;
@@ -60,24 +60,27 @@ const MenuDrawer = ({ open, onClose, githubusername, linkedinusername }: Readonl
         <Box sx={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "left", margin: "auto" }}>
           <Stack direction="column" spacing={1} component="ul" sx={{ listStyle: "none", margin: 0, padding: 0, marginBottom: theme.spacing(10) }}>
             {NAV_LINKS.map((link) => {
-              const ButtonLink = link.isStaticAsset ? NextLink : Link;
+              const buttonSx = {
+                color: theme.palette.primary.main,
+                textTransform: "none",
+                fontSize: "1.2rem",
+                textAlign: "left",
+              } as const;
+              if (link.isStaticAsset) {
+                return (
+                  <NextLink key={link.key} href={resumeHref} passHref legacyBehavior>
+                    <Button variant="text" component="a" target="_blank" sx={buttonSx} onClick={onClose}>
+                      {t(link.translationKey)}
+                    </Button>
+                  </NextLink>
+                );
+              }
               return (
-                <ButtonLink key={link.key} href={resolveNavHref(link, resumeHref)} passHref legacyBehavior>
-                  <Button
-                    variant="text"
-                    component="a"
-                    target={link.isStaticAsset ? "_blank" : undefined}
-                    sx={{
-                      color: theme.palette.primary.main,
-                      textTransform: "none",
-                      fontSize: "1.2rem",
-                      textAlign: "left",
-                    }}
-                    onClick={onClose}
-                  >
+                <Link key={link.key} href={link.href} passHref legacyBehavior>
+                  <Button variant="text" component="a" sx={buttonSx} onClick={onClose}>
                     {t(link.translationKey)}
                   </Button>
-                </ButtonLink>
+                </Link>
               );
             })}
           </Stack>

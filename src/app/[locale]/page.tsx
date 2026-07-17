@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
-import { getTranslations, unstable_setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import user from "@/data/user.json";
 import { getFeaturedItems } from "@/lib/featured";
 import { getExperiences } from "@/lib/experiences";
 import { getAbout } from "@/lib/about";
 import HomeClient from "./HomeClient";
 
-export async function generateMetadata({ params: { locale } }: { params: { locale: string } }): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params;
   const tHome = await getTranslations({ locale, namespace: "HomePage" });
   const tSeo = await getTranslations({ locale, namespace: "Seo" });
 
@@ -32,8 +33,9 @@ export async function generateMetadata({ params: { locale } }: { params: { local
   };
 }
 
-export default async function Home({ params: { locale } }: { params: { locale: string } }) {
-  unstable_setRequestLocale(locale);
+export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params;
+  setRequestLocale(locale);
   const [featuredItems, experiences, about] = await Promise.all([
     getFeaturedItems(locale),
     getExperiences(locale),

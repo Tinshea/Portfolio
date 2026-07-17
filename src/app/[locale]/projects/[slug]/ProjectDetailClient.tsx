@@ -47,7 +47,7 @@ const ProjectDetailClient: React.FC<{ item: FeaturedItem }> = ({ item }) => {
           }}
         >
           <Box>
-            <Link href="/#projects" passHref legacyBehavior>
+            <Link href={{ pathname: "/", hash: "#projects" }} passHref legacyBehavior>
               <Button component="a" startIcon={<ArrowBackIcon />} sx={{ marginLeft: -1 }}>
                 {t("backToProjects")}
               </Button>

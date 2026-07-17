@@ -3,10 +3,17 @@ import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { SxProps, Theme } from "@mui/material/styles";
-import { FlagIcon } from "react-flag-kit";
+import { useParams } from "next/navigation";
 
 import { useRouter, usePathname } from "@/navigation";
 import { useLocale } from "next-intl";
+
+// The two flags ship as local SVGs (public/flags/), replacing react-flag-kit
+// which loaded them from a CDN and never declared React 19 support.
+function FlagIcon({ code, style }: { readonly code: "US" | "FR"; readonly style?: React.CSSProperties }) {
+  // eslint-disable-next-line @next/next/no-img-element
+  return <img src={`/flags/${code}.svg`} alt="" style={style} />;
+}
 
 interface LanguageSelectorProps {
   /** Where the menu opens relative to the trigger. Use "top" when the button sits near the bottom of the viewport. */
@@ -23,6 +30,7 @@ export default function LanguageSelector({ menuPlacement = "bottom", sx }: Reado
   const router = useRouter();
   const [, startTransition] = useTransition();
   const pathname = usePathname();
+  const params = useParams();
 
   const handleMenuOpen = (event: MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -34,7 +42,12 @@ export default function LanguageSelector({ menuPlacement = "bottom", sx }: Reado
 
   const handleLanguageChange = (language: "en" | "fr") => {
     startTransition(() => {
-      router.replace({ pathname }, { locale: language });
+      router.replace(
+        // @ts-expect-error -- The current params always match the current
+        // pathname; TypeScript can't correlate the two union members.
+        { pathname, params },
+        { locale: language }
+      );
     });
     handleMenuClose();
   };

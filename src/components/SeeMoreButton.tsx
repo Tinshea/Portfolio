@@ -5,8 +5,10 @@ import { styled } from "@mui/system";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { Link } from "@/navigation";
 
+import type { AppHref } from "@/navigation";
+
 interface SeeMoreButtonProps {
-  hrefstring: string;
+  hrefstring: AppHref;
 }
 
 // Cast back to `typeof Button` - styled() otherwise drops MUI's polymorphic

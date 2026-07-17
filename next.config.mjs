@@ -9,17 +9,15 @@ const nextConfig = {
     // of time.
     remotePatterns: [{ protocol: 'https', hostname: '**' }],
   },
-  experimental: {
-    // The Keystatic reader loads content/ from disk at runtime; make sure the
-    // files ship with the serverless bundles on Vercel.
-    outputFileTracingIncludes: {
-      '/[locale]': ['./content/**/*'],
-      '/[locale]/experiences': ['./content/**/*'],
-      '/[locale]/blog': ['./content/**/*'],
-      '/[locale]/blog/[slug]': ['./content/**/*'],
-      '/[locale]/projects/[slug]': ['./content/**/*'],
-      '/sitemap.xml': ['./content/**/*'],
-    },
+  // The Keystatic reader loads content/ from disk at runtime; make sure the
+  // files ship with the serverless bundles on Vercel.
+  outputFileTracingIncludes: {
+    '/[locale]': ['./content/**/*'],
+    '/[locale]/experiences': ['./content/**/*'],
+    '/[locale]/blog': ['./content/**/*'],
+    '/[locale]/blog/[slug]': ['./content/**/*'],
+    '/[locale]/projects/[slug]': ['./content/**/*'],
+    '/sitemap.xml': ['./content/**/*'],
   },
 };
  
