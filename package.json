@@ -32,14 +32,18 @@
     "three": "^0.167.1",
     "use-dencrypt-effect": "^2.0.0"
   },
+  "overrides": {
+    "@types/react": "18.3.3",
+    "@types/react-dom": "18.3.0"
+  },
   "devDependencies": {
     "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
+    "@types/react": "18.3.3",
+    "@types/react-dom": "18.3.0",
     "@types/three": "^0.167.1",
     "eslint": "^8",
     "eslint-config-next": "^14.2.20",
     "prettier": "^3.3.3",
-    "typescript": "^5"
+    "typescript": "~5.5.4"
   }
 }
