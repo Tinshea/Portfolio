@@ -15,7 +15,7 @@ import EmailIcon from "@mui/icons-material/Email";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import SendIcon from "@mui/icons-material/Send";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import user from "@/data/user.json";
 import useIsMobile from "@/hooks/useIsMobile";
 
@@ -27,6 +27,7 @@ const ContactSection: React.FC<ContactSectionProps> = ({ formEnabled = false }) 
   const theme = useTheme();
   const isMobile = useIsMobile();
   const t = useTranslations("Contact");
+  const locale = useLocale();
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -43,6 +44,7 @@ const ContactSection: React.FC<ContactSectionProps> = ({ formEnabled = false }) 
           email: data.get("email"),
           message: data.get("message"),
           company: data.get("company"),
+          locale,
         }),
       });
       if (!response.ok) throw new Error(String(response.status));

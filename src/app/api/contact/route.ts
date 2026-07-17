@@ -16,7 +16,7 @@ export async function POST(request: Request) {
   } catch {
     return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
   }
-  const { name, email, message, company } = (payload ?? {}) as Record<string, unknown>;
+  const { name, email, message, company, locale } = (payload ?? {}) as Record<string, unknown>;
 
   // `company` is a honeypot: humans never see the field, bots fill it in.
   if (typeof company === "string" && company.length > 0) {
@@ -56,5 +56,45 @@ export async function POST(request: Request) {
     console.error("Resend error:", response.status, await response.text());
     return NextResponse.json({ error: "Send failed" }, { status: 502 });
   }
+
+  // Confirmation to the visitor — only with a verified domain (CONTACT_FROM),
+  // since the test sender cannot deliver to strangers. Deliberately generic:
+  // echoing submitted content would let spammers relay text through our
+  // domain. Its failure never fails the request; the owner got the message.
+  const from = process.env.CONTACT_FROM;
+  if (from) {
+    const isEn = locale === "en";
+    const confirmation = isEn
+      ? {
+          subject: "Your message has been received",
+          text: `Hello,\n\nYour message was delivered — I will get back to you quickly.\n\nMalek Bouzarkouna\nhttps://www.malekbouzarkouna.com`,
+        }
+      : {
+          subject: "Votre message a bien été reçu",
+          text: `Bonjour,\n\nVotre message m'est bien parvenu — je vous répondrai rapidement.\n\nMalek Bouzarkouna\nhttps://www.malekbouzarkouna.com`,
+        };
+    try {
+      const confirmResponse = await fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${apiKey}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          from,
+          to: [email],
+          reply_to: process.env.CONTACT_TO ?? user.email,
+          subject: confirmation.subject,
+          text: confirmation.text,
+        }),
+      });
+      if (!confirmResponse.ok) {
+        console.error("Resend confirmation error:", confirmResponse.status, await confirmResponse.text());
+      }
+    } catch (error) {
+      console.error("Resend confirmation error:", error);
+    }
+  }
+
   return NextResponse.json({ ok: true });
 }

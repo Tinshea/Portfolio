@@ -50,6 +50,8 @@ Le formulaire de la section Contact s'active avec un compte [Resend](https://res
 
 Sans `RESEND_API_KEY`, le site garde simplement le bouton email direct (comportement actuel).
 
+Quand `CONTACT_FROM` est configuré (domaine vérifié), le visiteur reçoit en plus un **email de confirmation automatique** dans sa langue — générique volontairement, sans recopie de son message.
+
 ## Modifier le « À propos »
 
 Via l'admin **`/keystatic` → « À propos »** : le paragraphe FR/EN de l'accueil et la liste des technos affichées à côté (ajouter, supprimer, réordonner les puces).
