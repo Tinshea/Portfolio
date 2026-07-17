@@ -152,8 +152,18 @@ const UserRepositories: React.FC<{ username: string }> = ({ username }) => {
         )}
         <Grid item xs={12} md={8}>
           <List sx={{ maxWidth: "1250px", margin: 'auto' }}>
-            {repos.map((repo) => (
-              <RepositoryItem key={repo.id} repo={repo} />
+            {repos.map((repo, index) => (
+              <Box
+                key={repo.id}
+                sx={{
+                  "@media (prefers-reduced-motion: no-preference)": {
+                    animation: "riseIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) both",
+                    animationDelay: `${Math.min(index, 8) * 60}ms`,
+                  },
+                }}
+              >
+                <RepositoryItem repo={repo} />
+              </Box>
             ))}
           </List>
         </Grid>

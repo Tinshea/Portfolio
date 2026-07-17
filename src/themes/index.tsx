@@ -97,7 +97,8 @@ function getDesignTokens(mode: PaletteMode) {
             // stars stay visible. Radial washes only (the spiral nod): deep
             // indigo night in dark mode, a faint ink + gold breath in light.
             background: isDark
-              ? `conic-gradient(from 210deg at 78% 18%, transparent 0deg, rgba(26, 33, 64, 0.5) 70deg, transparent 160deg) fixed,
+              ? `repeating-linear-gradient(0deg, rgba(242, 241, 236, 0.014) 0px, rgba(242, 241, 236, 0.014) 1px, transparent 1px, transparent 3px) fixed,
+                 conic-gradient(from 210deg at 78% 18%, transparent 0deg, rgba(26, 33, 64, 0.5) 70deg, transparent 160deg) fixed,
                  radial-gradient(1000px circle at 78% 18%, #161C33, transparent 62%) fixed,
                  radial-gradient(700px circle at 12% 92%, rgba(226, 75, 96, 0.05), transparent 55%) fixed, ${NIGHT}`
               : `radial-gradient(1000px circle at 80% 16%, rgba(23, 23, 26, 0.05), transparent 60%) fixed,

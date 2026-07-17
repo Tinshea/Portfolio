@@ -70,7 +70,8 @@ export default function Loader() {
             bottom: 0,
             left: 0,
             width: "38%",
-            backgroundColor: palette.accent,
+            // Y2K pixel-block loading bar instead of a solid runner.
+            background: `repeating-linear-gradient(90deg, ${palette.accent} 0 6px, transparent 6px 10px)`,
             "@keyframes loaderSweep": {
               from: { transform: "translateX(-110%)" },
               to: { transform: "translateX(380%)" },

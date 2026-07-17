@@ -71,6 +71,24 @@ export default function HomeClient({
                 theme.palette.mode === "dark"
                   ? "4px 4px 0 rgba(226, 75, 96, 0.25)"
                   : "4px 4px 0 rgba(163, 18, 46, 0.18)",
+              // Y2K liquid chrome: the name is filled with slow-flowing metal.
+              // The text-shadow above still renders from the glyph outlines.
+              background:
+                theme.palette.mode === "dark"
+                  ? "linear-gradient(180deg, #F8F9FB 0%, #C7CBD4 30%, #8F94A1 46%, #EDEFF4 54%, #6E7380 76%, #D8DAE0 100%)"
+                  : "linear-gradient(180deg, #3E434E 0%, #14151A 34%, #5A6070 48%, #17171A 62%, #454A56 100%)",
+              backgroundSize: "100% 220%",
+              WebkitBackgroundClip: "text",
+              backgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              color: "transparent",
+              "@keyframes chromeFlow": {
+                from: { backgroundPosition: "0% 0%" },
+                to: { backgroundPosition: "0% 120%" },
+              },
+              "@media (prefers-reduced-motion: no-preference)": {
+                animation: "chromeFlow 7s ease-in-out infinite alternate",
+              },
             }}
           >
             <TextDecrypt text={t("title")} />
