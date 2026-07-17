@@ -65,6 +65,12 @@ export default function HomeClient({
               letterSpacing: "0.15rem",
               fontSize: "clamp(2.25rem, 6vw, 4.25rem)",
               lineHeight: 1.12,
+              // Offset-print shadow on the display name: the magazine-cover
+              // register, in the page accent at low opacity.
+              textShadow:
+                theme.palette.mode === "dark"
+                  ? "4px 4px 0 rgba(226, 75, 96, 0.25)"
+                  : "4px 4px 0 rgba(163, 18, 46, 0.18)",
             }}
           >
             <TextDecrypt text={t("title")} />

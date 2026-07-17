@@ -97,7 +97,8 @@ function getDesignTokens(mode: PaletteMode) {
             // stars stay visible. Radial washes only (the spiral nod): deep
             // indigo night in dark mode, a faint ink + gold breath in light.
             background: isDark
-              ? `radial-gradient(1000px circle at 78% 18%, #161C33, transparent 62%) fixed,
+              ? `conic-gradient(from 210deg at 78% 18%, transparent 0deg, rgba(26, 33, 64, 0.5) 70deg, transparent 160deg) fixed,
+                 radial-gradient(1000px circle at 78% 18%, #161C33, transparent 62%) fixed,
                  radial-gradient(700px circle at 12% 92%, rgba(226, 75, 96, 0.05), transparent 55%) fixed, ${NIGHT}`
               : `radial-gradient(1000px circle at 80% 16%, rgba(23, 23, 26, 0.05), transparent 60%) fixed,
                  radial-gradient(900px circle at 10% 88%, rgba(176, 137, 32, 0.05), transparent 55%) fixed, ${IVORY}`,
@@ -115,6 +116,13 @@ function getDesignTokens(mode: PaletteMode) {
           html: {
             scrollbarWidth: 'thin',
             scrollbarColor: `${isDark ? 'rgba(242, 241, 236, 0.25)' : 'rgba(23, 23, 26, 0.3)'} transparent`,
+          },
+          // Shared entrance: pure CSS (runs even without JS, so content can
+          // never get stuck hidden the way the old JS reveals did). Consumers
+          // gate it behind prefers-reduced-motion themselves.
+          '@keyframes riseIn': {
+            from: { opacity: 0, transform: 'translateY(28px)' },
+            to: { opacity: 1, transform: 'none' },
           },
         },
       },
@@ -199,12 +207,18 @@ function getDesignTokens(mode: PaletteMode) {
       },
       MuiChip: {
         styleOverrides: {
+          // The Persona slant: the tag container leans, the label stays
+          // upright and readable.
           root: {
             fontFamily: FONT_MONO,
             fontSize: '0.8rem',
             borderRadius: 0,
-            transition: 'border-color 0.2s, color 0.2s',
-            '&:hover': { borderColor: accent },
+            transform: 'skewX(-6deg)',
+            transition: 'border-color 0.2s, color 0.2s, transform 0.2s',
+            '&:hover': { borderColor: accent, transform: 'skewX(-6deg) translateY(-1px)' },
+          },
+          label: {
+            transform: 'skewX(6deg)',
           },
         },
       },

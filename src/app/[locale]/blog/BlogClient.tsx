@@ -37,6 +37,9 @@ export default function BlogClient({ posts }: { readonly posts: BlogPost[] }) {
             textTransform: "uppercase",
             letterSpacing: "0.1rem",
             fontSize: isMobile ? "1.5rem" : "2rem",
+            "@media (prefers-reduced-motion: no-preference)": {
+              animation: "riseIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) both",
+            },
           }}
         >
           {tCategory("blog")}

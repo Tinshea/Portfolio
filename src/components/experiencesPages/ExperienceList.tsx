@@ -18,8 +18,18 @@ const ExperienceList: React.FC<ExperienceListProps> = ({ experiences }) => {
       alignItems={isMobile ? "stretch" : "center"}
       sx={{ p: isMobile ? 4 : 8 }}
     >
-      {experiences.map((experience) => (
-        <Grid item xs={12} key={experience.title}>
+      {experiences.map((experience, index) => (
+        <Grid
+          item
+          xs={12}
+          key={experience.title}
+          sx={{
+            "@media (prefers-reduced-motion: no-preference)": {
+              animation: "riseIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) both",
+              animationDelay: `${Math.min(index, 8) * 90}ms`,
+            },
+          }}
+        >
           <ExperienceItem experience={experience} />
           <Divider />
         </Grid>
