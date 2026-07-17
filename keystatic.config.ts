@@ -18,9 +18,12 @@ const youtubeBlock = block({
 // activates once its env vars exist, i.e. on Vercel after the one-time setup
 // described in CONTENT.md; otherwise falls back to local file editing.
 // Content lives in content/projects/, one JSON file per project.
+// NEXT_PUBLIC_ prefix required on both: this config also runs in the browser,
+// where non-public env vars are undefined (the UI would silently fall back to
+// the unauthenticated local mode).
 const useGitHubStorage =
   Boolean(process.env.NEXT_PUBLIC_KEYSTATIC_GITHUB_APP_SLUG) ||
-  process.env.KEYSTATIC_STORAGE === 'github';
+  process.env.NEXT_PUBLIC_KEYSTATIC_STORAGE === 'github';
 
 export default config({
   storage: useGitHubStorage

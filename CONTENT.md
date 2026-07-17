@@ -12,7 +12,7 @@ Une fois la configuration ci-dessous faite : allez sur `https://www.malekbouzark
 
 1. En local, lancez le serveur de dev en mode GitHub :
    ```powershell
-   $env:KEYSTATIC_STORAGE = 'github'
+   $env:NEXT_PUBLIC_KEYSTATIC_STORAGE = 'github'
    npm run dev
    ```
 2. Ouvrez http://localhost:3000/keystatic : Keystatic propose de **créer son app GitHub** pour le repo `Tinshea/Portfolio`. Suivez le flux (2 clics) ; il écrit tout seul 4 variables dans `.env.local` :
