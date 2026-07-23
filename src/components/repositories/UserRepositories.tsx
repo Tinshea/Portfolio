@@ -8,7 +8,6 @@ import {
   Box,
   useTheme,
   ListItemButton,
-  Avatar,
   Grid,
   Skeleton,
 } from '@mui/material';
@@ -16,8 +15,9 @@ import useIsMobile from '@/hooks/useIsMobile';
 import { Star as StarIcon, ForkRight as ForkRightIcon } from '@mui/icons-material';
 import ProfileCard from './ProfileCard';
 import { Repo } from '@/types';
+import { handleBannerError, repoBannerUrl } from '@/lib/banner';
 
-const RepositoryItem: React.FC<{ repo: Repo }> = ({ repo }) => {
+const RepositoryItem: React.FC<{ repo: Repo; username: string }> = ({ repo, username }) => {
   const theme = useTheme();
   const isMobile = useIsMobile();
 
@@ -35,11 +35,21 @@ const RepositoryItem: React.FC<{ repo: Repo }> = ({ repo }) => {
             alignItems: 'center',
           }}
         >
-          <ListItemIcon>
-            <Avatar
-              alt="GitHub"
-              src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
-              sx={{ width: isMobile ? 24 : 40, height: isMobile ? 24 : 40 }}
+          <ListItemIcon sx={{ minWidth: 0, mr: isMobile ? 1.5 : 2 }}>
+            <Box
+              component="img"
+              // Repo banner.{jpg,png} with OpenGraph fallback — @/lib/banner.
+              src={repoBannerUrl(username, repo.name)}
+              onError={(e) => handleBannerError(e, username, repo.name)}
+              alt={`${repo.name} preview`}
+              sx={{
+                width: isMobile ? 72 : 120,
+                aspectRatio: '2 / 1',
+                objectFit: 'cover',
+                borderRadius: 1,
+                flexShrink: 0,
+                bgcolor: theme.palette.action.hover,
+              }}
             />
           </ListItemIcon>
           <ListItemText
@@ -162,7 +172,7 @@ const UserRepositories: React.FC<{ username: string }> = ({ username }) => {
                   },
                 }}
               >
-                <RepositoryItem repo={repo} />
+                <RepositoryItem repo={repo} username={username} />
               </Box>
             ))}
           </List>

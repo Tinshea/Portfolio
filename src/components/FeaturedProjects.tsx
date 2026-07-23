@@ -5,6 +5,7 @@ import { Box, Card, CardActionArea, CardContent, CardMedia, Chip, Grid, Typograp
 import { useTranslations } from "next-intl";
 import { Link } from "@/navigation";
 import { FeaturedItem } from "@/types";
+import { handleBannerError, isGitHubOpenGraph, parseGitHubRepo, repoBannerUrl } from "@/lib/banner";
 
 // Featured blocks are managed in the /keystatic admin (content/projects/*).
 // An entry with a long body gets a dedicated case-study page at
@@ -13,20 +14,38 @@ import { FeaturedItem } from "@/types";
 // md column spans, repeating: 7/5 then 5/7 for an asymmetric rhythm.
 const COLUMN_SPANS = [7, 5, 5, 7] as const;
 
+// A hand-picked image overrides everything; a bare OpenGraph URL doesn't count
+// (it's just GitHub's default) so the repo's committed banner can win.
+function hasExplicitImage(item: FeaturedItem): boolean {
+  return !!item.image && !isGitHubOpenGraph(item.image);
+}
+
+// The GitHub repo backing a card's banner chain, unless an explicit image wins.
+function cardRepo(item: FeaturedItem): { user: string; name: string } | null {
+  return hasExplicitImage(item) ? null : parseGitHubRepo(item.link);
+}
+
 export function cardImage(item: FeaturedItem): string {
+  if (hasExplicitImage(item)) return item.image!;
+  const repo = parseGitHubRepo(item.link);
+  // Committed banner.{jpg,png} first, then GitHub's OpenGraph render.
+  if (repo) return repoBannerUrl(repo.user, repo.name);
+  // A GitHub-less item may still carry an explicit OpenGraph URL.
   if (item.image) return item.image;
-  const github = item.link?.match(/^https:\/\/github\.com\/([^/]+\/[^/]+)/);
-  if (github) return `https://opengraph.githubassets.com/1/${github[1]}`;
   // TODO(design): replace with a real photo of the project (e.g. the homelab).
   return `https://picsum.photos/seed/${encodeURIComponent(item.name)}/800/500`;
 }
 
-const FeaturedCardContent: React.FC<{ item: FeaturedItem }> = ({ item }) => (
+const FeaturedCardContent: React.FC<{ item: FeaturedItem }> = ({ item }) => {
+  const repo = cardRepo(item);
+  return (
   <>
     <CardMedia
       component="img"
       image={cardImage(item)}
       alt={`${item.name} preview`}
+      // For GitHub-backed cards, fall through banner → OpenGraph on error.
+      onError={repo ? (e) => handleBannerError(e, repo.user, repo.name) : undefined}
       // 2:1 matches GitHub's OpenGraph renders so their text never gets
       // cropped (a fixed height used to cut the repo title on mobile).
       sx={{ objectFit: "cover", aspectRatio: "2 / 1", width: "100%", flexShrink: 0 }}
@@ -45,7 +64,8 @@ const FeaturedCardContent: React.FC<{ item: FeaturedItem }> = ({ item }) => (
       </Box>
     </CardContent>
   </>
-);
+  );
+};
 
 const actionAreaSx = { height: "100%", display: "flex", flexDirection: "column", alignItems: "stretch" } as const;
 

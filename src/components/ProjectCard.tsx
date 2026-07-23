@@ -2,6 +2,7 @@ import { Card, CardActionArea, CardContent, CardMedia, Typography, Box, Divider 
 import { Star as StarIcon, ForkRight as ForkRightIcon } from '@mui/icons-material';
 import { useTheme } from '@mui/material/styles';
 import { ProjectCardProps } from '@/types';
+import { handleBannerError, repoBannerUrl } from '@/lib/banner';
 
 export default function ProjectCard({ user, name, description, stargazerCount, forkCount }: Readonly<ProjectCardProps>) {
     const theme = useTheme();
@@ -23,20 +24,14 @@ export default function ProjectCard({ user, name, description, stargazerCount, f
                 <CardMedia
                     component="img"
                     height="140"
-                    image={`https://raw.githubusercontent.com/${user}/${name}/main/banner.jpg?raw=true`}
+                    // Committed banner.{jpg,png} on main/master, else GitHub's
+                    // OpenGraph render — see repoBannerCandidates in @/lib/banner.
+                    image={repoBannerUrl(user, name)}
                     alt={name}
                     sx={{
                         objectFit: 'cover',
                     }}
-                    onError={(e: React.SyntheticEvent<HTMLImageElement, Event>) => {
-                        const img = e.target as HTMLImageElement;
-                        // Repo without banner.jpg: fall back to GitHub's OpenGraph
-                        // render (same visual family as the featured cards).
-                        if (!img.dataset.fallback) {
-                            img.dataset.fallback = "1";
-                            img.src = `https://opengraph.githubassets.com/1/${user}/${name}`;
-                        }
-                    }}
+                    onError={(e) => handleBannerError(e, user, name)}
                 />
                 <CardContent>
                     <Typography gutterBottom variant="h5" component="h4" textAlign="center" height={40} sx={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
